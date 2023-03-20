@@ -1,4 +1,4 @@
-# Ohjelmistotekniikka harjoitustyö
+# Ohjelmistotekniikka
 
 Tämä repositorio sisältää sekä **laskarit** että *harjoitustyön* kurssia Ohjelmistotekniikka varten.
 
