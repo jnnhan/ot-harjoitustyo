@@ -1,6 +1,6 @@
 # Ohjelmistotekniikka harjoitustyö
 
-Tämä repositorio sisältää sekä **laskarit** että *harjoitustyön* kurssia varten.
+Tämä repositorio sisältää sekä **laskarit** että *harjoitustyön* kurssia Ohjelmistotekniikka varten.
 
 ## Harjoitustyö: sudoku
 Päivittyy.
