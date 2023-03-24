@@ -13,4 +13,5 @@ Päivittyy.
 
 ### Viikko 2
 [vaatimusmaarittely.md](https://github.com/jnnhan/ot-sudoku/blob/main/dokumentaatio/vaatimusmaarittely.md)
+
 [tuntikirjanpito.md](https://github.com/jnnhan/ot-sudoku/blob/main/dokumentaatio/tuntikirjanpito.md)
