@@ -1,7 +1,14 @@
 from tkinter import Tk 
+from ui.ui import UI
 
 def main():
-    print("Hello, this is a test")
+    root = Tk()
+    root.title("Sudoku app")
+
+    ui = UI(root)
+    ui.start()
+
+    root.mainloop()
 
 if __name__ == "__main__":
     main()
