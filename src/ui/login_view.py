@@ -14,9 +14,7 @@ class LoginView:
     def _login_handler(self):
         self._handle_login
 
-    def _initialize(self):
-        self._frame = ttk.Frame(master=self._root)
-
+    def _initialize_username(self):
         username_label = ttk.Label(master=self._frame, text="Username")
         
         self._username_entry = ttk.Entry(master=self._frame)
@@ -24,12 +22,19 @@ class LoginView:
         username_label.grid(padx=5, pady=5)
         self._username_entry.grid(row=1, column=1, sticky=(constants.E, constants.W), padx=5, pady=5)
 
+    def _initialize_password(self):
         password_label = ttk.Label(master=self._frame, text="Password")
 
         self._password_entry = ttk.Entry(master=self._frame)
 
         password_label.grid(padx=5, pady=5)
         self._password_entry.grid(row=2, column=1, sticky=(constants.E, constants.W), padx=5, pady=5)
+
+    def _initialize(self):
+        self._frame = ttk.Frame(master=self._root)
+
+        self._initialize_username()
+        self._initialize_password()
 
         login_button = ttk.Button(
             master=self._frame,
