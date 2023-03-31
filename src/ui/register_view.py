@@ -45,7 +45,7 @@ class RegisterView:
     def _initialize_password(self):
         password_label = ttk.Label(master=self._frame, text="Password")
 
-        self._password_entry = ttk.Entry(master=self._frame)
+        self._password_entry = ttk.Entry(master=self._frame, show="*")
 
         password_label.grid(padx=5, pady=5)
         self._password_entry.grid(row=2, column=1, sticky=(constants.E, constants.W), padx=5, pady=5)
