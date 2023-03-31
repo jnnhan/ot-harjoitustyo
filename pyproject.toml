@@ -10,6 +10,7 @@ packages = [{include = "ot_harjoitustyo"}]
 python = "^3.8"
 invoke = "^2.0.0"
 python-dotenv = "^1.0.0"
+werkzeug = "^2.2.3"
 
 
 [tool.poetry.group.dev.dependencies]
