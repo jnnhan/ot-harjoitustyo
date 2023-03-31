@@ -2,6 +2,9 @@
 __pycache__
 .coverage
 htmlcov
+.env
+.env.test
 
 # data files
 data/database.sqlite
+data/test-db.sqlite
