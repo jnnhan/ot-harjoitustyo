@@ -19,7 +19,7 @@ class UserRepository:
     def check_password(self, username):
         cursor = self._connection.cursor()
         cursor.execute(
-            "SELECT password FROM users WHERE username=?", (username)
+            "SELECT password FROM users WHERE username=?", (username,)
         )
         pas = cursor.fetchone()
         return pas
@@ -32,11 +32,11 @@ class UserRepository:
 
     def find_user(self, username):
         cursor = self._connection.cursor()
-        cursor.execute("SELECT * FROM users WHERE username=?", (username))
+        cursor.execute("SELECT * FROM users WHERE username=?", (username,))
 
         user = cursor.fetchone()
 
-        return user
+        return User(user["username"], user["password"])
 
     def find_all(self):
         cursor = self._connection.cursor()
