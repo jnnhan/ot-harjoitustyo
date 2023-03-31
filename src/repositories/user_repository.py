@@ -15,7 +15,7 @@ class UserRepository:
 
     def delete_all_users(self):
         cursor = self._connection.cursor()
-        cursor.execute("DELETE FROM users *")
+        cursor.execute("DELETE FROM users")
 
         self._connection.commit()
 
