@@ -12,7 +12,7 @@ class LoginView:
         self._initialize()
 
     def _login_handler(self):
-        self._handle_login
+        self._handle_login()
 
     def _initialize_username(self):
         username_label = ttk.Label(master=self._frame, text="Username")

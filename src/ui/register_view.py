@@ -1,9 +1,10 @@
 from tkinter import ttk, constants
+from services.sudoku_service import sudoku_service
 
 class RegisterView:
     """ A view for registering a new username."""
 
-    def __init__(self, root, handle_register_user, handle_show_login_view):
+    def __init__(self, root, handle_show_login_view):
         """ A class constructor that creates the view for registration.
 
         Args:
@@ -19,13 +20,19 @@ class RegisterView:
         self._frame = None
         self._username_entry = None
         self._password_entry = None
-        self._handle_register_user = handle_register_user
+        self._handle_register_user = handle_show_login_view
         self._handle_show_login_view = handle_show_login_view
 
         self._initialize()
 
     def _register_handler(self):
-        self._handle_register_user()
+        username = self._username_entry.get()
+        password = self._password_entry.get()
+
+        if len(username) > 2 and len(password) > 3:
+            sudoku_service.create_user(username, password)
+
+            self._handle_register_user()
 
     def _initialize_username(self):
         username_label = ttk.Label(master=self._frame, text="Username")

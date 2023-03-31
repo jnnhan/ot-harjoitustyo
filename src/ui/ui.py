@@ -21,6 +21,7 @@ class UI:
         self._current_view.pack()
 
     def _show_login_view(self):
+        self._hide_current_view()
         self._current_view = LoginView(
             self._root,
             self._show_sudoku_view,
@@ -34,7 +35,6 @@ class UI:
 
         self._current_view = RegisterView(
             self._root,
-            self._show_sudoku_view,
             self._show_login_view
         )
 
