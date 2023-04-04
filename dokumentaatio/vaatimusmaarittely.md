@@ -19,7 +19,7 @@ Sovellus on yksinpelattava sudoku, jossa on valittavissa eri vaikeustasoja. Käy
 - Käyttäjä voi kirjautua ulos sovelluksesta
     
 ### Pelaaminen
-- Vaikeustaso määrittyy aloitustilanteessa näkyvillä olevien numeroiden perusteella. Vähemmän numeroita näkyvissä, vaikeampi sudoku
+- Sovellus sisältää eri vaikeustasoisia sudokuja.
 - Käyttäjä voi merkata tyhjään ruudukkoon yhden tai useamman numeron
   - Useamman numeron tapauksessa ne näkyvät ruudukon yläreunassa "apunumeroina"
   - Jos ruudukossa on vain yksi numero, se näkyy suurempana keskellä ruudukkoa
@@ -28,3 +28,4 @@ Sovellus on yksinpelattava sudoku, jossa on valittavissa eri vaikeustasoja. Käy
     
 ## Jatkokehitysideat
 - Käyttäjä voi pyytää vihjeitä keskeneräiseen sudokuun
+- Käyttäjä voi lisätä peliin sudokuja. Sovellus lukee käyttäjän lisäämät uudet sudokupelit tiedostosta.
