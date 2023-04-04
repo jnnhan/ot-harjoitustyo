@@ -11,6 +11,9 @@ Tämä repositorio sisältää sekä **laskarit** että *harjoitustyön* kurssia
 [changelog](https://github.com/jnnhan/ot-sudoku/blob/main/dokumentaatio/changelog.md)
 
 
+## Huomioita
+Sovellus on tehty ja testattu käyttäen python-versiota `3.8` sekä poetry-versiota `1.4.1`. Erityisesti vanhempien poetry-versioiden kanssa voi tulla ongelmia.
+ 
 ### Asennus
 1. Kloonaa repositorio ja asenna riippuvuudet komennolla:
 
