@@ -45,5 +45,3 @@ class UserRepository:
         rows = cursor.fetchall()
 
         return [User(row["username"], row["password"]) for row in rows]
-    
-user_repo = UserRepository(get_database_connection())

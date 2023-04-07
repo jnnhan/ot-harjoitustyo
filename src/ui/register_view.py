@@ -1,5 +1,6 @@
 from tkinter import ttk, constants
-from services.sudoku_service import sudoku_service
+
+from services.sudoku_service import SudokuService
 
 class RegisterView:
     """ A view for registering a new username."""
@@ -30,7 +31,8 @@ class RegisterView:
         password = self._password_entry.get()
 
         if len(username) > 2 and len(password) > 3:
-            sudoku_service.create_user(username, password)
+            service = SudokuService()
+            service.sudoku_service.create_user(username, password)
 
             self._handle_register_user()
 

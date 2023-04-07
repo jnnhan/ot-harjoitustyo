@@ -1,4 +1,5 @@
 from tkinter import Tk, ttk, Canvas, Frame, Button, TOP, BOTTOM, BOTH, constants
+import sudokus
 
 MARGIN = 25
 CELL = 50
@@ -30,6 +31,7 @@ class GameView:
         )
         self._frame.canvas.pack(fill=constants.X, side=TOP)
         self._draw_grid()
+        self._draw_numbers()
 
         return_button = ttk.Button(
             master=frame2,
@@ -38,6 +40,23 @@ class GameView:
         )
 
         return_button.grid(columnspan=2, sticky=(constants.E, constants.W), padx=5, pady=5)
+
+    def _draw_numbers(self):
+        puzzle = sudokus.easy_one
+        for i in range(9):
+            for j in range(9):
+                number = puzzle[i][j]
+                if number != 0:
+                    x = MARGIN + (j+0.5) * CELL
+                    y = MARGIN + (i+0.5) * CELL
+                    color = "gray9"
+                    self._frame.canvas.create_text(x, y, text=number, fill=color, font=('bold'))
+
+                else:
+                    x = MARGIN + (j+0.5) * CELL
+                    y = MARGIN + (i+0.25) * CELL
+                    color = "wheat4"
+                    self._frame.canvas.create_text(x, y, text="0", fill=color, font=('Helvetica','10'))
 
     def _draw_grid(self):
         for i in range(0,10):

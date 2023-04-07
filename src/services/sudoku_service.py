@@ -1,6 +1,8 @@
 from entities.user import User
-from repositories.user_repository import user_repo
+from database_connection import get_database_connection
+from repositories.user_repository import UserRepository
 from werkzeug.security import check_password_hash
+from sudokus import *
 
 class InvalidCredentialsError(Exception):
     pass
@@ -8,7 +10,7 @@ class InvalidCredentialsError(Exception):
 class SudokuService:
     def __init__(self):
         self._user = None
-        self._user_repository = user_repo
+        self._user_repository = UserRepository(get_database_connection())
 
     def login(self, username, password):
         user = self._user_repository.find_user(username)
@@ -28,5 +30,3 @@ class SudokuService:
         user = self._user_repository.create_user(User(username, password))
 
         return user
-    
-sudoku_service = SudokuService()
