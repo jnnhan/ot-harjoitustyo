@@ -9,4 +9,4 @@
 | 6.4.  | 1        | tkinterin opiskelua |
 | 7.4.  | 5        | UI: numeroiden piirto ruudukkoon |
 | 8.4.  | 2        | UI: aktiivinen ruudukko ja apunumerot |
-| yht   | 22 self.original      | |
+| yht   | 22       | |
