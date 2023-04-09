@@ -3,16 +3,18 @@ from database_connection import get_database_connection
 def drop_tables(connection):
     cursor = connection.cursor()
 
-    sql = "DROP TABLE IF EXISTS users"
-    cursor.execute(sql)
+    cursor.execute("DROP TABLE IF EXISTS users")
+    cursor.execute("DROP TABLE IF EXISTS sudokus")
+    cursor.execute("DROP TABLE IF EXISTS stats")
 
     connection.commit()
 
 def create_tables(connection):
     cursor = connection.cursor()
 
-    sql = "CREATE TABLE users (id SERIAL PRIMARY KEY, username TEXT UNIQUE, password TEXT)"
-    cursor.execute(sql)
+    cursor.execute("CREATE TABLE users (id SERIAL PRIMARY KEY, username TEXT UNIQUE, password TEXT)")
+    cursor.execute("CREATE TABLE sudokus (id SERIAL PRIMARY KEY, puzzle TEXT UNIQUE, level INTEGER)")
+    cursor.execute("CREATE TABLE stats (id SERIAL PRIMARY KEY, user_id REFERENCES users, sudoku_id REFERENCES sudokus, status INTEGER)")
 
     connection.commit()
 
