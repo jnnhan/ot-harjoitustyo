@@ -20,11 +20,11 @@ class GameView:
 
     def _initialize(self):
         self._frame = Frame(master=self._root)
-        frame2 = Frame(master=self._frame)
+        _frame2 = Frame(master=self._frame)
 
         self._root.title("Sudoku")
         self._frame.pack(fill=BOTH, expand=1)
-        frame2.pack(fill=BOTH, side=BOTTOM)
+        _frame2.pack(fill=BOTH, side=BOTTOM)
         self._frame.canvas = Canvas(
             master=self._frame,
             bg="white",
@@ -40,7 +40,7 @@ class GameView:
         self._frame.canvas.bind("<Key>", self._key_press)
 
         return_button = ttk.Button(
-            master=frame2,
+            master=_frame2,
             text="Return",
             command=self._handle_return
         )

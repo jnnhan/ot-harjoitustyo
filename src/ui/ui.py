@@ -2,6 +2,7 @@ from ui.register_view import RegisterView
 from ui.login_view import LoginView
 from ui.main_view import MainView
 from ui.game_view import GameView
+from ui.easy_view import EasyView
 
 class UI:
     def __init__(self, root):
@@ -17,10 +18,19 @@ class UI:
         self._current_view = MainView(
             self._root,
             self._show_login_view,
-            self._show_game_view
+            self._show_easy_game_select
         )
 
         self._current_view.pack()
+
+    def _show_easy_game_select(self):
+        self._hide_current_view()
+
+        self._current_view = EasyView(
+            self._root,
+            self._show_main_view,
+            self._show_game_view
+        )
 
     def _show_game_view(self):
         self._hide_current_view()
