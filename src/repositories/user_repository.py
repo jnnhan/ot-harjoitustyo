@@ -1,5 +1,4 @@
 from entities.user import User
-from database_connection import get_database_connection
 from werkzeug.security import generate_password_hash
 
 
