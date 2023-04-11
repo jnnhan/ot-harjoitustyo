@@ -8,15 +8,19 @@ WIDTH = HEIGHT = MARGIN * 2 + CELL * 9
 
 
 class GameView:
-    def __init__(self, root, handle_return):
+    def __init__(self, root, sudoku, handle_return):
         self._root = root
-        self._handle_return= handle_return
+        self._handle_return = handle_return
         self._frame = None
+        self._sudoku = sudoku
 
         self.row = 0
         self.col = 0
         self.start()
         self._initialize()
+
+    def _return_handler(self):
+        self._handle_return()
 
     def _initialize(self):
         self._frame = Frame(master=self._root)
@@ -42,7 +46,7 @@ class GameView:
         return_button = ttk.Button(
             master=_frame2,
             text="Return",
-            command=self._handle_return
+            command=self._return_handler
         )
 
         return_button.grid(columnspan=2, sticky=(constants.E, constants.W), padx=5, pady=5)
@@ -150,3 +154,6 @@ class GameView:
             
     def destroy(self):
         self._frame.destroy()
+
+    def pack(self):
+        self._frame.pack(fill=constants.X)

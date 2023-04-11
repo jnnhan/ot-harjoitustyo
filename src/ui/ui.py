@@ -12,6 +12,17 @@ class UI:
     def start(self):
         self._show_login_view()
 
+    def _show_game_view(self, sudokus=None):
+        self._hide_current_view()
+
+        self._current_view = GameView(
+            self._root,
+            sudokus,
+            self._show_easy_game_select
+        )
+
+        self._current_view.pack()
+
     def _show_main_view(self):
         self._hide_current_view()
 
@@ -32,13 +43,7 @@ class UI:
             self._show_game_view
         )
 
-    def _show_game_view(self):
-        self._hide_current_view()
-
-        self._current_view = GameView(
-            self._root,
-            self._show_main_view
-        )
+        self._current_view.pack()
 
     def _show_login_view(self):
         self._hide_current_view()
