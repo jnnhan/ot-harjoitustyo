@@ -43,6 +43,7 @@ class SudokuService:
             
             if parts[0].startswith("."):
                 self._sudoku_repository.create_sudoku(Sudoku(parts[0][1:], content, level))
+                content = ""
             else:
                 content += parts[0]
 

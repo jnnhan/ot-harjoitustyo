@@ -20,6 +20,8 @@ class GameView:
         self._initialize()
 
     def _return_handler(self):
+        self._puzzle = []
+        self._original = []
         self._handle_return()
 
     def _initialize(self):

@@ -12,8 +12,8 @@ class SudokuListView:
 
         self._initialize()
 
-    def _start_sudoku_handler(self, sudoku):
-        puzzle = SudokuService().numbers_to_puzzle(sudoku.puzzle)
+    def _start_sudoku_handler(self, sudoku_string):
+        puzzle = SudokuService().numbers_to_puzzle(sudoku_string)
 
         self._handle_start_game(puzzle)
 
@@ -23,7 +23,7 @@ class SudokuListView:
         start_sudoku_button = ttk.Button(
             master=sudoku_frame,
             text=sudoku.name,
-            command=lambda: self._start_sudoku_handler(sudoku)
+            command=lambda: self._start_sudoku_handler(sudoku.puzzle)
         )
 
         start_sudoku_button.grid(columnspan=2, sticky=(constants.E, constants.W), padx=5, pady=5)
