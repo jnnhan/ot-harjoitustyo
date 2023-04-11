@@ -16,10 +16,35 @@ class SudokuService:
         self._user_repository = UserRepository(get_database_connection())
         self._sudoku_repository = SudokuRepository(get_database_connection())
 
-    def create_sudoku(self, puzzle, level):
-        sudoku = self._sudoku_repository.create_sudoku(Sudoku(puzzle, level))
+    def get_sudokus(self, level):
+        sudokus = self._sudoku_repository.get_sudokus(level)
+        return sudokus
 
-        return sudoku
+    def numbers_to_puzzle(self, sudoku):
+        numbers = [int(n) for n in sudoku]
+        
+        puzzle = [[[] for _ in range(9)] for _ in range(9)]
+
+        k = 0
+        for i in range(9):
+            for j in range(9):
+                puzzle[i][j].append(numbers[k])
+                k += 1
+
+        return puzzle
+
+    def read_sudokus(self, file_path, level):
+        content = ""
+
+        file = open(file_path, "r")
+        for row in file:
+            row = row.replace("\n", "")
+            parts = row.split("\n")
+            
+            if parts[0].startswith("."):
+                self._sudoku_repository.create_sudoku(Sudoku(parts[0][1:], content, level))
+            else:
+                content += parts[0]
 
     def login(self, username, password):
         user = self._user_repository.find_user(username)

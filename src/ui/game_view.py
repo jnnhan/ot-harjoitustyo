@@ -52,8 +52,8 @@ class GameView:
         return_button.grid(columnspan=2, sticky=(constants.E, constants.W), padx=5, pady=5)
 
     def start(self):
-        self.puzzle = copy.deepcopy(sudokus.easy_one)
-        self.original = copy.deepcopy(sudokus.easy_one)
+        self.puzzle = copy.deepcopy(self._sudoku)
+        self.original = copy.deepcopy(self._sudoku)
 
     def _draw_square(self):
         self._frame.canvas.delete("square")
