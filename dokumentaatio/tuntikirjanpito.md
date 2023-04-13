@@ -9,4 +9,7 @@
 | 6.4.  | 1        | tkinterin opiskelua |
 | 7.4.  | 5        | UI: numeroiden piirto ruudukkoon |
 | 8.4.  | 2        | UI: aktiivinen ruudukko ja apunumerot |
-| yht   | 22       | |
+| 10.4. | 3        | sudokun luku tekstitiedostosta |
+| 11.4. | 6        | UI: sudokujen valinta ja luku tiedostosta |
+| 13.4. | 5        | sudokun tarkastus |
+| yht   | 36       | |
