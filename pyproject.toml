@@ -16,6 +16,9 @@ pytest-dotenv = "^0.5.2"
 coverage = "^7.2.2"
 
 
+[tool.poetry.group.dev.dependencies]
+pylint = "^2.17.2"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
