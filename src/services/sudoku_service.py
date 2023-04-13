@@ -49,11 +49,11 @@ class SudokuService:
 
     def login(self, username, password):
         user = self._user_repository.find_user(username)
-        hash_password = self._user_repository.check_password(username)
 
         if not user:
             raise InvalidCredentialsError("Wrong username")
         else:
+            hash_password = self._user_repository.get_password(username)
             if check_password_hash(hash_password, password):
                 self._user = user
             else:

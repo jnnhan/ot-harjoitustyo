@@ -32,7 +32,7 @@ class RegisterView:
 
         if len(username) > 2 and len(password) > 3:
             service = SudokuService()
-            service.sudoku_service.create_user(username, password)
+            service.create_user(username, password)
 
             self._handle_register_user()
 

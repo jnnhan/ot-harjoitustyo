@@ -1,19 +1,37 @@
-from tkinter import ttk, constants
+from tkinter import ttk, constants, StringVar
+from services.sudoku_service import SudokuService, InvalidCredentialsError
 
 class LoginView:
     def __init__(self, root, handle_login, handle_show_register_view):
         self._root = root
         self._handle_login = handle_login
         self._handle_show_register_view = handle_show_register_view
+        self._service = SudokuService()
         self._frame = None
         self._username_entry = None
         self._password_entry = None
+        self._error_label = None
+        self._error = None
 
         self._initialize()
 
-    def _login_handler(self):
-        self._handle_login()
+    def _show_error(self, message):
+        self._error.set(message)
+        self._error_label.grid()
 
+    def _hide_error(self):
+        self._error_label.grid_remove()
+
+    def _login_handler(self):
+        username = self._username_entry.get()
+        password = self._password_entry.get()
+  
+        try:
+            self._service.login(username, password)
+            self._handle_login()
+        except InvalidCredentialsError as error:
+            self._show_error(error)
+    
     def _initialize_username(self):
         username_label = ttk.Label(master=self._frame, text="Username")
         
@@ -52,6 +70,17 @@ class LoginView:
 
         login_button.grid(columnspan=2, sticky=(constants.E, constants.W), padx=5, pady=5)
         register_button.grid(columnspan=2, sticky=(constants.E, constants.W), padx=5, pady=5)
+
+        self._error = StringVar(self._frame)
+
+        self._error_label = ttk.Label(
+            master=self._frame,
+            textvariable=self._error
+        )
+
+        self._error_label.grid(padx=5, pady=5)
+
+        self._hide_error()
 
     def pack(self):
         self._frame.pack(fill=constants.X)

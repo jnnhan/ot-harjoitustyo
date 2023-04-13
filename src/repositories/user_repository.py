@@ -15,12 +15,12 @@ class UserRepository:
 
         return user
     
-    def check_password(self, username):
+    def get_password(self, username):
         cursor = self._connection.cursor()
         cursor.execute(
             "SELECT password FROM users WHERE username=?", (username,)
         )
-        pas = cursor.fetchone()
+        pas = cursor.fetchone()[0]
         return pas
 
     def delete_all_users(self):
@@ -34,8 +34,10 @@ class UserRepository:
         cursor.execute("SELECT * FROM users WHERE username=?", (username,))
 
         user = cursor.fetchone()
-
-        return User(user["username"], user["password"])
+        if user:
+            return User(user["username"], user["password"])
+        else:
+            return None
 
     def find_all(self):
         cursor = self._connection.cursor()
