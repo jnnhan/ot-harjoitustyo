@@ -4,7 +4,6 @@ from database_connection import get_database_connection
 from repositories.user_repository import UserRepository
 from repositories.sudoku_repository import SudokuRepository
 from werkzeug.security import check_password_hash
-from sudokus import *
 
 class InvalidCredentialsError(Exception):
     pass
@@ -32,7 +31,40 @@ class SudokuService:
                 k += 1
 
         return puzzle
+    
+    def _check_numbers(self, numbers):
+        if len(numbers) > 9:
+            return False
+        else:
+            return set(numbers) == set(range(1,10))
+        
+    def check_sudoku_win(self, sudoku):
+        # construct each row in sudoku as a simple list
+        for i in range(9):
+            row = []
+            for j in range(9):
+                for number in sudoku[i][j]:
+                    row.append(number)
+            return self._check_numbers(row)
+            
+        # construct each column as a simple list
+        for i in range(9):
+            column = []
+            for col in sudoku:
+                for number in col[i]:
+                    column.append(number)
+            return self._check_numbers(column)
+    
+        for row in range(3):
+            for col in range(3):
+                square = []
+                numbers = [sudoku[r][c] for r in range(row * 3, (row + 1) * 3) for c in range(col * 3, (col + 1) * 3)]
 
+                for i in range(9):
+                    for number in numbers[i]:
+                        square.append(number)
+                return self._check_numbers(square)
+                
     def read_sudokus(self, file_path, level):
         content = ""
 

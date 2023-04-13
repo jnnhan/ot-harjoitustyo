@@ -1,6 +1,6 @@
 from tkinter import ttk, Canvas, Frame, TOP, BOTTOM, BOTH, constants
 import copy
-import sudokus
+from services.sudoku_service import SudokuService
 
 MARGIN = 25
 CELL = 50
@@ -13,15 +13,15 @@ class GameView:
         self._handle_return = handle_return
         self._frame = None
         self._sudoku = sudoku
+        self._service = SudokuService()
 
         self.row = 0
         self.col = 0
-        self.start()
+        self.puzzle = copy.deepcopy(self._sudoku)
+        self.original = copy.deepcopy(self._sudoku)
         self._initialize()
 
     def _return_handler(self):
-        self._puzzle = []
-        self._original = []
         self._handle_return()
 
     def _initialize(self):
@@ -53,10 +53,6 @@ class GameView:
 
         return_button.grid(columnspan=2, sticky=(constants.E, constants.W), padx=5, pady=5)
 
-    def start(self):
-        self.puzzle = copy.deepcopy(self._sudoku)
-        self.original = copy.deepcopy(self._sudoku)
-
     def _draw_square(self):
         self._frame.canvas.delete("square")
         if self.col >= 0 and self.row >= 0:
@@ -87,6 +83,12 @@ class GameView:
 
         self._draw_square()
 
+    def _draw_win(self):
+        x = WIDTH / 2
+        y = HEIGHT / 2
+        self._frame.canvas.create_rectangle(100, 200, 400, 300, fill="black")
+        self._frame.canvas.create_text(x, y, text="voitit pelin :-)", fill="red", font=('bold'))
+
     def _key_press(self, event):
         key = event.char
         if self.col >= 0 and self.row >= 0 and key in "123456789":
@@ -101,6 +103,9 @@ class GameView:
                 self.puzzle[self.row][self.col].remove(int(key))
             self._draw_numbers()
             self._draw_square()
+
+            if self._service.check_sudoku_win(self.puzzle):
+                self._draw_win()
 
     def _draw_numbers(self):
         self._frame.canvas.delete("numbers")
