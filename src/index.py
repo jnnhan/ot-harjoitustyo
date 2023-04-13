@@ -1,4 +1,4 @@
-from tkinter import Tk 
+from tkinter import Tk
 from ui.ui import UI
 
 def main():

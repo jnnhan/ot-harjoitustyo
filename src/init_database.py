@@ -12,12 +12,20 @@ def drop_tables(connection):
 def create_tables(connection):
     cursor = connection.cursor()
 
-    cursor.execute("CREATE TABLE users (id SERIAL PRIMARY KEY, username TEXT UNIQUE, password TEXT)")
-    cursor.execute("CREATE TABLE sudokus (id SERIAL PRIMARY KEY, name TEXT UNIQUE, puzzle TEXT UNIQUE, level INTEGER)")
-    cursor.execute("CREATE TABLE stats (id SERIAL PRIMARY KEY, user_id REFERENCES users, sudoku_id REFERENCES sudokus, status INTEGER)")
+    cursor.execute(
+        "CREATE TABLE users (id SERIAL PRIMARY KEY, username TEXT UNIQUE, password TEXT)"
+    )
+    cursor.execute(
+        "CREATE TABLE sudokus (id SERIAL PRIMARY KEY, name TEXT UNIQUE, \
+        puzzle TEXT UNIQUE, level INTEGER)"
+    )
+    cursor.execute(
+        "CREATE TABLE stats (id SERIAL PRIMARY KEY, user_id REFERENCES users, \
+        sudoku_id REFERENCES sudokus, status INTEGER)"
+    )
 
     connection.commit()
-    
+
 def init_db():
     connection = get_database_connection()
 

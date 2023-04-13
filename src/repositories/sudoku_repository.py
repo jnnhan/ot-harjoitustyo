@@ -7,7 +7,10 @@ class SudokuRepository:
     def create_sudoku(self, sudoku):
         cursor = self._connection.cursor()
         try:
-            cursor.execute("INSERT INTO sudokus (name, puzzle, level) values (?, ?, ?)", (sudoku.name, sudoku.puzzle, sudoku.level))
+            cursor.execute(
+                "INSERT INTO sudokus (name, puzzle, level) values (?, ?, ?)",
+                (sudoku.name, sudoku.puzzle, sudoku.level)
+            )
 
             self._connection.commit()
         except:
