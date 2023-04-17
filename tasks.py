@@ -4,7 +4,7 @@ from invoke import task
 def read_sudokus(ctx):
     ctx.run("python3 src/read_sudokus.py", pty=True)
 
-@task(read_sudokus)
+@task()
 def start(ctx):
     ctx.run("python3 src/index.py", pty=True)
 
@@ -19,6 +19,10 @@ def test(ctx):
 @task
 def lint(ctx):
     ctx.run("pylint src", pty=True)
+
+@task
+def format(ctx):
+    ctx.run("autopep8 --in-place --recursive src", pty=True)
 
 @task
 def coverage(ctx):

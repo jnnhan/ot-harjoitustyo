@@ -2,6 +2,7 @@ from tkinter import ttk, constants
 from ui.game_view import GameView
 from services.sudoku_service import SudokuService
 
+
 class SudokuListView:
     def __init__(self, root, sudokus, handle_start_game):
         self._root = root
@@ -19,14 +20,15 @@ class SudokuListView:
 
     def _initialize_sudoku(self, sudoku):
         sudoku_frame = ttk.Frame(master=self._frame)
-        
+
         start_sudoku_button = ttk.Button(
             master=sudoku_frame,
             text=sudoku.name,
             command=lambda: self._start_sudoku_handler(sudoku.puzzle)
         )
 
-        start_sudoku_button.grid(columnspan=2, sticky=(constants.E, constants.W), padx=5, pady=5)
+        start_sudoku_button.grid(columnspan=2, sticky=(
+            constants.E, constants.W), padx=5, pady=5)
 
         sudoku_frame.pack(fill=constants.X)
 
@@ -41,4 +43,3 @@ class SudokuListView:
 
     def destroy(self):
         self._frame.destroy()
-        

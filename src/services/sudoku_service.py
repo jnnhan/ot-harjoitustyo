@@ -5,8 +5,10 @@ from database_connection import get_database_connection
 from repositories.user_repository import UserRepository
 from repositories.sudoku_repository import SudokuRepository
 
+
 class InvalidCredentialsError(Exception):
     pass
+
 
 class SudokuService:
     def __init__(self):
@@ -35,7 +37,7 @@ class SudokuService:
     def _check_numbers(self, numbers):
         if len(numbers) > 9:
             return False
-        return set(numbers) == set(range(1,10))
+        return set(numbers) == set(range(1, 10))
 
     def _check_square(self, numbers):
         square = []
@@ -77,7 +79,8 @@ class SudokuService:
                 parts = row.split("\n")
 
                 if parts[0].startswith("."):
-                    self._sudoku_repository.create_sudoku(Sudoku(parts[0][1:], content, level))
+                    self._sudoku_repository.create_sudoku(
+                        Sudoku(parts[0][1:], content, level))
                     content = ""
                 else:
                     content += parts[0]

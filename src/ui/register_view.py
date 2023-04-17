@@ -2,6 +2,7 @@ from tkinter import ttk, constants
 
 from services.sudoku_service import SudokuService
 
+
 class RegisterView:
     """ A view for registering a new username."""
 
@@ -15,7 +16,7 @@ class RegisterView:
                 An object which is called when a new user is created. Gets a username and a password as arguments.
             handle_show_login_view:
                 An object which is called when login view is showed.
-        """ 
+        """
 
         self._root = root
         self._frame = None
@@ -38,11 +39,12 @@ class RegisterView:
 
     def _initialize_username(self):
         username_label = ttk.Label(master=self._frame, text="Username")
-        
+
         self._username_entry = ttk.Entry(master=self._frame)
 
         username_label.grid(padx=5, pady=5)
-        self._username_entry.grid(row=1, column=1, sticky=(constants.E, constants.W), padx=5, pady=5)
+        self._username_entry.grid(row=1, column=1, sticky=(
+            constants.E, constants.W), padx=5, pady=5)
 
     def _initialize_password(self):
         password_label = ttk.Label(master=self._frame, text="Password")
@@ -50,7 +52,8 @@ class RegisterView:
         self._password_entry = ttk.Entry(master=self._frame, show="*")
 
         password_label.grid(padx=5, pady=5)
-        self._password_entry.grid(row=2, column=1, sticky=(constants.E, constants.W), padx=5, pady=5)
+        self._password_entry.grid(row=2, column=1, sticky=(
+            constants.E, constants.W), padx=5, pady=5)
 
     def _initialize(self):
         self._frame = ttk.Frame(master=self._root)
@@ -71,8 +74,10 @@ class RegisterView:
         )
 
         self._frame.grid_columnconfigure(1, weight=1, minsize=300)
-        register_button.grid(columnspan=2, sticky=(constants.E, constants.W), padx=5, pady=5)
-        login_button.grid(columnspan=2, sticky=(constants.E, constants.W), padx=5, pady=5)
+        register_button.grid(columnspan=2, sticky=(
+            constants.E, constants.W), padx=5, pady=5)
+        login_button.grid(columnspan=2, sticky=(
+            constants.E, constants.W), padx=5, pady=5)
 
     def pack(self):
         self._frame.pack(fill=constants.X)

@@ -1,6 +1,7 @@
 from tkinter import ttk, constants, StringVar
 from services.sudoku_service import SudokuService, InvalidCredentialsError
 
+
 class LoginView:
     def __init__(self, root, handle_login, handle_show_register_view):
         self._root = root
@@ -25,20 +26,21 @@ class LoginView:
     def _login_handler(self):
         username = self._username_entry.get()
         password = self._password_entry.get()
-  
+
         try:
             self._service.login(username, password)
             self._handle_login()
         except InvalidCredentialsError as error:
             self._show_error(error)
-    
+
     def _initialize_username(self):
         username_label = ttk.Label(master=self._frame, text="Username")
-        
+
         self._username_entry = ttk.Entry(master=self._frame)
 
         username_label.grid(padx=5, pady=5)
-        self._username_entry.grid(row=1, column=1, sticky=(constants.E, constants.W), padx=5, pady=5)
+        self._username_entry.grid(row=1, column=1, sticky=(
+            constants.E, constants.W), padx=5, pady=5)
 
     def _initialize_password(self):
         password_label = ttk.Label(master=self._frame, text="Password")
@@ -46,7 +48,8 @@ class LoginView:
         self._password_entry = ttk.Entry(master=self._frame, show="*")
 
         password_label.grid(padx=5, pady=5)
-        self._password_entry.grid(row=2, column=1, sticky=(constants.E, constants.W), padx=5, pady=5)
+        self._password_entry.grid(row=2, column=1, sticky=(
+            constants.E, constants.W), padx=5, pady=5)
 
     def _initialize(self):
         self._frame = ttk.Frame(master=self._root)
@@ -68,8 +71,10 @@ class LoginView:
 
         self._frame.grid_columnconfigure(1, weight=1, minsize=300)
 
-        login_button.grid(columnspan=2, sticky=(constants.E, constants.W), padx=5, pady=5)
-        register_button.grid(columnspan=2, sticky=(constants.E, constants.W), padx=5, pady=5)
+        login_button.grid(columnspan=2, sticky=(
+            constants.E, constants.W), padx=5, pady=5)
+        register_button.grid(columnspan=2, sticky=(
+            constants.E, constants.W), padx=5, pady=5)
 
         self._error = StringVar(self._frame)
 

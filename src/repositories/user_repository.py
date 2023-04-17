@@ -1,6 +1,7 @@
 from werkzeug.security import generate_password_hash
 from entities.user import User
 
+
 class UserRepository:
     def __init__(self, connection):
         self._connection = connection
@@ -9,7 +10,8 @@ class UserRepository:
         hash_value = generate_password_hash(user.password)
         cursor = self._connection.cursor()
         cursor.execute(
-            "INSERT INTO users (username, password) values (?, ?)", (user.username, hash_value)
+            "INSERT INTO users (username, password) values (?, ?)", (
+                user.username, hash_value)
         )
 
         self._connection.commit()

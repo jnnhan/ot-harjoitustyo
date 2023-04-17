@@ -51,7 +51,8 @@ class GameView:
             command=self._return_handler
         )
 
-        return_button.grid(columnspan=2, sticky=(constants.E, constants.W), padx=5, pady=5)
+        return_button.grid(columnspan=2, sticky=(
+            constants.E, constants.W), padx=5, pady=5)
 
     def _draw_square(self):
         self._frame.canvas.delete("square")
@@ -61,7 +62,8 @@ class GameView:
             x1 = MARGIN + CELL * (self.col + 1) + 1
             y1 = MARGIN + CELL * self.row - 1
 
-            self._frame.canvas.create_rectangle(x0, y0, x1, y1, tags="square", outline="brown1")
+            self._frame.canvas.create_rectangle(
+                x0, y0, x1, y1, tags="square", outline="brown1")
 
     def _mouse_click(self, event):
         x = event.x
@@ -87,7 +89,8 @@ class GameView:
         x = WIDTH / 2
         y = HEIGHT / 2
         self._frame.canvas.create_rectangle(100, 200, 400, 300, fill="black")
-        self._frame.canvas.create_text(x, y, text="voitit pelin :-)", fill="red", font=('bold'))
+        self._frame.canvas.create_text(
+            x, y, text="voitit pelin :-)", fill="red", font=('bold'))
 
     def _key_press(self, event):
         key = event.char
@@ -109,8 +112,8 @@ class GameView:
 
     def _draw_numbers(self):
         self._frame.canvas.delete("numbers")
-        for i in range(0,9):
-            for j in range(0,9):
+        for i in range(0, 9):
+            for j in range(0, 9):
                 numbers = self.puzzle[i][j]
                 if len(numbers) == 1:
                     if numbers[0] != 0:
@@ -118,10 +121,11 @@ class GameView:
                             color = "gray9"
                         else:
                             color = "brown1"
-                            
+
                         x = MARGIN + (j+0.5) * CELL
                         y = MARGIN + (i+0.5) * CELL
-                        self._frame.canvas.create_text(x, y, text=numbers[0], tags="numbers", fill=color, font=('bold'))
+                        self._frame.canvas.create_text(
+                            x, y, text=numbers[0], tags="numbers", fill=color, font=('bold'))
 
                 else:
                     holders = len(numbers)
@@ -141,10 +145,11 @@ class GameView:
                         x = MARGIN + (j+a) * CELL
                         y = MARGIN + (i+b) * CELL
                         color = "wheat4"
-                        self._frame.canvas.create_text(x, y, text=numbers[z], tags="numbers", fill=color, font=('Helvetica','10'))
+                        self._frame.canvas.create_text(
+                            x, y, text=numbers[z], tags="numbers", fill=color, font=('Helvetica', '10'))
 
     def _draw_grid(self):
-        for i in range(0,10):
+        for i in range(0, 10):
             color = "grey" if i % 3 == 0 else "pink"
 
             v0 = MARGIN + i * CELL
@@ -157,8 +162,8 @@ class GameView:
             h1 = MARGIN + i * CELL
             h2 = WIDTH - MARGIN
             h3 = MARGIN + i * CELL
-            self._frame.canvas.create_line(h0, h1, h2, h3, fill=color) 
-            
+            self._frame.canvas.create_line(h0, h1, h2, h3, fill=color)
+
     def destroy(self):
         self._frame.destroy()
 

@@ -13,3 +13,6 @@ DB_FILE_PATH = os.path.join(dirname, "..", "data", DB_FILE)
 
 EASY_FILE = os.getenv("EASY_FILE") or "easy.txt"
 EASY_FILE_PATH = os.path.join(dirname, EASY_FILE)
+
+HARD_FILE = os.getenv("HARD_FILE") or "hard.txt"
+HARD_FILE_PATH = os.path.join(dirname, HARD_FILE)

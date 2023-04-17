@@ -1,5 +1,6 @@
 from entities.sudoku import Sudoku
 
+
 class SudokuRepository:
     def __init__(self, connection):
         self._connection = connection
@@ -18,7 +19,7 @@ class SudokuRepository:
 
     def get_sudokus(self, level):
         cursor = self._connection.cursor()
-        cursor.execute("SELECT * FROM sudokus WHERE level=?", (level))
+        cursor.execute("SELECT * FROM sudokus WHERE level=?", (level,))
 
         sudokus = cursor.fetchall()
 
