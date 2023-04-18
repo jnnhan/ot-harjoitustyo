@@ -10,6 +10,9 @@ class MainView:
 
         self._initialize()
 
+    def _select_game_handler(self, level):
+        self._handle_game(level)
+
     def _initialize(self):
         self._frame = ttk.Frame(master=self._root)
 
@@ -23,19 +26,18 @@ class MainView:
             constants.E, constants.W), padx=5, pady=5)
 
         for i in range(1, 4):
-            level = i
             leveltxt = ""
-            if level == 1:
+            if i == 1:
                 leveltxt = "Easy"
-            elif level == 2:
+            elif i == 2:
                 leveltxt = "Medium"
-            elif level == 3:
+            else:
                 leveltxt = "Hard"
 
             game_button = ttk.Button(
                 master=self._frame,
                 text=leveltxt,
-                command=lambda: self._handle_game(level)
+                command=lambda i=i: self._select_game_handler(i)
             )
 
             game_button.grid(columnspan=2, sticky=(
