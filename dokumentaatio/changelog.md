@@ -13,5 +13,5 @@
 - Sudokujen luku tekstitiedostosta. Käyttäjä voi halutessaan lisätä omia sudokuja tiedostoon
 - Luotu luokka Sudoku-oliolle
 - Luotu SudokuRepository-luokka, joka vastaa sudokujen ja pelitietojen tallennuksesta tietokantaan
-- Luotu näkymät pelin vaikeustason valinnalle (tässä vaiheessa näkyvissä vasta helpot sudokut) sekä eri sudokujen valinta listamuodossa
-- Valmiin sudokun tarkistus. Jos numerot ovat oikein, näytetään viesti onnistumisesta
+- Luotu näkymät pelin vaikeustason valinnalle sekä eri sudokujen valinta listamuodossa
+- Valmiin sudokun tarkistus. Jos numerot ovat oikein, näytetään viesti onnistumisesta. Tämä ei toimi vielä täysin moitteettomasti
