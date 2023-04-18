@@ -1,21 +1,24 @@
 from werkzeug.security import check_password_hash
 from entities.user import User
 from entities.sudoku import Sudoku
-from database_connection import get_database_connection
-from repositories.user_repository import UserRepository
-from repositories.sudoku_repository import SudokuRepository
+from repositories.user_repository import user_repo
+from repositories.sudoku_repository import sudoku_repo
 
 
 class InvalidCredentialsError(Exception):
     pass
 
 
+class UsernameExistsError(Exception):
+    pass
+
+
 class SudokuService:
-    def __init__(self):
+    def __init__(self, user_repo, sudoku_repo):
         self._user = None
         self._sudoku = None
-        self._user_repository = UserRepository(get_database_connection())
-        self._sudoku_repository = SudokuRepository(get_database_connection())
+        self._user_repository = user_repo
+        self._sudoku_repository = sudoku_repo
 
     def get_sudokus(self, level):
         sudokus = self._sudoku_repository.get_sudokus(level)
@@ -100,6 +103,11 @@ class SudokuService:
         return user
 
     def create_user(self, username, password):
+        username_exists = self._user_repository.find_user(username)
+
+        if username_exists:
+            raise UsernameExistsError(f"Username {username} is taken")
+
         user = self._user_repository.create_user(User(username, password))
 
         return user

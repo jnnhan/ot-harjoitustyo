@@ -1,4 +1,5 @@
 from werkzeug.security import generate_password_hash
+from database_connection import get_database_connection
 from entities.user import User
 
 
@@ -37,9 +38,8 @@ class UserRepository:
         cursor.execute("SELECT * FROM users WHERE username=?", (username,))
 
         user = cursor.fetchone()
-        if user:
-            return User(user["username"], user["password"])
-        return None
+        
+        return User(user["username"], user["password"]) if user else None
 
     def find_all(self):
         cursor = self._connection.cursor()
@@ -48,3 +48,6 @@ class UserRepository:
         rows = cursor.fetchall()
 
         return [User(row["username"], row["password"]) for row in rows]
+
+
+user_repo = UserRepository(get_database_connection())
