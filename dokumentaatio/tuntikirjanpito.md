@@ -12,4 +12,7 @@
 | 10.4. | 3        | sudokun luku tekstitiedostosta |
 | 11.4. | 6        | UI: sudokujen valinta ja luku tiedostosta |
 | 13.4. | 5        | sudokun tarkastus |
-| yht   | 36       | |
+| 14.4. | 2        | UI: vaikeustasojen valinta |
+| 17.4. | 3        | testejä ja virheiden korjausta |
+| 18.4. | 4        | testejä, arkkitehtuuri.md |
+| yht   | 45       | |
