@@ -1,6 +1,8 @@
-.pytest_cache
-__pycache__
 .coverage
+.pytest_cache
+.vscode
+ot-harjoitustyo.code-workspace
+__pycache__
 htmlcov
 
 # data files
