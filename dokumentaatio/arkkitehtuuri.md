@@ -38,3 +38,5 @@ Luokka SudokuService vastaa sovelluksen toiminnallisista kokonaisuuksista. Sen m
 _SudokuService_ pääsee käsiksi käyttäjä- ja sudokuolioihin luokkien UserRepository ja SudokuRepository kautta. Ne vastaavat käyttäjätietojen, sudokujen ja pelitilastojen käsittelystä ja tallennuksesta tietokantaan.
 
 Luokka/pakkauskaavio:
+
+![Pakkausrakenne ja luokat](./kuvat/pakkauskaavio.png)
