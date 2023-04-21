@@ -60,7 +60,8 @@ class SudokuService:
             for j in range(9):
                 for number in sudoku[i][j]:
                     row.append(number)
-            return self._check_numbers(row)
+            if not self._check_numbers(row):
+                return False
 
         # construct each column as a simple list
         for i in range(9):
@@ -68,14 +69,18 @@ class SudokuService:
             for col in sudoku:
                 for number in col[i]:
                     column.append(number)
-            return self._check_numbers(column)
+            if not self._check_numbers(column):
+                return False
 
         for row in range(3):
             for col in range(3):
                 numbers = [sudoku[r][c]
                            for r in range(row * 3, (row + 1) * 3)
                            for c in range(col * 3, (col + 1) * 3)]
-                return self._check_square(numbers)
+                if not self._check_square(numbers):
+                    return False
+
+        return True
 
     def read_sudokus(self, file_path, level):
         content = ""
