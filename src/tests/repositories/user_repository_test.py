@@ -38,4 +38,3 @@ class TestUserRepository(unittest.TestCase):
         user = self._user_repo.find_user(self.user_kananmuna.username)
 
         self.assertEqual(user.username, self.user_kananmuna.username)
-

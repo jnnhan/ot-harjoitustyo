@@ -12,26 +12,26 @@ class GameView:
         self._root = root
         self._handle_return = handle_return
         self._frame = None
-        self._sudoku = sudoku
+        self._puzzle = copy.deepcopy(sudoku)
+        self._original = copy.deepcopy(sudoku)
         self._service = SudokuService()
 
         self.row = 0
         self.col = 0
-        self._service.start_sudoku(self._sudoku)
         self._initialize()
 
     def _return_handler(self):
         self._handle_return()
 
     def _clear_sudoku(self):
-        self._service.start_sudoku(self._sudoku)
+        self._start_sudoku(self._original)
         self._frame.canvas.delete("win")
         self._draw_numbers()
 
     def _clear_cell(self):
         if len(self._frame.canvas.gettags("square")) != 0:
-            self._service.puzzle[self.row][self.col].clear()
-            self._service.puzzle[self.row][self.col].append(0)
+            self._puzzle[self.row][self.col].clear()
+            self._puzzle[self.row][self.col].append(0)
 
         self._draw_numbers()
         self._draw_square()
@@ -51,9 +51,9 @@ class GameView:
             height=(HEIGHT + 50)
         )
         self._frame.canvas.pack(fill=constants.X, side=TOP)
-        self._frame.canvas.create_rectangle(25, 25, (WIDTH-25), (HEIGHT-25), fill="white")
+        self._frame.canvas.create_rectangle(
+            25, 25, (WIDTH-25), (HEIGHT-25), fill="white")
 
-        
         self._draw_grid()
         self._draw_numbers()
 
@@ -69,7 +69,7 @@ class GameView:
         self._frame.canvas.create_window(
             400, (HEIGHT+25), anchor='s', window=return_button
         )
-        
+
         clear_button = ttk.Button(
             master=self._frame.canvas,
             text="Clear sudoku",
@@ -78,7 +78,7 @@ class GameView:
 
         self._frame.canvas.create_window(
             100, (HEIGHT+25), anchor='s', window=clear_button)
-        
+
         clear_cell_button = ttk.Button(
             master=self._frame.canvas,
             text="Clear cell",
@@ -107,10 +107,10 @@ class GameView:
             col = (x - MARGIN) // CELL
             row = (y - MARGIN) // CELL
 
-            if self.col >= 0 or self.row >= 0:
+            if self.col == col and self.row == row:
                 self.col = -1
                 self.row = -1
-            elif self._service.original[row][col][0] == 0:
+            elif self._original[row][col][0] == 0:
                 self.col = col
                 self.row = row
         else:
@@ -130,19 +130,19 @@ class GameView:
     def _key_press(self, event):
         key = event.char
         if self.col >= 0 and self.row >= 0 and key in "123456789":
-            if len(self._service.puzzle[self.row][self.col]) == 0:
-                self._service.puzzle[self.row][self.col].append(0)
-            if self._service.puzzle[self.row][self.col][0] == 0:
-                self._service.puzzle[self.row][self.col].pop()
-                self._service.puzzle[self.row][self.col].append(int(key))
-            elif int(key) not in self._service.puzzle[self.row][self.col]:
-                self._service.puzzle[self.row][self.col].append(int(key))
+            if len(self._puzzle[self.row][self.col]) == 0:
+                self._puzzle[self.row][self.col].append(0)
+            if self._puzzle[self.row][self.col][0] == 0:
+                self._puzzle[self.row][self.col].pop()
+                self._puzzle[self.row][self.col].append(int(key))
+            elif int(key) not in self._puzzle[self.row][self.col]:
+                self._puzzle[self.row][self.col].append(int(key))
             else:
-                self._service.puzzle[self.row][self.col].remove(int(key))
+                self._puzzle[self.row][self.col].remove(int(key))
             self._draw_numbers()
             self._draw_square()
 
-            if self._service.check_sudoku_win(self._service.puzzle):
+            if self._service.check_sudoku_win(self._puzzle):
                 self._draw_win()
 
     def _draw_numbers(self):
@@ -150,10 +150,10 @@ class GameView:
         self._frame.canvas.delete("numbers")
         for i in range(0, 9):
             for j in range(0, 9):
-                numbers = self._service.puzzle[i][j]
+                numbers = self._puzzle[i][j]
                 if len(numbers) == 1:
                     if numbers[0] != 0:
-                        if numbers[0] == self._service.original[i][j][0]:
+                        if numbers[0] == self._original[i][j][0]:
                             color = "gray9"
                         else:
                             color = "brown1"
@@ -185,10 +185,12 @@ class GameView:
                             x, y, text=numbers[z], tags="numbers", fill=color, font=('Helvetica', '10'))
 
     def _draw_grid(self):
-        self._frame.canvas.create_rectangle(175, 25, 325, 175, fill="pink")
-        self._frame.canvas.create_rectangle(25, 175, 175, 325, fill="pink")
-        self._frame.canvas.create_rectangle(325, 175, (WIDTH-25), 325, fill="pink")
-        self._frame.canvas.create_rectangle(175, 325, 325, (HEIGHT-25), fill="pink")
+        self._frame.canvas.create_rectangle(175, 25, 325, 175, fill="#fadbd8")
+        self._frame.canvas.create_rectangle(25, 175, 175, 325, fill="#fadbd8")
+        self._frame.canvas.create_rectangle(
+            325, 175, (WIDTH-25), 325, fill="#fadbd8")
+        self._frame.canvas.create_rectangle(
+            175, 325, 325, (HEIGHT-25), fill="#fadbd8")
 
         for i in range(0, 10):
             color = "black" if i % 3 == 0 else "grey"

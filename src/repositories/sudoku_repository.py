@@ -25,6 +25,6 @@ class SudokuRepository:
         sudokus = cursor.fetchall()
 
         return [Sudoku(sudoku["name"], sudoku["puzzle"], sudoku["level"]) for sudoku in sudokus]
-    
+
 
 sudoku_repo = SudokuRepository(get_database_connection())

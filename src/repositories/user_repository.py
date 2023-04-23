@@ -38,7 +38,7 @@ class UserRepository:
         cursor.execute("SELECT * FROM users WHERE username=?", (username,))
 
         user = cursor.fetchone()
-        
+
         return User(user["username"], user["password"]) if user else None
 
     def find_all(self):

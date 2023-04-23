@@ -16,9 +16,9 @@ class FakeUserRepository:
         for user in self.users:
             if user[0] == username:
                 return user
-        
+
         return None
-    
+
     def get_password(self, username):
         for user in self.users:
             if user[0] == username:
@@ -27,14 +27,14 @@ class FakeUserRepository:
 
     def find_all(self):
         return self.users
-    
+
     def create_user(self, user):
         hash_password = generate_password_hash(user.password)
 
         self.users.append((user.username, hash_password))
 
         return user
-    
+
     def delete_all(self):
         self.users = []
 
