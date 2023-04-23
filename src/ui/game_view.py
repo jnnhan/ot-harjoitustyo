@@ -17,12 +17,24 @@ class GameView:
 
         self.row = 0
         self.col = 0
-        self.puzzle = copy.deepcopy(self._sudoku)
-        self.original = copy.deepcopy(self._sudoku)
+        self._service.start_sudoku(self._sudoku)
         self._initialize()
 
     def _return_handler(self):
         self._handle_return()
+
+    def _clear_sudoku(self):
+        self._service.start_sudoku(self._sudoku)
+        self._frame.canvas.delete("win")
+        self._draw_numbers()
+
+    def _clear_cell(self):
+        if len(self._frame.canvas.gettags("square")) != 0:
+            self._service.puzzle[self.row][self.col].clear()
+            self._service.puzzle[self.row][self.col].append(0)
+
+        self._draw_numbers()
+        self._draw_square()
 
     def _initialize(self):
         self._frame = Frame(master=self._root)
@@ -31,28 +43,50 @@ class GameView:
         self._root.title("Sudoku")
         self._frame.pack(fill=BOTH, expand=1)
         _frame2.pack(fill=BOTH, side=BOTTOM)
+
         self._frame.canvas = Canvas(
             master=self._frame,
-            bg="white",
+            bg="brown1",
             width=WIDTH,
-            height=HEIGHT
+            height=(HEIGHT + 50)
         )
         self._frame.canvas.pack(fill=constants.X, side=TOP)
+        self._frame.canvas.create_rectangle(25, 25, (WIDTH-25), (HEIGHT-25), fill="white")
+
+        
         self._draw_grid()
         self._draw_numbers()
 
         self._frame.canvas.bind("<1>", self._mouse_click)
-        self._frame.canvas.focus_set()
         self._frame.canvas.bind("<Key>", self._key_press)
 
         return_button = ttk.Button(
-            master=_frame2,
+            master=self._frame.canvas,
             text="Return",
             command=self._return_handler
         )
 
-        return_button.grid(columnspan=2, sticky=(
-            constants.E, constants.W), padx=5, pady=5)
+        self._frame.canvas.create_window(
+            400, (HEIGHT+25), anchor='s', window=return_button
+        )
+        
+        clear_button = ttk.Button(
+            master=self._frame.canvas,
+            text="Clear sudoku",
+            command=self._clear_sudoku
+        )
+
+        self._frame.canvas.create_window(
+            100, (HEIGHT+25), anchor='s', window=clear_button)
+        
+        clear_cell_button = ttk.Button(
+            master=self._frame.canvas,
+            text="Clear cell",
+            command=self._clear_cell
+        )
+
+        self._frame.canvas.create_window(
+            250, (HEIGHT+25), anchor='s', window=clear_cell_button)
 
     def _draw_square(self):
         self._frame.canvas.delete("square")
@@ -76,7 +110,7 @@ class GameView:
             if self.col >= 0 or self.row >= 0:
                 self.col = -1
                 self.row = -1
-            elif self.original[row][col][0] == 0:
+            elif self._service.original[row][col][0] == 0:
                 self.col = col
                 self.row = row
         else:
@@ -88,36 +122,38 @@ class GameView:
     def _draw_win(self):
         x = WIDTH / 2
         y = HEIGHT / 2
-        self._frame.canvas.create_rectangle(100, 200, 400, 300, fill="black")
+        self._frame.canvas.create_rectangle(
+            100, 200, 400, 300, fill="pink", tags="win")
         self._frame.canvas.create_text(
-            x, y, text="voitit pelin :-)", fill="red", font=('bold'))
+            x, y, text="voitit pelin :-)", tags="win", fill="red", font=('bold'))
 
     def _key_press(self, event):
         key = event.char
         if self.col >= 0 and self.row >= 0 and key in "123456789":
-            if len(self.puzzle[self.row][self.col]) == 0:
-                self.puzzle[self.row][self.col].append(0)
-            if self.puzzle[self.row][self.col][0] == 0:
-                self.puzzle[self.row][self.col].pop()
-                self.puzzle[self.row][self.col].append(int(key))
-            elif int(key) not in self.puzzle[self.row][self.col]:
-                self.puzzle[self.row][self.col].append(int(key))
+            if len(self._service.puzzle[self.row][self.col]) == 0:
+                self._service.puzzle[self.row][self.col].append(0)
+            if self._service.puzzle[self.row][self.col][0] == 0:
+                self._service.puzzle[self.row][self.col].pop()
+                self._service.puzzle[self.row][self.col].append(int(key))
+            elif int(key) not in self._service.puzzle[self.row][self.col]:
+                self._service.puzzle[self.row][self.col].append(int(key))
             else:
-                self.puzzle[self.row][self.col].remove(int(key))
+                self._service.puzzle[self.row][self.col].remove(int(key))
             self._draw_numbers()
             self._draw_square()
 
-            if self._service.check_sudoku_win(self.puzzle):
+            if self._service.check_sudoku_win(self._service.puzzle):
                 self._draw_win()
 
     def _draw_numbers(self):
+        self._frame.canvas.focus_set()
         self._frame.canvas.delete("numbers")
         for i in range(0, 9):
             for j in range(0, 9):
-                numbers = self.puzzle[i][j]
+                numbers = self._service.puzzle[i][j]
                 if len(numbers) == 1:
                     if numbers[0] != 0:
-                        if numbers[0] == self.original[i][j][0]:
+                        if numbers[0] == self._service.original[i][j][0]:
                             color = "gray9"
                         else:
                             color = "brown1"
@@ -149,8 +185,13 @@ class GameView:
                             x, y, text=numbers[z], tags="numbers", fill=color, font=('Helvetica', '10'))
 
     def _draw_grid(self):
+        self._frame.canvas.create_rectangle(175, 25, 325, 175, fill="pink")
+        self._frame.canvas.create_rectangle(25, 175, 175, 325, fill="pink")
+        self._frame.canvas.create_rectangle(325, 175, (WIDTH-25), 325, fill="pink")
+        self._frame.canvas.create_rectangle(175, 325, 325, (HEIGHT-25), fill="pink")
+
         for i in range(0, 10):
-            color = "grey" if i % 3 == 0 else "pink"
+            color = "black" if i % 3 == 0 else "grey"
 
             v0 = MARGIN + i * CELL
             v1 = MARGIN

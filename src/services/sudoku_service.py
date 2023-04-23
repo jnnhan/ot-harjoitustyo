@@ -1,4 +1,5 @@
 from werkzeug.security import check_password_hash
+import copy
 from entities.user import User
 from entities.sudoku import Sudoku
 from repositories.user_repository import user_repo as default_user_repository
@@ -23,6 +24,11 @@ class SudokuService:
         self._sudoku = None
         self._user_repository = user_repository
         self._sudoku_repository = sudoku_repository
+
+    def start_sudoku(self, sudoku):
+        self.puzzle = copy.deepcopy(sudoku)
+        self.original = copy.deepcopy(sudoku)
+        self.game_over = False
 
     def get_sudokus(self, level):
         sudokus = self._sudoku_repository.get_sudokus(level)
@@ -79,7 +85,7 @@ class SudokuService:
                            for c in range(col * 3, (col + 1) * 3)]
                 if not self._check_square(numbers):
                     return False
-
+        self.game_over = True
         return True
 
     def read_sudokus(self, file_path, level):
