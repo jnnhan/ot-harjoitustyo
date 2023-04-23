@@ -26,6 +26,7 @@ class EasyView():
 
         self._sudoku_list_view = SudokuListView(
             self._sudoku_list_frame,
+            self._level,
             sudokus,
             self._handle_start_game
         )

@@ -4,8 +4,9 @@ from services.sudoku_service import SudokuService
 
 
 class SudokuListView:
-    def __init__(self, root, sudokus, handle_start_game):
+    def __init__(self, root, level, sudokus, handle_start_game):
         self._root = root
+        self._level = level
         self._sudokus = sudokus
         self._sudoku_frame = None
         self._frame = None
@@ -16,7 +17,7 @@ class SudokuListView:
     def _start_sudoku_handler(self, sudoku_string):
         puzzle = SudokuService().numbers_to_puzzle(sudoku_string)
 
-        self._handle_start_game(puzzle)
+        self._handle_start_game(self._level, puzzle)
 
     def _initialize_sudoku(self, sudoku):
         sudoku_frame = ttk.Frame(master=self._frame)
