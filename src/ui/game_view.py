@@ -1,6 +1,6 @@
 from tkinter import ttk, Canvas, Frame, TOP, BOTTOM, BOTH, constants
 import copy
-from services.sudoku_service import SudokuService
+from services.sudoku_service import sudoku_service
 
 MARGIN = 25
 CELL = 50
@@ -8,28 +8,31 @@ WIDTH = HEIGHT = MARGIN * 2 + CELL * 9
 
 
 class GameView:
-    def __init__(self, root, level, sudoku, handle_return):
+    def __init__(self, root, puzzle, handle_return):
         self._root = root
         self._handle_return = handle_return
         self._frame = None
-        self._level = level
-        self._sudoku = sudoku
-        self._puzzle = copy.deepcopy(sudoku)
-        self._service = SudokuService()
+        self._game_over = False
+        self._original = puzzle
+        self._puzzle = copy.deepcopy(puzzle)
 
         self.row = 0
         self.col = 0
         self._initialize()
 
     def _return_handler(self):
-        self._handle_return(self._level)
+        sudoku = sudoku_service.get_current_sudoku()
+        sudoku_service.remove_current_sudoku()
+        self._handle_return(sudoku.level)
 
-    def _start_sudoku(self, sudoku):
-        self._puzzle = copy.deepcopy(sudoku)
+    def _start_sudoku(self, puzzle):
+        self._puzzle = copy.deepcopy(puzzle)
 
     def _clear_sudoku(self):
-        self._start_sudoku(self._sudoku)
+        self._start_sudoku(self._original)
         self._frame.canvas.delete("win")
+        self._game_over = False
+        self._display_buttons()
         self._draw_numbers()
 
     def _clear_cell(self):
@@ -39,6 +42,40 @@ class GameView:
 
         self._draw_numbers()
         self._draw_square()
+
+    def _display_buttons(self):
+        if self._game_over:
+            self._frame.canvas.delete("start")
+
+            clear_button = ttk.Button(
+                master=self._frame.canvas,
+                text="Play again",
+                command=self._clear_sudoku
+            )
+
+            self._frame.canvas.create_window(
+                100, (HEIGHT+25), tags="again", anchor='s', window=clear_button)
+
+        else:
+            self._frame.canvas.delete("again")
+
+            clear_button = ttk.Button(
+                master=self._frame.canvas,
+                text="Clear sudoku",
+                command=self._clear_sudoku
+            )
+
+            self._frame.canvas.create_window(
+                100, (HEIGHT+25), tags="start", anchor='s', window=clear_button)
+
+            clear_cell_button = ttk.Button(
+                master=self._frame.canvas,
+                text="Clear cell",
+                command=self._clear_cell
+            )
+
+            self._frame.canvas.create_window(
+                250, (HEIGHT+25), tags="start", anchor='s', window=clear_cell_button)
 
     def _initialize(self):
         self._frame = Frame(master=self._root)
@@ -74,25 +111,12 @@ class GameView:
             400, (HEIGHT+25), anchor='s', window=return_button
         )
 
-        clear_button = ttk.Button(
-            master=self._frame.canvas,
-            text="Clear sudoku",
-            command=self._clear_sudoku
-        )
-
-        self._frame.canvas.create_window(
-            100, (HEIGHT+25), anchor='s', window=clear_button)
-
-        clear_cell_button = ttk.Button(
-            master=self._frame.canvas,
-            text="Clear cell",
-            command=self._clear_cell
-        )
-
-        self._frame.canvas.create_window(
-            250, (HEIGHT+25), anchor='s', window=clear_cell_button)
+        self._display_buttons()
 
     def _draw_square(self):
+        if self._game_over:
+            return
+
         self._frame.canvas.delete("square")
         if self.col >= 0 and self.row >= 0:
             x0 = MARGIN + CELL * (self.col) - 1
@@ -104,6 +128,9 @@ class GameView:
                 x0, y0, x1, y1, tags="square", outline="brown1")
 
     def _mouse_click(self, event):
+        if self._game_over:
+            return
+
         x = event.x
         y = event.y
 
@@ -114,7 +141,7 @@ class GameView:
             if self.col == col and self.row == row:
                 self.col = -1
                 self.row = -1
-            elif self._sudoku[row][col][0] == 0:
+            elif self._original[row][col][0] == 0:
                 self.col = col
                 self.row = row
         else:
@@ -132,6 +159,9 @@ class GameView:
             x, y, text="voitit pelin :-)", tags="win", fill="red", font=('bold'))
 
     def _key_press(self, event):
+        if self._game_over:
+            return
+
         key = event.char
         if self.col >= 0 and self.row >= 0 and key in "123456789":
             if len(self._puzzle[self.row][self.col]) == 0:
@@ -146,8 +176,11 @@ class GameView:
             self._draw_numbers()
             self._draw_square()
 
-            if self._service.check_sudoku_win(self._puzzle):
+            if sudoku_service.check_sudoku_win(self._puzzle):
+                self._game_over = True
                 self._draw_win()
+                self._display_buttons()
+                sudoku_service.save_status()
 
     def _draw_numbers(self):
         self._frame.canvas.focus_set()
@@ -157,7 +190,7 @@ class GameView:
                 numbers = self._puzzle[i][j]
                 if len(numbers) == 1:
                     if numbers[0] != 0:
-                        if numbers[0] == self._sudoku[i][j][0]:
+                        if numbers[0] == self._original[i][j][0]:
                             color = "gray9"
                         else:
                             color = "brown1"

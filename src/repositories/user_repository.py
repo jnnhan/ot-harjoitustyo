@@ -41,6 +41,12 @@ class UserRepository:
 
         return User(user["username"], user["password"]) if user else None
 
+    def get_user_id(self, username):
+        cursor = self._connection.cursor()
+        cursor.execute("SELECT id FROM users WHERE username=?", (username,))
+
+        return cursor.fetchone()[0]
+
     def find_all(self):
         cursor = self._connection.cursor()
         cursor.execute("SELECT * FROM users")

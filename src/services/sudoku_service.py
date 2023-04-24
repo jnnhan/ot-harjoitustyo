@@ -1,6 +1,5 @@
 from werkzeug.security import check_password_hash
 from entities.user import User
-from entities.sudoku import Sudoku
 from repositories.user_repository import user_repo as default_user_repository
 from repositories.sudoku_repository import sudoku_repo as default_sudoku_repository
 
@@ -28,8 +27,16 @@ class SudokuService:
         sudokus = self._sudoku_repository.get_sudokus(level)
         return sudokus
 
+    def save_status(self):
+        user = self.get_current_user()
+        user_id = self._user_repository.get_user_id(user.username)
+        sudoku = self.get_current_sudoku()
+        sudoku_id = self._sudoku_repository.get_sudoku_id(sudoku.name)
+
+        self._sudoku_repository.save_status(user_id, sudoku_id)
+
     def numbers_to_puzzle(self, sudoku):
-        numbers = [int(n) for n in sudoku]
+        numbers = [int(n) for n in sudoku.puzzle]
 
         puzzle = [[[] for _ in range(9)] for _ in range(9)]
 
@@ -39,7 +46,14 @@ class SudokuService:
                 puzzle[i][j].append(numbers[k])
                 k += 1
 
+        self._sudoku = sudoku
         return puzzle
+
+    def get_current_sudoku(self):
+        return self._sudoku
+
+    def remove_current_sudoku(self):
+        self._sudoku = None
 
     def _check_numbers(self, numbers):
         if len(numbers) > 9:
@@ -54,7 +68,6 @@ class SudokuService:
         return self._check_numbers(square)
 
     def check_sudoku_win(self, sudoku):
-        # construct each row in sudoku as a simple list
         for i in range(9):
             row = []
             for j in range(9):
@@ -63,7 +76,6 @@ class SudokuService:
             if not self._check_numbers(row):
                 return False
 
-        # construct each column as a simple list
         for i in range(9):
             column = []
             for col in sudoku:
@@ -81,20 +93,8 @@ class SudokuService:
                     return False
         return True
 
-    def read_sudokus(self, file_path, level):
-        content = ""
-
-        with open(file_path, "r", encoding="utf-8") as file:
-            for row in file:
-                row = row.replace("\n", "")
-                parts = row.split("\n")
-
-                if parts[0].startswith("."):
-                    self._sudoku_repository.create_sudoku(
-                        Sudoku(parts[0][1:], content, level))
-                    content = ""
-                else:
-                    content += parts[0]
+    def logout(self):
+        self._user = None
 
     def login(self, username, password):
         user = self._user_repository.find_user(username)
@@ -110,6 +110,9 @@ class SudokuService:
 
         return user
 
+    def get_current_user(self):
+        return self._user
+
     def create_user(self, username, password):
         username_exists = self._user_repository.find_user(username)
 
@@ -119,3 +122,6 @@ class SudokuService:
         user = self._user_repository.create_user(User(username, password))
 
         return user
+
+
+sudoku_service = SudokuService()

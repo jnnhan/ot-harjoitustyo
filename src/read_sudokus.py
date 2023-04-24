@@ -1,4 +1,4 @@
-from services.sudoku_service import SudokuService
+from repositories.sudoku_repository import sudoku_repo
 from config import (
     EASY_FILE_PATH,
     MEDIUM_FILE_PATH,
@@ -7,10 +7,9 @@ from config import (
 
 
 def read_sudokus():
-    service = SudokuService()
-    service.read_sudokus(EASY_FILE_PATH, level=1)
-    service.read_sudokus(MEDIUM_FILE_PATH, level=2)
-    service.read_sudokus(HARD_FILE_PATH, level=3)
+    sudoku_repo.read_sudokus(EASY_FILE_PATH, level=1)
+    sudoku_repo.read_sudokus(MEDIUM_FILE_PATH, level=2)
+    sudoku_repo.read_sudokus(HARD_FILE_PATH, level=3)
 
 
 if __name__ == "__main__":

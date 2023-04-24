@@ -8,7 +8,7 @@ def read_sudokus(ctx):
 def start(ctx):
     ctx.run("python3 src/index.py", pty=True)
 
-@task()
+@task(post=[read_sudokus])
 def init(ctx):
     ctx.run("python3 src/init_database.py", pty=True)
 

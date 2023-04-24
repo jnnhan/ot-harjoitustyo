@@ -15,14 +15,14 @@ def create_tables(connection):
     cursor = connection.cursor()
 
     cursor.execute(
-        "CREATE TABLE users (id SERIAL PRIMARY KEY, username TEXT UNIQUE, password TEXT)"
+        "CREATE TABLE users (id INTEGER PRIMARY KEY, username TEXT UNIQUE, password TEXT)"
     )
     cursor.execute(
-        "CREATE TABLE sudokus (id SERIAL PRIMARY KEY, name TEXT UNIQUE, \
+        "CREATE TABLE sudokus (id INTEGER PRIMARY KEY, name TEXT UNIQUE, \
         puzzle TEXT UNIQUE, level INTEGER)"
     )
     cursor.execute(
-        "CREATE TABLE stats (id SERIAL PRIMARY KEY, user_id REFERENCES users, \
+        "CREATE TABLE stats (id INTEGER PRIMARY KEY, user_id REFERENCES users, \
         sudoku_id REFERENCES sudokus, status INTEGER)"
     )
 

@@ -13,13 +13,12 @@ class UI:
     def start(self):
         self._show_login_view()
 
-    def _show_game_view(self, level=None, sudokus=None):
+    def _show_game_view(self, puzzle=None):
         self._hide_current_view()
 
         self._current_view = GameView(
             self._root,
-            level,
-            sudokus,
+            puzzle,
             self._show_game_select
         )
 

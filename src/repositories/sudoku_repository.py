@@ -6,6 +6,49 @@ class SudokuRepository:
     def __init__(self, connection):
         self._connection = connection
 
+    def save_status(self, user_id, sudoku_id):
+        cursor = self._connection.cursor()
+
+        cursor.execute(
+            "INSERT INTO stats (user_id, sudoku_id, status) values (?, ?, 1)", (
+                user_id, sudoku_id)
+        )
+        self._connection.commit()
+
+    def get_user_sudokus(self, user):
+        cursor = self._connection.cursor()
+
+        cursor.execute(
+            "SELECT id, name, puzzle, level, status FROM stats, sudokus WHERE stats.user_id=?", (
+                user,)
+        )
+
+        sudokus = cursor.fetchall()
+
+        return sudokus
+
+    def get_sudoku_id(self, name):
+        cursor = self._connection.cursor()
+
+        cursor.execute("SELECT * FROM sudokus WHERE name=?", (name,))
+
+        return cursor.fetchone()[0]
+
+    def read_sudokus(self, file_path, level):
+        content = ""
+
+        with open(file_path, "r", encoding="utf-8") as file:
+            for row in file:
+                row = row.replace("\n", "")
+                parts = row.split("\n")
+
+                if parts[0].startswith("."):
+                    self.create_sudoku(
+                        Sudoku(parts[0][1:], content, level))
+                    content = ""
+                else:
+                    content += parts[0]
+
     def create_sudoku(self, sudoku):
         cursor = self._connection.cursor()
         try:

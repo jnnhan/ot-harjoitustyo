@@ -1,5 +1,5 @@
 from tkinter import ttk, constants, StringVar
-from services.sudoku_service import SudokuService, InvalidCredentialsError
+from services.sudoku_service import sudoku_service, InvalidCredentialsError
 
 
 class LoginView:
@@ -7,7 +7,6 @@ class LoginView:
         self._root = root
         self._handle_login = handle_login
         self._handle_show_register_view = handle_show_register_view
-        self._service = SudokuService()
         self._frame = None
         self._username_entry = None
         self._password_entry = None
@@ -28,7 +27,7 @@ class LoginView:
         password = self._password_entry.get()
 
         try:
-            self._service.login(username, password)
+            sudoku_service.login(username, password)
             self._handle_login()
         except InvalidCredentialsError as error:
             self._show_error(error)

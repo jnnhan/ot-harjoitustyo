@@ -1,12 +1,11 @@
 from tkinter import ttk, constants
 from ui.game_view import GameView
-from services.sudoku_service import SudokuService
+from services.sudoku_service import sudoku_service
 
 
 class SudokuListView:
-    def __init__(self, root, level, sudokus, handle_start_game):
+    def __init__(self, root, sudokus, handle_start_game):
         self._root = root
-        self._level = level
         self._sudokus = sudokus
         self._sudoku_frame = None
         self._frame = None
@@ -14,10 +13,10 @@ class SudokuListView:
 
         self._initialize()
 
-    def _start_sudoku_handler(self, sudoku_string):
-        puzzle = SudokuService().numbers_to_puzzle(sudoku_string)
+    def _start_sudoku_handler(self, sudoku):
+        puzzle = sudoku_service.numbers_to_puzzle(sudoku)
 
-        self._handle_start_game(self._level, puzzle)
+        self._handle_start_game(puzzle)
 
     def _initialize_sudoku(self, sudoku):
         sudoku_frame = ttk.Frame(master=self._frame)
@@ -25,7 +24,7 @@ class SudokuListView:
         start_sudoku_button = ttk.Button(
             master=sudoku_frame,
             text=sudoku.name,
-            command=lambda: self._start_sudoku_handler(sudoku.puzzle)
+            command=lambda: self._start_sudoku_handler(sudoku)
         )
 
         start_sudoku_button.grid(columnspan=2, sticky=(

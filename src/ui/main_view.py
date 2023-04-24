@@ -1,4 +1,5 @@
 from tkinter import ttk, constants
+from services.sudoku_service import sudoku_service
 
 
 class MainView:
@@ -13,13 +14,17 @@ class MainView:
     def _select_game_handler(self, level):
         self._handle_game(level)
 
+    def _logout_handler(self):
+        sudoku_service.logout()
+        self._handle_logout()
+
     def _initialize(self):
         self._frame = ttk.Frame(master=self._root)
 
         logout_button = ttk.Button(
             master=self._frame,
             text="Log out",
-            command=self._handle_logout
+            command=self._logout_handler
         )
 
         logout_button.grid(columnspan=2, sticky=(

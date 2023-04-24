@@ -1,5 +1,5 @@
 from tkinter import ttk, constants
-from services.sudoku_service import SudokuService
+from services.sudoku_service import sudoku_service
 from ui.sudoku_list_view import SudokuListView
 
 
@@ -12,7 +12,6 @@ class EasyView():
         self._level = level
         self._sudoku_list_frame = None
         self._sudoku_list_view = None
-        self._sudoku_service = SudokuService()
         self._initialize()
 
     def _return_handler(self):
@@ -22,11 +21,10 @@ class EasyView():
         if self._sudoku_list_view:
             self._sudoku_list_view.destroy()
 
-        sudokus = self._sudoku_service.get_sudokus(self._level)
+        sudokus = sudoku_service.get_sudokus(self._level)
 
         self._sudoku_list_view = SudokuListView(
             self._sudoku_list_frame,
-            self._level,
             sudokus,
             self._handle_start_game
         )
