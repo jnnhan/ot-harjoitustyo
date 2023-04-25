@@ -1,6 +1,7 @@
 from werkzeug.security import check_password_hash, generate_password_hash
 import unittest
 from entities.user import User
+from entities.sudoku import Sudoku
 from services.sudoku_service import (
     SudokuService,
     InvalidCredentialsError,
@@ -34,6 +35,9 @@ class FakeUserRepository:
         self.users.append((user.username, hash_password))
 
         return user
+    
+    def get_user_id(self, username):
+        return 1
 
     def delete_all(self):
         self.users = []
@@ -42,7 +46,22 @@ class FakeUserRepository:
 class FakeSudokuRepository:
     def __init__(self):
         self.sudokus = []
+        self.stats = []
 
+    def get_sudoku_id(self, name):
+        return 3
+    
+    def save_status(self, user_id, sudoku_id):
+        self.stats.append((user_id, sudoku_id))
+
+    def get_sudokus(self, level):
+        for sudoku in self.sudokus:
+            if sudoku[2] == level:
+                return sudoku
+        return None
+
+    def create_sudoku(self, sudoku):
+        self.sudokus.append((sudoku.name, sudoku.puzzle, sudoku.level))
 
 class TestSudokuService(unittest.TestCase):
     def setUp(self):
@@ -52,9 +71,19 @@ class TestSudokuService(unittest.TestCase):
         )
 
         self.user_kissa = User("kissa", "kala123")
+        self.sudoku_testi = Sudoku(
+            "testi", 
+            "123456789123456789123456789123456789123456789123456789123456789123456789123456789", 1)
 
     def login(self, user):
         self.sudoku_service.create_user(user.username, user.password)
+
+    def test_numbers_to_puzzle_works(self):
+        puzzle = self.sudoku_service.numbers_to_puzzle(self.sudoku_testi)
+
+        self.assertEqual(len(puzzle), 9)
+        self.assertEqual(puzzle[0][0][0], 1)
+        self.assertEqual(puzzle[8][8][0], 9)
 
     def test_login_works_with_valid_username_and_password(self):
         self.sudoku_service.create_user(

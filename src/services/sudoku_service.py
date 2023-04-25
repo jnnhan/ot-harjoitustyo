@@ -35,6 +35,8 @@ class SudokuService:
 
         self._sudoku_repository.save_status(user_id, sudoku_id)
 
+        return user_id, sudoku_id
+
     def numbers_to_puzzle(self, sudoku):
         numbers = [int(n) for n in sudoku.puzzle]
 

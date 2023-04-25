@@ -23,7 +23,7 @@ def create_tables(connection):
     )
     cursor.execute(
         "CREATE TABLE stats (id INTEGER PRIMARY KEY, user_id REFERENCES users, \
-        sudoku_id REFERENCES sudokus, status INTEGER)"
+        sudoku_id REFERENCES sudokus, playtime INTEGER)"
     )
 
     connection.commit()

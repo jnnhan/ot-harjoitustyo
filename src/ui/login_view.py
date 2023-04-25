@@ -64,7 +64,7 @@ class LoginView:
 
         register_button = ttk.Button(
             master=self._frame,
-            text="Register",
+            text="Create new username",
             command=self._handle_show_register_view
         )
 
