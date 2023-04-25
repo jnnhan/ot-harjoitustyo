@@ -15,3 +15,11 @@
 - Luotu SudokuRepository-luokka, joka vastaa sudokujen ja pelitietojen tallennuksesta tietokantaan
 - Luotu näkymät pelin vaikeustason valinnalle sekä eri sudokujen valinta listamuodossa
 - Valmiin sudokun tarkistus. Jos numerot ovat oikein, näytetään viesti onnistumisesta. Tämä ei toimi vielä täysin moitteettomasti
+
+## Viikko 5
+
+- Valmiin sudokun tarkistus toimii oikein
+- Pelitiedot tallennetaan stats-tauluun
+- Hiottu UI-luokan pelinäkymää: lisätty painike yksittäisen sudokuruudukon tyhjäykselle, ja paranneltu muiden painikkeiden asettelua. Sudokuruudukon visuaalisen ilmeen parannusta
+- Luotu testejä, joilla varmistetaan SudokuRepository-luokan toimivuus. Luotu myös testejä SudokuService-luokalle
+- Otettu käyttöön pylint-työkalu koodin laadun parantamiseksi
