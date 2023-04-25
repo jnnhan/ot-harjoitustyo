@@ -16,7 +16,8 @@ class SudokuRepository:
     def get_playtime(self, user_id, sudoku_id):
         cursor = self._connection.cursor()
 
-        cursor.execute("SELECT playtime FROM stats WHERE user_id=? AND sudoku_id=?", (user_id, sudoku_id))
+        cursor.execute("SELECT playtime FROM stats WHERE user_id=? AND sudoku_id=?",
+                       (user_id, sudoku_id))
 
         playtime = cursor.fetchone()
 
@@ -27,14 +28,15 @@ class SudokuRepository:
 
         playtime = self.get_playtime(user_id, sudoku_id)
 
-        if playtime == None:
+        if playtime is None:
             cursor.execute(
-                "INSERT INTO stats (user_id, sudoku_id, playtime) values (?, ?, ?)", (
-                    user_id, sudoku_id, 1)
+                "INSERT INTO stats (user_id, sudoku_id, playtime) values (?, ?, ?)", 
+                (user_id, sudoku_id, 1)
             )
         else:
             cursor.execute(
-                "UPDATE stats SET playtime=? WHERE user_id=? AND sudoku_id=?", ((playtime+1), user_id, sudoku_id)
+                "UPDATE stats SET playtime=? WHERE user_id=? AND sudoku_id=?", 
+                ((playtime+1), user_id, sudoku_id)
             )
         self._connection.commit()
 
@@ -42,8 +44,8 @@ class SudokuRepository:
         cursor = self._connection.cursor()
 
         cursor.execute(
-            "SELECT sudokus.id, name, puzzle, level, playtime FROM stats, sudokus WHERE stats.user_id=?", (
-                user_id,)
+            "SELECT sudokus.id, name, puzzle, level, playtime FROM\
+            stats, sudokus WHERE stats.user_id=?", (user_id,)
         )
 
         sudokus = cursor.fetchall()
