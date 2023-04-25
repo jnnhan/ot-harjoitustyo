@@ -15,4 +15,8 @@
 | 14.4. | 2        | UI: vaikeustasojen valinta |
 | 17.4. | 3        | testejä ja virheiden korjausta |
 | 18.4. | 4        | testejä, arkkitehtuuri.md |
-| yht   | 45       | |
+| 21.4. | 2        | sovelluslogiikan virheiden korjausta |
+| 22.4. | 2        | UI: pelinäkymä, virheiden korjausta |
+| 24.4. | 3        | UI: pelinäkymän parannus, pelitietojen tallennus |
+| 25.4. | 4        | testejä, sekvenssikaavio |
+| yht   | 56       | |
