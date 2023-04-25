@@ -27,7 +27,6 @@ poetry install
 
 ```bash
 poetry run invoke init
-poetry run invoke read-sudokus
 ```
 
 ### Aloitus
@@ -71,4 +70,9 @@ Esimerkki:
 032800000
 700400862
 800000405
-.medium1
+.medium
+```
+
+Uudet sudokut luetaan ja tallennetaan tietokantaan komennolla
+```bash
+poetry run invoke read-sudokus
