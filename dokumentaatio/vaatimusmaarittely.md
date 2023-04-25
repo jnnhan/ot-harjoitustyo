@@ -24,15 +24,15 @@ Sovellus on yksinpelattava sudoku, jossa on valittavissa eri vaikeustasoja. Käy
 - Käyttäjä voi merkata tyhjään ruudukkoon yhden tai useamman numeron
   - Useamman numeron tapauksessa ne näkyvät ruudukon yläreunassa "apunumeroina"
   - Jos ruudukossa on vain yksi numero, se näkyy suurempana keskellä ruudukkoa
-- Käyttäjä voi pyyhkiä merkkaamiaan numeroita ruudukoista
+- Käyttäjä voi pyyhkiä merkkaamiaan numeroita ruudukoista tai tyhjentää koko pelin
+- Jos kaikki ruudukot ovat täynnä ja virheitä ei havaita, peli päättyy
       
 ### Tekeillä:
 ### Kirjautumisen jälkeen 
 - Käyttäjä näkee tilastoja omista sudokuista
   - ratkaistujen sudokujen lukumäärä ja niihin kulunut aika
     
-### Pelaaminen
-- Jos kaikki ruudukot ovat täynnä ja virheitä ei havaita, peli päättyy
     
 ## Jatkokehitysideat
 - Käyttäjä voi pyytää vihjeitä keskeneräiseen sudokuun
+- Uusia sudokuja voi lisätä suoraan sovelluksen kautta, jolloin tämän toiminnallisuuden käyttöliittymä on parempi
