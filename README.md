@@ -3,6 +3,9 @@
 Tämä repositorio sisältää sekä **laskarit** että *harjoitustyön* kurssia Ohjelmistotekniikka varten.
 
 ## Harjoitustyö: sudoku
+### Uusin release
+[release viikko 5](https://github.com/jnnhan/ot-sudoku/releases/tag/viikko5)
+
 ### Dokumentaatio
 [vaatimusmaarittely](https://github.com/jnnhan/ot-sudoku/blob/main/dokumentaatio/vaatimusmaarittely.md)
 
