@@ -2,7 +2,7 @@ from ui.register_view import RegisterView
 from ui.login_view import LoginView
 from ui.main_view import MainView
 from ui.game_view import GameView
-from ui.easy_view import EasyView
+from ui.sudoku_select_view import SudokuSelectView
 
 
 class UI:
@@ -38,7 +38,7 @@ class UI:
     def _show_game_select(self, level=None):
         self._hide_current_view()
 
-        self._current_view = EasyView(
+        self._current_view = SudokuSelectView(
             self._root,
             self._show_main_view,
             self._show_game_view,

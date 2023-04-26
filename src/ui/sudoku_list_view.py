@@ -1,5 +1,4 @@
 from tkinter import ttk, constants
-from ui.game_view import GameView
 from services.sudoku_service import sudoku_service
 
 

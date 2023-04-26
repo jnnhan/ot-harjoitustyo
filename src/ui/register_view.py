@@ -1,5 +1,4 @@
 from tkinter import ttk, constants
-
 from services.sudoku_service import SudokuService
 
 

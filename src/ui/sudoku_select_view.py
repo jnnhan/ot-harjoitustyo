@@ -3,7 +3,7 @@ from services.sudoku_service import sudoku_service
 from ui.sudoku_list_view import SudokuListView
 
 
-class EasyView():
+class SudokuSelectView():
     def __init__(self, root, handle_return, handle_start_game, level):
         self._root = root
         self._frame = None
