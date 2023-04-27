@@ -26,6 +26,21 @@ class SudokuService:
     def get_sudokus(self, level):
         sudokus = self._sudoku_repository.get_sudokus(level)
         return sudokus
+    
+    def get_sudoku_id(self, sudoku):
+        sudoku_id = self._sudoku_repository.get_sudoku_id(sudoku.name)
+
+        return sudoku_id
+    
+    def get_user_id(self, user):
+        user_id = self._user_repository.get_user_id(user.username)
+
+        return user_id
+    
+    def get_playtime(self, user_id, sudoku_id):
+        playtime = self._sudoku_repository.get_playtime(user_id, sudoku_id)
+
+        return playtime
 
     def save_status(self):
         user = self.get_current_user()

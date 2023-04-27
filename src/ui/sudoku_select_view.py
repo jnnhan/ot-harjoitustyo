@@ -1,4 +1,5 @@
-from tkinter import ttk, constants
+from tkinter import ttk, constants, Canvas
+import tkinter as tk
 from services.sudoku_service import sudoku_service
 from ui.sudoku_list_view import SudokuListView
 
@@ -24,30 +25,36 @@ class SudokuSelectView():
         sudokus = sudoku_service.get_sudokus(self._level)
 
         self._sudoku_list_view = SudokuListView(
-            self._sudoku_list_frame,
+            self._frame,
             sudokus,
             self._handle_start_game
         )
 
-        self._sudoku_list_view.pack()
-
     def _initialize(self):
         self._frame = ttk.Frame(master=self._root)
-        self._sudoku_list_frame = ttk.Frame(master=self._frame)
 
-        return_button = ttk.Button(
+        self._frame.canvas = Canvas(
+            master=self._frame,
+            bg="white",
+            width=200,
+            height=50,
+            highlightthickness=0,
+            bd=0
+        )
+        self._frame.canvas.pack(fill=constants.Y)
+
+
+        return_button = tk.Button(
             master=self._frame,
             text="Main menu",
-            command=self._return_handler
+            command=self._return_handler,
+            bg="#f5b7b1"
         )
 
-        return_button.grid(columnspan=2, sticky=(
-            constants.E, constants.W), padx=5, pady=5)
+        self._frame.canvas.create_window(
+            100, 10, anchor='n', window=return_button)
 
         self._initialize_sudoku_list()
-
-        self._sudoku_list_frame.grid(
-            row=1, column=0, columnspan=3, sticky=constants.EW)
 
     def pack(self):
         self._frame.pack(fill=constants.X)

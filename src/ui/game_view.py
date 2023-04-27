@@ -1,4 +1,4 @@
-from tkinter import ttk, Canvas, Frame, TOP, BOTTOM, BOTH, constants
+from tkinter import ttk, Canvas, Frame, TOP, BOTH, constants
 import copy
 from services.sudoku_service import sudoku_service
 
@@ -79,11 +79,9 @@ class GameView:
 
     def _initialize(self):
         self._frame = Frame(master=self._root)
-        _frame2 = Frame(master=self._frame)
 
         self._root.title("Sudoku")
         self._frame.pack(fill=BOTH, expand=1)
-        _frame2.pack(fill=BOTH, side=BOTTOM)
 
         self._frame.canvas = Canvas(
             master=self._frame,
