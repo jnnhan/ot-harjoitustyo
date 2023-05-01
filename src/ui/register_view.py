@@ -5,7 +5,7 @@ from services.sudoku_service import SudokuService, InvalidCredentialsError, User
 
 class RegisterView:
     """UI view for registering a new username.
-    
+
         Attributes:
             root: parent element in which the current view is shown.
             frame: current Tkinter element.
@@ -37,7 +37,8 @@ class RegisterView:
     def _show_error(self, message):
         """Show error message"""
         self._error.set(message)
-        self._frame.canvas.create_window(200, 50, tags="error", window=self._error_label)
+        self._frame.canvas.create_window(
+            200, 50, tags="error", window=self._error_label)
 
     def _hide_error(self):
         """Hide error message"""
@@ -62,17 +63,20 @@ class RegisterView:
             self._show_error(error)
 
     def _initialize_username(self):
-        username_label = tk.Label(master=self._frame, text="Username", bg="white")
-        
+        username_label = tk.Label(
+            master=self._frame, text="Username", bg="white")
+
         self._username_entry = tk.Entry(master=self._frame, bg="#fdedec")
 
         self._frame.canvas.create_window(75, 75, window=username_label)
         self._frame.canvas.create_window(225, 75, window=self._username_entry)
 
     def _initialize_password(self):
-        password_label = tk.Label(master=self._frame, text="Password", bg="white")
+        password_label = tk.Label(
+            master=self._frame, text="Password", bg="white")
 
-        self._password_entry = tk.Entry(master=self._frame, show="*", bg="#fdedec")
+        self._password_entry = tk.Entry(
+            master=self._frame, show="*", bg="#fdedec")
 
         self._frame.canvas.create_window(75, 100, window=password_label)
         self._frame.canvas.create_window(225, 100, window=self._password_entry)
@@ -89,7 +93,7 @@ class RegisterView:
         )
         self._frame.canvas.pack(fill=constants.X)
 
-        self._frame.canvas.create_text(200, 25, text="Create a new username", 
+        self._frame.canvas.create_text(200, 25, text="Create a new username",
                                        font=("Arial", 12), fill="black")
 
         self._initialize_username()
@@ -114,7 +118,7 @@ class RegisterView:
 
         self._frame.canvas.create_window(
             200, 150, anchor='s', window=register_button)
-        
+
         self._error = StringVar(self._frame)
 
         self._error_label = tk.Label(

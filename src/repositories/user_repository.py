@@ -6,14 +6,14 @@ from entities.user import User
 class UserRepository:
     """A class that connects the database and SudokuService class.
         Handles User objects and the user table in the database.
-        
+
         Attributes:
             connection: the database connection.
     """
 
     def __init__(self, connection):
         """Initialize the repository class.
-        
+
             Args:
                 connection: database connection.
         """
@@ -23,10 +23,10 @@ class UserRepository:
     def create_user(self, user):
         """Save a new user to database.
             Hash password using werkzeug password hashing.
-            
+
             Args:
                 user: User object
-                
+
             Returns:
                 user: User object
         """
@@ -44,10 +44,10 @@ class UserRepository:
 
     def get_password(self, username):
         """Get hashed password from database.
-        
+
             Args:
                 username: username the user tries to login with.
-                
+
             Return:
                 password: hashed password connected with the given username.
         """
@@ -70,10 +70,10 @@ class UserRepository:
 
     def find_user(self, username):
         """Check if given username exists in the database.
-            
+
             Args:
                 username: user tries to log in with this username.
-                
+
             Returns:
                 user: User object if username existed, otherwise None.
         """
@@ -88,7 +88,7 @@ class UserRepository:
     def get_user_id(self, username):
         """Get user id matching given username.
             It's assumed that the user ecists.
-            
+
             Args:
                 username: currently logged in user.
 
@@ -103,7 +103,7 @@ class UserRepository:
 
     def find_all(self):
         """Find all users from database.
-        
+
             Returns: 
                 A list of User objects if users exist.
         """

@@ -52,7 +52,7 @@ class SudokuService:
 
         sudokus = self._sudoku_repository.get_sudokus(level)
         return sudokus
-    
+
     def get_sudoku_id(self, sudoku):
         """Returns an id for a specific sudoku given by the user.
 
@@ -66,13 +66,13 @@ class SudokuService:
         sudoku_id = self._sudoku_repository.get_sudoku_id(sudoku.name)
 
         return sudoku_id
-    
+
     def get_user_id(self, user):
         """Returns an id for a specific user.
-        
+
         Args:
             user: User object
-            
+
         Returns:
             user_id: the id for current user
         """
@@ -80,7 +80,7 @@ class SudokuService:
         user_id = self._user_repository.get_user_id(user.username)
 
         return user_id
-    
+
     def get_playtime(self, user_id, sudoku_id):
         """Get number of times a specific sudoku has been solved.
 
@@ -109,7 +109,7 @@ class SudokuService:
             Save the sudoku object as the current sudoku (self._sudoku).
         Args:
             sudoku: Sudoku object
-            
+
         Returns:
             puzzle: 9x9 matrix
         """
@@ -129,7 +129,7 @@ class SudokuService:
 
     def get_current_sudoku(self):
         """Get current sudoku.
-        
+
         Returns:
             sudoku: A sudoku object
         """
@@ -144,10 +144,10 @@ class SudokuService:
 
     def _check_numbers(self, numbers):
         """Check if a set of 9 numbers has each number 1,2,...,9 and only once.
-        
+
         Args:
             numbers: a list of numbers (either a row, column or a square).
-            
+
         Returns:
             True, if the list has all the numbers, otherwise False.
         """
@@ -219,14 +219,14 @@ class SudokuService:
         """Log user in if correct username and password have been given.
             User types the password and it has to match the corresponding hash password
             in the database.
-        
+
         Args:
             username: user's attempted username
             password: user's attempted password
-        
+
         Returns:
             user: User object if both the username and password were correct.
-        
+
         Raises:
             InvalidCredentialsError: if username or password is incorrect.
         """
@@ -246,7 +246,7 @@ class SudokuService:
 
     def get_current_user(self):
         """Get currently logged in user.
-        
+
         Returns:
             user: User object
         """
@@ -273,11 +273,13 @@ class SudokuService:
 
         if username_exists:
             raise UsernameExistsError(f"Username {username} is taken.")
-        
+
         if len(username) < 3:
-            raise InvalidCredentialsError("Username must be at least 3 characters long.")
-        elif len(password) < 4:
-            raise InvalidCredentialsError("Password must be at least 4 characters long.")
+            raise InvalidCredentialsError(
+                "Username must be at least 3 characters long.")
+        if len(password) < 4:
+            raise InvalidCredentialsError(
+                "Password must be at least 4 characters long.")
 
         user = self._user_repository.create_user(User(username, password))
 

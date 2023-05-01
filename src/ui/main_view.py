@@ -38,7 +38,7 @@ class MainView:
             command=self._logout_handler,
             bg="#a3e4d7"
         )
-        
+
         user_label = tk.Label(
             master=self._frame,
             text=f"Logged in as {self._user.username}",

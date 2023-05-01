@@ -6,7 +6,7 @@ from database_connection import get_database_connection
 class SudokuRepository:
     """A class connecting SudokuService class and database.
         Handles Sudoku objects and sudoku and stats tables in the database.
-        
+
         Attributes:
             connection: the database connection.
     """
@@ -47,7 +47,7 @@ class SudokuRepository:
 
         playtime = cursor.fetchone()
 
-        return playtime[0] if playtime else 0
+        return playtime[0] if playtime else None
 
     def save_status(self, user_id, sudoku_id):
         """Save or update the playtime of given sudoku.
@@ -64,12 +64,12 @@ class SudokuRepository:
 
         if playtime is None:
             cursor.execute(
-                "INSERT INTO stats (user_id, sudoku_id, playtime) values (?, ?, ?)", 
+                "INSERT INTO stats (user_id, sudoku_id, playtime) values (?, ?, ?)",
                 (user_id, sudoku_id, 1)
             )
         else:
             cursor.execute(
-                "UPDATE stats SET playtime=? WHERE user_id=? AND sudoku_id=?", 
+                "UPDATE stats SET playtime=? WHERE user_id=? AND sudoku_id=?",
                 ((playtime+1), user_id, sudoku_id)
             )
         self._connection.commit()
@@ -102,21 +102,19 @@ class SudokuRepository:
             name: name of the sudoku.
 
         Returns:
-            sudoku_id: id of the sudoku.
+            id of the sudoku.
         """
 
         cursor = self._connection.cursor()
 
         cursor.execute("SELECT * FROM sudokus WHERE name=?", (name,))
 
-        sudoku_id = cursor.fetchone()[0]
-
-        return sudoku_id
+        return cursor.fetchone()[0]
 
     def read_sudokus(self, file_path, level):
         """Read sudokus from given file. 
             Add sudokus to the database.
-            
+
             Args:
                 file_path: path to the sudoku file.
                 level: a level of the read sudokus.

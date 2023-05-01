@@ -45,7 +45,7 @@ class SudokuListView:
         self._frame.canvas.create_window(
             180, ((counter - 1) * 45 + 50), anchor='s', window=playtime_label
         )
-        
+
     def _initialize(self):
         self._frame.canvas = Canvas(
             master=self._frame,

@@ -43,7 +43,6 @@ class SudokuSelectView():
         )
         self._frame.canvas.pack(fill=constants.Y)
 
-
         return_button = tk.Button(
             master=self._frame,
             text="Main menu",

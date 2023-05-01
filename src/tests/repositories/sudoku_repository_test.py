@@ -71,5 +71,3 @@ class TestSudokuRepository(unittest.TestCase):
         self.assertEqual(sudoku.name, "testisudoku")
         self.assertEqual(sudoku.puzzle, "12345")
         self.assertEqual(sudoku.level, 1)
-
-
