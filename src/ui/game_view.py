@@ -8,10 +8,31 @@ WIDTH = HEIGHT = MARGIN * 2 + CELL * 9
 
 
 class GameView:
+    """UI view for playing a sudoku game.
+
+        Attributes:
+            root: parent element in which the current view is shown.
+            frame: current Tkinter element.
+            handle_return: UI view for selecting a new sudoku game of a certain level.
+            game_over: a flag to tell if game is over or not.
+            original: original sudoku to show which cells and numbers can't be emptied or altered.
+            puzzle: current playable sudoku.
+            row: a row user has clicked.
+            col: a column user has clicked.
+    """
+
     def __init__(self, root, puzzle, handle_return):
+        """Initialize the UI class.
+
+        Args:
+            root: parent element for current view.
+            puzzle: a sudoku puzzle, 9x9 matrix where empty cells are 0's.
+            handle_return: UI view for selecting a new sudoku game of a certain level.
+        """
+
         self._root = root
-        self._handle_return = handle_return
         self._frame = None
+        self._handle_return = handle_return
         self._game_over = False
         self._original = puzzle
         self._puzzle = copy.deepcopy(puzzle)
@@ -21,14 +42,25 @@ class GameView:
         self._initialize()
 
     def _return_handler(self):
+        """Handle the return to the view of selecting a sudoku.
+            First removes the knowledge of recently played sudoku.
+        """
+
         sudoku = sudoku_service.get_current_sudoku()
         sudoku_service.remove_current_sudoku()
         self._handle_return(sudoku.level)
 
     def _start_sudoku(self, puzzle):
+        """Start sudoku by copying the original sudoku.
+
+        Args:
+            puzzle: 9x9 sudoku matrix
+        """
+
         self._puzzle = copy.deepcopy(puzzle)
 
     def _clear_sudoku(self):
+        """Clear current sudoku if user wants to start over."""
         self._start_sudoku(self._original)
         self._frame.canvas.delete("win")
         self._game_over = False
@@ -36,6 +68,7 @@ class GameView:
         self._draw_numbers()
 
     def _clear_cell(self):
+        """Clear a single cell."""
         if len(self._frame.canvas.gettags("square")) != 0:
             self._puzzle[self.row][self.col].clear()
             self._puzzle[self.row][self.col].append(0)
@@ -44,6 +77,10 @@ class GameView:
         self._draw_square()
 
     def _display_buttons(self):
+        """Display menu buttons.
+            Show different buttons if the game was solved.
+        """
+
         if self._game_over:
             self._frame.canvas.delete("start")
 
@@ -78,6 +115,7 @@ class GameView:
                 250, (HEIGHT+25), tags="start", anchor='s', window=clear_cell_button)
 
     def _initialize(self):
+        """Initialize the game view."""
         self._frame = Frame(master=self._root)
 
         self._root.title("Sudoku")
@@ -112,6 +150,11 @@ class GameView:
         self._display_buttons()
 
     def _draw_square(self):
+        """Draw a square which highlights the cell user has clicked. 
+            A new click of the same cell removes the square.
+            If sudoku was solved on the last move square isn't drawn.
+        """
+
         if self._game_over:
             return
 
@@ -126,6 +169,13 @@ class GameView:
                 x0, y0, x1, y1, tags="square", outline="brown1")
 
     def _mouse_click(self, event):
+        """Handle the tkinter event of mouse click.
+            If user clicked inside the grid draw a square to correspongind cell.
+
+        Args:
+            event: Tkinter event for mouse click.
+        """
+
         if self._game_over:
             return
 
@@ -149,6 +199,7 @@ class GameView:
         self._draw_square()
 
     def _draw_win(self):
+        """Show a victory message if sudoku was solved correctly."""
         x = WIDTH / 2
         y = HEIGHT / 2
         self._frame.canvas.create_rectangle(
@@ -157,6 +208,14 @@ class GameView:
             x, y, text="voitit pelin :-)", tags="win", fill="red", font=('bold'))
 
     def _key_press(self, event):
+        """A tkinter event for handling a key press.
+            Only register key presses of numbers 1-9.
+            If latest key press filled the board check if sudoku was solved correctly.
+
+        Args:
+            event: tkinter event for key press.
+        """
+
         if self._game_over:
             return
 
@@ -181,6 +240,7 @@ class GameView:
                 sudoku_service.save_status()
 
     def _draw_numbers(self):
+        """Draw numbers to the grid."""
         self._frame.canvas.focus_set()
         self._frame.canvas.delete("numbers")
         for i in range(0, 9):
@@ -220,6 +280,7 @@ class GameView:
                             x, y, text=numbers[z], tags="numbers", fill=color, font=('Helvetica', '10'))
 
     def _draw_grid(self):
+        """Draw sudoku grid."""
         self._frame.canvas.create_rectangle(175, 25, 325, 175, fill="#fadbd8")
         self._frame.canvas.create_rectangle(25, 175, 175, 325, fill="#fadbd8")
         self._frame.canvas.create_rectangle(
@@ -243,7 +304,9 @@ class GameView:
             self._frame.canvas.create_line(h0, h1, h2, h3, fill=color)
 
     def destroy(self):
+        """Hide view."""
         self._frame.destroy()
 
     def pack(self):
+        """Show view."""
         self._frame.pack(fill=constants.X)
