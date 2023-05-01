@@ -23,3 +23,10 @@
 - Hiottu UI-luokan pelinäkymää: lisätty painike yksittäisen sudokuruudukon tyhjäykselle, ja paranneltu muiden painikkeiden asettelua. Sudokuruudukon visuaalisen ilmeen parannusta
 - Luotu testejä, joilla varmistetaan SudokuRepository-luokan toimivuus. Luotu myös testejä SudokuService-luokalle
 - Otettu käyttöön pylint-työkalu koodin laadun parantamiseksi
+
+## Viikko 5
+
+- Lisätty docstring-kommentteja
+- Hiottu graafista käyttöliittymää, paranneltu asetteluja ja värejä
+- Lisätty virheentarkistuksia ja virheviestejä käyttäjutunnuksen rekisteröintiin ja uusien sudokujen lukuun
+- Siirretty sudokut sisältävät tekstitiedostot data-hakemistoon
