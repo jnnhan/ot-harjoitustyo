@@ -18,6 +18,8 @@ Sovellus on yksinpelattava sudoku, jossa on valittavissa eri vaikeustasoja. Käy
 - Käyttäjä voi aloittaa uuden sudokun valitsemallaan vaikeustasolla
 - Käyttäjä voi kirjautua ulos sovelluksesta
 - Käyttäjä voi lisätä omia sudokuja sovellukseen muokkaamalla tekstitiedostoa
+- Käyttäjä näkee tilastoja omista sudokuista
+  - ratkaistujen sudokujen lukumäärä
 
 #### Pelaaminen
 - Sovellus sisältää eri vaikeustasoisia sudokuja.
@@ -29,8 +31,7 @@ Sovellus on yksinpelattava sudoku, jossa on valittavissa eri vaikeustasoja. Käy
       
 ### Tekeillä:
 ### Kirjautumisen jälkeen 
-- Käyttäjä näkee tilastoja omista sudokuista
-  - ratkaistujen sudokujen lukumäärä ja niihin kulunut aika
+- Jos tietyntasoisia sudokuja on useampi kuin neljä, näytä loput sudokut seuraavalla sivulla
     
     
 ## Jatkokehitysideat
