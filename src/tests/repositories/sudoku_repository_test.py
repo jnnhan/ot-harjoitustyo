@@ -69,5 +69,5 @@ class TestSudokuRepository(unittest.TestCase):
         sudoku = sudoku_repo.get_sudokus(1)[0]
 
         self.assertEqual(sudoku.name, "testisudoku")
-        self.assertEqual(sudoku.puzzle, "12345")
+        self.assertEqual(len(sudoku.puzzle), 81)
         self.assertEqual(sudoku.level, 1)

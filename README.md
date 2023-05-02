@@ -59,6 +59,14 @@ poetry run invoke coverage-report
 
 Raportti löytyy sovelluksen juurihakemistosta *htmlcov*-hakemistosta. Graafinen raportti löytyy tiedostosta *index.html*
 
+### Koodin laadun testaus
+
+Koodin laadun voi tarkistaa komennolla:
+
+```bash
+poetry run invoke lint
+```
+
 
 
 ## Sudokujen lisäys sovellukseen
