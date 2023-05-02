@@ -38,7 +38,7 @@ class RegisterView:
         """Show error message"""
         self._error.set(message)
         self._frame.canvas.create_window(
-            200, 50, tags="error", window=self._error_label)
+            150, 80, tags="error", window=self._error_label)
 
     def _hide_error(self):
         """Hide error message"""
@@ -68,8 +68,8 @@ class RegisterView:
 
         self._username_entry = tk.Entry(master=self._frame, bg="#fdedec")
 
-        self._frame.canvas.create_window(75, 75, window=username_label)
-        self._frame.canvas.create_window(225, 75, window=self._username_entry)
+        self._frame.canvas.create_window(50, 110, window=username_label)
+        self._frame.canvas.create_window(200, 110, window=self._username_entry)
 
     def _initialize_password(self):
         password_label = tk.Label(
@@ -78,8 +78,8 @@ class RegisterView:
         self._password_entry = tk.Entry(
             master=self._frame, show="*", bg="#fdedec")
 
-        self._frame.canvas.create_window(75, 100, window=password_label)
-        self._frame.canvas.create_window(225, 100, window=self._password_entry)
+        self._frame.canvas.create_window(50, 135, window=password_label)
+        self._frame.canvas.create_window(200, 135, window=self._password_entry)
 
     def _initialize(self):
         """Initialize the view for creating a new user."""
@@ -88,12 +88,12 @@ class RegisterView:
         self._frame.canvas = Canvas(
             master=self._frame,
             bg="white",
-            width=400,
-            height=200
+            width=300,
+            height=250
         )
         self._frame.canvas.pack(fill=constants.X)
 
-        self._frame.canvas.create_text(200, 25, text="Create a new username",
+        self._frame.canvas.create_text(150, 50, text="Create a new username",
                                        font=("Arial", 12), fill="black")
 
         self._initialize_username()
@@ -103,21 +103,25 @@ class RegisterView:
             master=self._frame,
             text="Register",
             command=self._register_handler,
-            bg="#f7dc6f"
+            bg="#f7dc6f",
+            activebackground="#f1c40f",
+            width=30
         )
 
         login_button = tk.Button(
             master=self._frame,
-            text="Login",
+            text="Return",
             command=self._handle_show_login_view,
-            bg="#a3e4d7"
+            bg="#a3e4d7",
+            activebackground="#48c9b0",
+            width=30
         )
 
         self._frame.canvas.create_window(
-            200, 190, anchor='s', window=login_button)
+            150, 240, anchor='s', window=login_button)
 
         self._frame.canvas.create_window(
-            200, 150, anchor='s', window=register_button)
+            150, 200, anchor='s', window=register_button)
 
         self._error = StringVar(self._frame)
 

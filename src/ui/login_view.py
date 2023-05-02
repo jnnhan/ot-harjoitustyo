@@ -39,7 +39,7 @@ class LoginView:
         """Show error message"""
         self._error.set(message)
         self._frame.canvas.create_window(
-            200, 140, tags="error", window=self._error_label)
+            150, 75, tags="error", window=self._error_label)
 
     def _hide_error(self):
         """Hide error message"""
@@ -65,8 +65,8 @@ class LoginView:
 
         self._username_entry = tk.Entry(master=self._frame, bg="#fdedec")
 
-        self._frame.canvas.create_window(90, 150, window=username_label)
-        self._frame.canvas.create_window(250, 150, window=self._username_entry)
+        self._frame.canvas.create_window(50, 110, window=username_label)
+        self._frame.canvas.create_window(200, 110, window=self._username_entry)
 
     def _initialize_password(self):
         password_label = tk.Label(
@@ -75,8 +75,8 @@ class LoginView:
         self._password_entry = tk.Entry(
             master=self._frame, show="*", bg="#fdedec")
 
-        self._frame.canvas.create_window(90, 175, window=password_label)
-        self._frame.canvas.create_window(250, 175, window=self._password_entry)
+        self._frame.canvas.create_window(50, 135, window=password_label)
+        self._frame.canvas.create_window(200, 135, window=self._password_entry)
 
     def _initialize(self):
         """Initialize the login view."""
@@ -85,13 +85,13 @@ class LoginView:
         self._frame.canvas = Canvas(
             master=self._frame,
             bg="white",
-            width=400,
-            height=300
+            width=300,
+            height=250
         )
         self._frame.canvas.pack(fill=constants.X)
 
         self._frame.canvas.create_text(
-            200, 80, text="SUDOKU", font=("Georgia", 35), fill="#1abc9c")
+            150, 50, text="SUDOKU", font=("Georgia", 35), fill="#1abc9c")
 
         self._initialize_username()
         self._initialize_password()
@@ -100,29 +100,33 @@ class LoginView:
             master=self._frame,
             text="Create a new user",
             command=self._handle_show_register_view,
-            bg="#a3e4d7"
+            bg="#a3e4d7",
+            activebackground="#48c9b0",
+            width=30
         )
 
         login_button = tk.Button(
             master=self._frame,
             text="Login",
             command=self._login_handler,
-            bg="#f7dc6f"
+            bg="#f7dc6f",
+            activebackground="#f1c40f",
+            width=30
         )
         self._frame.canvas.create_window(
-            200, 250, anchor='s', window=login_button)
+            150, 200, anchor='s', window=login_button)
 
         self._frame.canvas.create_window(
-            200, 290, anchor='s', window=register_button)
+            150, 240, anchor='s', window=register_button)
 
         self._error = StringVar(self._frame)
 
         self._error_label = tk.Label(
             master=self._frame,
             textvariable=self._error,
-            bg="#ff8a65",
+            bg="white",
             fg="red",
-            font=('bold', 14)
+            font=('bold', 11)
         )
 
         self._hide_error()

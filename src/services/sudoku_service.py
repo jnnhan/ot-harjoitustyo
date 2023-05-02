@@ -276,10 +276,10 @@ class SudokuService:
 
         if len(username) < 3:
             raise InvalidCredentialsError(
-                "Username must be at least 3 characters long.")
+                "Username must be at least\n 3 characters long.")
         if len(password) < 4:
             raise InvalidCredentialsError(
-                "Password must be at least 4 characters long.")
+                "Password must be at least\n 4 characters long.")
 
         user = self._user_repository.create_user(User(username, password))
 

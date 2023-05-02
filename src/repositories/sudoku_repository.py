@@ -113,7 +113,7 @@ class SudokuRepository:
 
     def read_sudokus(self, file_path, level):
         """Read sudokus from given file. 
-            Add sudokus to the database.
+            Add sudokus to the database if amount of numbers is 81 and sudoku contains only numbers.
 
             Args:
                 file_path: path to the sudoku file.
@@ -128,10 +128,12 @@ class SudokuRepository:
                 parts = row.split("\n")
 
                 if parts[0].startswith("."):
-                    self.create_sudoku(
-                        Sudoku(parts[0][1:], content, level))
-                    content = ""
+                    if len(content) == 81:
+                        self.create_sudoku(
+                            Sudoku(parts[0][1:], content, level))
+                        content = ""
                 else:
+                    # TODO: check if the string contains only numbers
                     content += parts[0]
 
     def create_sudoku(self, sudoku):

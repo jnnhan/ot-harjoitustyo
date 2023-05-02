@@ -45,13 +45,14 @@ class SudokuSelectView():
 
         return_button = tk.Button(
             master=self._frame,
-            text="Main menu",
+            text="Return",
             command=self._return_handler,
-            bg="#f5b7b1"
+            bg="#a3e4d7",
+            activebackground="#1abc9c"
         )
 
         self._frame.canvas.create_window(
-            100, 10, anchor='n', window=return_button)
+            100, 20, anchor='n', window=return_button)
 
         self._initialize_sudoku_list()
 

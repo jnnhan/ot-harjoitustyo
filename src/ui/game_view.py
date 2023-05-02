@@ -1,4 +1,5 @@
 from tkinter import ttk, Canvas, Frame, TOP, BOTH, constants
+import tkinter as tk
 import copy
 from services.sudoku_service import sudoku_service
 
@@ -84,10 +85,12 @@ class GameView:
         if self._game_over:
             self._frame.canvas.delete("start")
 
-            clear_button = ttk.Button(
+            clear_button = tk.Button(
                 master=self._frame.canvas,
                 text="Play again",
-                command=self._clear_sudoku
+                command=self._clear_sudoku,
+                bg="#f5b041",
+                activebackground="#f39c12"
             )
 
             self._frame.canvas.create_window(
@@ -96,19 +99,23 @@ class GameView:
         else:
             self._frame.canvas.delete("again")
 
-            clear_button = ttk.Button(
+            clear_button = tk.Button(
                 master=self._frame.canvas,
                 text="Clear sudoku",
-                command=self._clear_sudoku
+                command=self._clear_sudoku,
+                bg="#f5b041",
+                activebackground="#f39c12"
             )
 
             self._frame.canvas.create_window(
                 100, (HEIGHT+25), tags="start", anchor='s', window=clear_button)
 
-            clear_cell_button = ttk.Button(
+            clear_cell_button = tk.Button(
                 master=self._frame.canvas,
                 text="Clear cell",
-                command=self._clear_cell
+                command=self._clear_cell,
+                bg="#f5b041",
+                activebackground="#f39c12"
             )
 
             self._frame.canvas.create_window(
@@ -117,19 +124,17 @@ class GameView:
     def _initialize(self):
         """Initialize the game view."""
         self._frame = Frame(master=self._root)
-
-        self._root.title("Sudoku")
         self._frame.pack(fill=BOTH, expand=1)
 
         self._frame.canvas = Canvas(
             master=self._frame,
-            bg="brown1",
+            bg="white",
             width=WIDTH,
             height=(HEIGHT + 50)
         )
         self._frame.canvas.pack(fill=constants.X, side=TOP)
         self._frame.canvas.create_rectangle(
-            25, 25, (WIDTH-25), (HEIGHT-25), fill="white")
+            25, 25, (WIDTH-25), (HEIGHT-25), fill="#fdebd0")
 
         self._draw_grid()
         self._draw_numbers()
@@ -137,10 +142,12 @@ class GameView:
         self._frame.canvas.bind("<1>", self._mouse_click)
         self._frame.canvas.bind("<Key>", self._key_press)
 
-        return_button = ttk.Button(
+        return_button = tk.Button(
             master=self._frame.canvas,
             text="Return",
-            command=self._return_handler
+            command=self._return_handler,
+            bg="#f5b041",
+            activebackground="#f39c12"
         )
 
         self._frame.canvas.create_window(
@@ -166,7 +173,7 @@ class GameView:
             y1 = MARGIN + CELL * self.row - 1
 
             self._frame.canvas.create_rectangle(
-                x0, y0, x1, y1, tags="square", outline="brown1")
+                x0, y0, x1, y1, tags="square", outline="#c62828", width=3)
 
     def _mouse_click(self, event):
         """Handle the tkinter event of mouse click.
@@ -199,13 +206,14 @@ class GameView:
         self._draw_square()
 
     def _draw_win(self):
+        self._frame.canvas.delete("square")
         """Show a victory message if sudoku was solved correctly."""
         x = WIDTH / 2
         y = HEIGHT / 2
         self._frame.canvas.create_rectangle(
-            100, 200, 400, 300, fill="pink", tags="win")
+            100, 200, 400, 300, fill="#e74c3c", tags="win")
         self._frame.canvas.create_text(
-            x, y, text="voitit pelin :-)", tags="win", fill="red", font=('bold'))
+            x, y, text="YOU WIN", tags="win", fill="white", font=('bold'))
 
     def _key_press(self, event):
         """A tkinter event for handling a key press.
@@ -251,7 +259,7 @@ class GameView:
                         if numbers[0] == self._original[i][j][0]:
                             color = "gray9"
                         else:
-                            color = "brown1"
+                            color = "#e74c3c"
 
                         x = MARGIN + (j+0.5) * CELL
                         y = MARGIN + (i+0.5) * CELL
@@ -281,12 +289,12 @@ class GameView:
 
     def _draw_grid(self):
         """Draw sudoku grid."""
-        self._frame.canvas.create_rectangle(175, 25, 325, 175, fill="#fadbd8")
-        self._frame.canvas.create_rectangle(25, 175, 175, 325, fill="#fadbd8")
+        self._frame.canvas.create_rectangle(175, 25, 325, 175, fill="#f7dc6f")
+        self._frame.canvas.create_rectangle(25, 175, 175, 325, fill="#f7dc6f")
         self._frame.canvas.create_rectangle(
-            325, 175, (WIDTH-25), 325, fill="#fadbd8")
+            325, 175, (WIDTH-25), 325, fill="#f7dc6f")
         self._frame.canvas.create_rectangle(
-            175, 325, 325, (HEIGHT-25), fill="#fadbd8")
+            175, 325, 325, (HEIGHT-25), fill="#f7dc6f")
 
         for i in range(0, 10):
             color = "black" if i % 3 == 0 else "grey"
