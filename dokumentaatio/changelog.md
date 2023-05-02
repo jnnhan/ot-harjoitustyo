@@ -24,9 +24,10 @@
 - Luotu testejä, joilla varmistetaan SudokuRepository-luokan toimivuus. Luotu myös testejä SudokuService-luokalle
 - Otettu käyttöön pylint-työkalu koodin laadun parantamiseksi
 
-## Viikko 5
+## Viikko 6
 
 - Lisätty docstring-kommentteja
 - Hiottu graafista käyttöliittymää, paranneltu asetteluja ja värejä
 - Lisätty virheentarkistuksia ja virheviestejä käyttäjutunnuksen rekisteröintiin ja uusien sudokujen lukuun
 - Siirretty sudokut sisältävät tekstitiedostot data-hakemistoon
+- Lisätty käyttöohje

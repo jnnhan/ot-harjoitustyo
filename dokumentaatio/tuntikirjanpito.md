@@ -19,4 +19,9 @@
 | 22.4. | 2        | UI: pelinäkymä, virheiden korjausta |
 | 24.4. | 3        | UI: pelinäkymän parannus, pelitietojen tallennus |
 | 25.4. | 4        | testejä, sekvenssikaavio |
-| yht   | 56       | |
+| 27.4. | 2        | UI: paranneltu näkymiä |
+| 29.4. | 2        | testejä |
+| 30.4. | 2        | docstring-kommentteja |
+| 1.5.  | 3        | docstring ja testejä |
+| 2.5.  | 5        | docstring, käyttöohjeen teko, virheenkorjausta ja GUI:n parannus |
+| yht   | 70       | |
