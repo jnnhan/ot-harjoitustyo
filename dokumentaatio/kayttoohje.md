@@ -20,7 +20,7 @@ poetry run invoke start
 
 Sovellus käynnistyy kirjautumisnäkymään:
 
-![](.kuvat/login.png)
+![kirjautuminen](./kuvat/login.png)
 
 Kirjautuminen tapahtuu syöttämällä olemassaoleva käyttäjätunnus ja sitä vastaava salasana syötekenttiin ja painamalla "Login"-painiketta.
 
@@ -28,7 +28,7 @@ Kirjautuminen tapahtuu syöttämällä olemassaoleva käyttäjätunnus ja sitä 
 
 Kirjautumisnäkymästä voi siirtyä uuden käyttäjätunnuksen luontiin painamalla "Create a new user"-painiketta. Avautuviin kenttiin syötetään käyttäjätunnus (vähintään 3 merkkiä) ja salasana (vähintään 4 merkkiä), ja painetaan "Register"-painiketta. 
 
-![](.kuvat/register.png)
+![rekisteröinti](./kuvat/register.png)
 
 Jos käyttäjätunnuksen luominen onnistui, sovellus palaa kirjautumisnäkymään.
 
@@ -36,22 +36,22 @@ Jos käyttäjätunnuksen luominen onnistui, sovellus palaa kirjautumisnäkymää
 
 Sisäänkirjautumisen onnistuttua siirrytään näkymään, jossa voi valita sudokun vaikeustason:
 
-![](.kuvat/select.png)
+![vaikeustason valinta](./kuvat/select.png)
 
 Vaikeustason valinnan jälkeen valitaan jokin sudokuista:
 
-![](.kuvat/sudokuselect.png)
+![sudokun valinta](./kuvat/sudokuselect.png)
 
 ## Pelaaminen
 
 Sudokun valinnan jälkeen siirrytään pelinäkymään:
 
-![](.kuvat/play.png)
+![pelaaminen](./kuvat/play.png)
 
 Mustia numeroita ei voi muuttaa, mutta tyhjiin ruutuihin voi syöttää numeronäppäimillä numeroita. Syöttämällä yhteen ruutuun useamman numeron voi merkitä itselleen apunumeroita, eli ruutuun mahdollisesti tulevia numeroita.
 
 Kaikkien ruutujen ollessa täynnä ja oikein syötettyjä peli päättyy:
 
-![](.kuvat/win.png)
+![voitto](./kuvat/win.png)
 
 Voiton jälkeen sudokun voi ratkaista uudestaan, tai palata takaisin ja valita toisen sudokun.
