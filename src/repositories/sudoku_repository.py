@@ -133,8 +133,8 @@ class SudokuRepository:
                             Sudoku(parts[0][1:], content, level))
                         content = ""
                 else:
-                    # TODO: check if the string contains only numbers
-                    content += parts[0]
+                    if content == "" or content.isnumeric():
+                        content += parts[0]
 
     def create_sudoku(self, sudoku):
         """Save sudoku to the database.
@@ -166,7 +166,7 @@ class SudokuRepository:
         """
 
         cursor = self._connection.cursor()
-        cursor.execute("SELECT * FROM sudokus WHERE level=?", (level,))
+        cursor.execute("SELECT * FROM sudokus WHERE level=? ORDER BY name", (level,))
 
         sudokus = cursor.fetchall()
 
