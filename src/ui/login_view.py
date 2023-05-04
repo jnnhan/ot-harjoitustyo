@@ -39,13 +39,13 @@ class LoginView:
         """Show error message"""
         self._error.set(message)
         self._frame.canvas.create_window(
-            150, 75, tags="error", window=self._error_label)
+            250, 220, tags="error", window=self._error_label)
 
     def _hide_error(self):
         """Hide error message"""
         self._frame.canvas.delete("error")
 
-    def _login_handler(self):
+    def _login_handler(self, event=None):
         """Handle the attempt to log in.
             Show error message if password or username was incorrect.
         """
@@ -65,8 +65,8 @@ class LoginView:
 
         self._username_entry = tk.Entry(master=self._frame, bg="#fdedec")
 
-        self._frame.canvas.create_window(50, 110, window=username_label)
-        self._frame.canvas.create_window(200, 110, window=self._username_entry)
+        self._frame.canvas.create_window(150, 265, window=username_label)
+        self._frame.canvas.create_window(300, 265, window=self._username_entry)
 
     def _initialize_password(self):
         password_label = tk.Label(
@@ -75,8 +75,8 @@ class LoginView:
         self._password_entry = tk.Entry(
             master=self._frame, show="*", bg="#fdedec")
 
-        self._frame.canvas.create_window(50, 135, window=password_label)
-        self._frame.canvas.create_window(200, 135, window=self._password_entry)
+        self._frame.canvas.create_window(150, 290, window=password_label)
+        self._frame.canvas.create_window(300, 290, window=self._password_entry)
 
     def _initialize(self):
         """Initialize the login view."""
@@ -85,13 +85,13 @@ class LoginView:
         self._frame.canvas = Canvas(
             master=self._frame,
             bg="white",
-            width=300,
-            height=250
+            width=500,
+            height=550
         )
         self._frame.canvas.pack(fill=constants.X)
 
         self._frame.canvas.create_text(
-            150, 50, text="SUDOKU", font=("Georgia", 35), fill="#1abc9c")
+            250, 150, text="SUDOKU", font=("Georgia", 35), fill="#1abc9c")
 
         self._initialize_username()
         self._initialize_password()
@@ -113,11 +113,16 @@ class LoginView:
             activebackground="#f1c40f",
             width=30
         )
-        self._frame.canvas.create_window(
-            150, 200, anchor='s', window=login_button)
 
         self._frame.canvas.create_window(
-            150, 240, anchor='s', window=register_button)
+            250, 400, anchor='s', window=login_button)
+
+        self._frame.canvas.create_window(
+            250, 440, anchor='s', window=register_button)
+        
+        self._username_entry.focus_set()
+        
+        self._password_entry.bind("<Return>", self._login_handler)
 
         self._error = StringVar(self._frame)
 

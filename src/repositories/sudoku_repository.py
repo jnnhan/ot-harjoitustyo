@@ -74,26 +74,25 @@ class SudokuRepository:
             )
         self._connection.commit()
 
-    def get_user_sudokus(self, user_id):
-        """Get all sudokus solved by the user.
+    def get_user_playtime(self, user_id):
+        """Get number of times sudokus have been solved by the user.
 
         Args:
             user_id: id of currently logged in user.
 
         Returns:
-            sudokus: a list of info about sudokus solved by the user.
+            sudokus: a number of times sudokus have been solved by the user.
         """
 
         cursor = self._connection.cursor()
 
         cursor.execute(
-            "SELECT sudokus.id, name, puzzle, level, playtime FROM\
-            stats, sudokus WHERE stats.user_id=?", (user_id,)
+            "SELECT SUM(playtime) FROM stats WHERE user_id=?", (user_id,)
         )
 
-        sudokus = cursor.fetchall()
+        playtime = cursor.fetchone()
 
-        return sudokus
+        return playtime[0]
 
     def get_sudoku_id(self, name):
         """Get id of given sudoku.
@@ -128,7 +127,7 @@ class SudokuRepository:
                 parts = row.split("\n")
 
                 if parts[0].startswith("."):
-                    if len(content) == 81:
+                    if len(content) == 81 and len(parts[0]) <= 11:
                         self.create_sudoku(
                             Sudoku(parts[0][1:], content, level))
                         content = ""

@@ -12,7 +12,8 @@ class MainView:
             frame: current Tkinter element.
             handle_logout: UI view for the login screen.
             handle_game: UI view for selecting a sudoku of chosen level.
-            user: currently logged in user.           
+            user: currently logged in user.
+            playtime: number of times sudokus have been solved by the user.   
     """
 
     def __init__(self, root, handle_logout, handle_select_game):
@@ -29,6 +30,7 @@ class MainView:
         self._handle_logout = handle_logout
         self._handle_select_game = handle_select_game
         self._user = sudoku_service.get_current_user()
+        self._playtime = sudoku_service.get_user_playtime(self._user)
 
         self._initialize()
 
@@ -53,8 +55,8 @@ class MainView:
         self._frame.canvas = Canvas(
             master=self._frame,
             bg="white",
-            width=300,
-            height=210
+            width=500,
+            height=550
         )
 
         self._frame.canvas.pack(fill=constants.X)
@@ -67,18 +69,12 @@ class MainView:
             activebackground="#1abc9c"
         )
 
-        user_label = tk.Label(
-            master=self._frame,
-            text=f"Logged in as {self._user.username}",
-            bg="white",
-            fg="#1abc9c"
-        )
-
         self._frame.canvas.create_window(
-            250, 10, anchor='n', window=logout_button)
-
-        self._frame.canvas.create_window(
-            100, 40, anchor='s', window=user_label)
+            450, 20, anchor='n', window=logout_button)
+        
+        self._frame.canvas.create_text(100, 25, text=f"Logged in as {self._user.username}", fill="#1abc9c")
+        self._frame.canvas.create_text(100, 60, text=f"Sudokus solved: {self._playtime}", fill="black")
+        self._frame.canvas.create_text(250, 150, text="Select a level", fill="black", font=('bold', 13))
 
         for i in range(1, 4):
             leveltxt = ""
@@ -106,11 +102,12 @@ class MainView:
                 bg=bg,
                 activebackground=abg,
                 activeforeground=afg,
-                width=20
+                width=20,
+                height=3
             )
 
             self._frame.canvas.create_window(
-                150, (i * 50 + 25), window=game_button
+                250, (i * 100 + 120), window=game_button
             )
 
     def pack(self):

@@ -52,6 +52,21 @@ class SudokuService:
 
         sudokus = self._sudoku_repository.get_sudokus(level)
         return sudokus
+    
+    def get_user_playtime(self, user):
+        """Get a number of times sudokus have been played by user.
+
+        Args:
+            user: User object
+
+        Returns:
+            playtime: number of times sudokus have been solved by the user.
+        """
+
+        user_id = self.get_user_id(user)
+        playtime = self._sudoku_repository.get_user_playtime(user_id)
+
+        return playtime
 
     def get_sudoku_id(self, sudoku):
         """Returns an id for a specific sudoku given by the user.

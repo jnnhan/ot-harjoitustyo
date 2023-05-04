@@ -36,7 +36,7 @@ class SudokuSelectView():
         self._frame.canvas = Canvas(
             master=self._frame,
             bg="white",
-            width=200,
+            width=500,
             height=50,
             highlightthickness=0,
             bd=0
@@ -52,7 +52,7 @@ class SudokuSelectView():
         )
 
         self._frame.canvas.create_window(
-            100, 20, anchor='n', window=return_button)
+            250, 20, anchor='n', window=return_button)
 
         self._initialize_sudoku_list()
 
