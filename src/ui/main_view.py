@@ -11,24 +11,27 @@ class MainView:
             root: parent element in which the current view is shown.
             frame: current Tkinter element.
             handle_logout: UI view for the login screen.
-            handle_game: UI view for selecting a sudoku of chosen level.
+            handle_select_game: UI view for selecting a sudoku of chosen level.
+            handle_add_sudoku: UI view for adding new sudokus.
             user: currently logged in user.
             playtime: number of times sudokus have been solved by the user.   
     """
 
-    def __init__(self, root, handle_logout, handle_select_game):
+    def __init__(self, root, handle_logout, handle_select_game, handle_add_sudoku):
         """Initialize the UI class.
 
         Args:
             root: parent element in which the current view is shown.
             handle_logout: handles logging out and shows the login view.
             handle_game: shows the view for selecting a sudoku of chosen level.
+            handle_add_sudoku: shows the view for adding new sudokus.
         """
 
         self._root = root
         self._frame = None
         self._handle_logout = handle_logout
         self._handle_select_game = handle_select_game
+        self._handle_add_sudoku = handle_add_sudoku
         self._user = sudoku_service.get_current_user()
         self._playtime = sudoku_service.get_user_playtime(self._user)
 
@@ -47,6 +50,10 @@ class MainView:
         """Handle the user's logging out."""
         sudoku_service.logout()
         self._handle_logout()
+
+    def _add_sudoku_handler(self):
+        """Show the view for adding a new sudoku."""
+        self._handle_add_sudoku()
 
     def _initialize(self):
         """Initialize the main view."""
@@ -69,11 +76,22 @@ class MainView:
             activebackground="#1abc9c"
         )
 
+        add_sudoku_button = tk.Button(
+            master=self._frame,
+            text="Add sudoku",
+            command=self._add_sudoku_handler,
+            bg="#a3e4d7",
+            activebackground="#1abc9c"
+        )
+
         self._frame.canvas.create_window(
             450, 20, anchor='n', window=logout_button)
+        
+        self._frame.canvas.create_window(
+            350, 20, anchor='n', window=add_sudoku_button)
 
         self._frame.canvas.create_text(
-            100, 25, text=f"Logged in as {self._user.username}", fill="#1abc9c")
+            100, 30, text=f"Logged in as {self._user.username}", fill="#1abc9c")
         self._frame.canvas.create_text(
             100, 60, text=f"Sudokus solved: {self._playtime}", fill="black")
         self._frame.canvas.create_text(

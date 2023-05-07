@@ -1,7 +1,13 @@
 from werkzeug.security import check_password_hash
 from entities.user import User
+from entities.sudoku import Sudoku
 from repositories.user_repository import user_repo as default_user_repository
-from repositories.sudoku_repository import sudoku_repo as default_sudoku_repository
+from repositories.sudoku_repository import sudoku_repo as default_sudoku_repository, SudokuExistsError
+from config import (
+    EASY_FILE_PATH,
+    MEDIUM_FILE_PATH,
+    HARD_FILE_PATH
+)
 
 
 class InvalidCredentialsError(Exception):
@@ -9,6 +15,10 @@ class InvalidCredentialsError(Exception):
 
 
 class UsernameExistsError(Exception):
+    pass
+
+
+class InvalidSudokuInputError(Exception):
     pass
 
 
@@ -52,6 +62,44 @@ class SudokuService:
 
         sudokus = self._sudoku_repository.get_sudokus(level)
         return sudokus
+    
+    def save_sudoku(self, name, level, puzzle):
+        """Save a new sudoku to the database if user inputs are valid.
+            Also writes the new sudoku to file.
+
+        Args:
+            name: a name for the new sudoku.
+            level: level of the new sudoku.
+            puzzle: new sudoku.
+
+        Raises:
+            InvalidSudokuInputError: Raise the error if name of the sudoku is too long or too short,
+                if level of sudoku is incorrect or if sudoku contains letters or is invalid length.
+            SudokuExistsError: Raise the error if sudoku with same name or numbers exists.
+        """
+
+        if len(name) > 12 or len(name) < 1:
+            raise InvalidSudokuInputError("Name of sudoku must be 1-12 characters")
+        
+        if not level.isnumeric() or int(level) < 1 or int(level) > 3:
+            raise InvalidSudokuInputError("Level of sudoku must be a number between 1-3")
+        
+        if not puzzle.isnumeric() or len(puzzle) != 81:
+            raise InvalidSudokuInputError("Sudoku must contain exactly 81 numbers")
+        
+        try:
+            file_path = ""
+            sudoku = Sudoku(name, puzzle, int(level))
+            self._sudoku_repository.create_sudoku(sudoku)
+            if int(level) == 1:
+                file_path = EASY_FILE_PATH
+            elif int(level) == 2:
+                file_path = MEDIUM_FILE_PATH
+            elif int(level) == 3:
+                file_path = HARD_FILE_PATH
+            self._sudoku_repository.write_in_file(file_path, sudoku)
+        except SudokuExistsError as error:
+            raise SudokuExistsError(error)
 
     def get_user_playtime(self, user):
         """Get a number of times sudokus have been played by user.

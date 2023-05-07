@@ -1,7 +1,11 @@
+from pathlib import Path
 from sqlite3 import IntegrityError
 from entities.sudoku import Sudoku
 from database_connection import get_database_connection
 
+
+class SudokuExistsError(Exception):
+    pass
 
 class SudokuRepository:
     """A class connecting SudokuService class and database.
@@ -110,6 +114,15 @@ class SudokuRepository:
 
         return cursor.fetchone()[0]
 
+    def _file_exists(self, file_path):
+        """Ensure that the given file exists by creating it if it doesn't exist already.
+        
+            Args:
+                file_path: A path to the file.
+        """
+
+        Path(file_path).touch()
+
     def read_sudokus(self, file_path, level):
         """Read sudokus from given file. 
             Add sudokus to the database if amount of numbers is 81 and sudoku contains only numbers.
@@ -120,6 +133,8 @@ class SudokuRepository:
         """
 
         content = ""
+
+        self._file_exists(file_path)
 
         with open(file_path, "r", encoding="utf-8") as file:
             for row in file:
@@ -134,6 +149,27 @@ class SudokuRepository:
                 else:
                     if content == "" or content.isnumeric():
                         content += parts[0]
+
+    def write_in_file(self, file_path, sudoku):
+        """Write a sudoku in given file.
+
+        Args:
+            file_path: Path to the file.
+            sudoku: A sudoku object.
+        """
+
+        self._file_exists(file_path)
+        pointer = 0
+
+        with open(file_path, "a", encoding="utf-8") as file:
+            for x in range(0, 9):
+                row = sudoku.puzzle[pointer:(pointer+9)]
+
+                file.write(row+"\n")
+                pointer += 9
+
+            row = "." + sudoku.name
+            file.write(row+"\n")
 
     def create_sudoku(self, sudoku):
         """Save sudoku to the database.
@@ -152,7 +188,7 @@ class SudokuRepository:
 
             self._connection.commit()
         except IntegrityError:
-            pass
+            raise SudokuExistsError("Sudoku of given name or numbers already exists")
 
     def get_sudokus(self, level):
         """Get all the sudokus of the given level.
