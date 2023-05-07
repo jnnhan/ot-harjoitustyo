@@ -127,7 +127,7 @@ class SudokuRepository:
                 parts = row.split("\n")
 
                 if parts[0].startswith("."):
-                    if len(content) == 81 and len(parts[0]) <= 11:
+                    if len(content) == 81 and len(parts[0]) <= 12:
                         self.create_sudoku(
                             Sudoku(parts[0][1:], content, level))
                         content = ""
@@ -165,7 +165,8 @@ class SudokuRepository:
         """
 
         cursor = self._connection.cursor()
-        cursor.execute("SELECT * FROM sudokus WHERE level=? ORDER BY name", (level,))
+        cursor.execute(
+            "SELECT * FROM sudokus WHERE level=? ORDER BY name", (level,))
 
         sudokus = cursor.fetchall()
 

@@ -32,7 +32,7 @@ class SudokuListView:
         self._user = sudoku_service.get_current_user()
         self._counter = 0
         self._pages = (
-            len(self._sudokus)//9 if len(self._sudokus)%9 != 0 else len(self._sudokus)//9 - 1)
+            len(self._sudokus)//9 if len(self._sudokus) % 9 != 0 else len(self._sudokus)//9 - 1)
         self._current_page = 0
         self._buttons = defaultdict(list)
         self._handle_start_game = handle_start_game
@@ -66,7 +66,7 @@ class SudokuListView:
             master=self._frame,
             text=sudoku.name,
             command=lambda: self._start_sudoku_handler(sudoku),
-            bg = "#f5b041",
+            bg="#f5b041",
             activebackground="#f39c12",
             width=9,
             height=2
@@ -80,7 +80,7 @@ class SudokuListView:
             y = 3
 
         button = self._frame.canvas.create_window(
-            ((400/3)*((counter%3)+1)-25), (y * 100 + 75), anchor='s', window=start_sudoku_button
+            ((400/3)*((counter % 3)+1)-25), (y * 100 + 75), anchor='s', window=start_sudoku_button
         )
 
         user_id = sudoku_service.get_user_id(self._user)
@@ -95,7 +95,7 @@ class SudokuListView:
         )
 
         label = self._frame.canvas.create_window(
-            ((400/3)*((self._counter%3)+1)-25), ((y * 100 + 75) +25), anchor='s', window=playtime_label
+            ((400/3)*((self._counter % 3)+1)-25), ((y * 100 + 75) + 25), anchor='s', window=playtime_label
         )
 
         self._buttons[page].append(button)
@@ -106,17 +106,20 @@ class SudokuListView:
 
     def _hide_page_buttons(self):
         self._frame.canvas.itemconfig(self._buttons["next"], state="hidden")
-        self._frame.canvas.itemconfig(self._buttons["previous"], state="hidden")
+        self._frame.canvas.itemconfig(
+            self._buttons["previous"], state="hidden")
 
     def _show_page_buttons(self):
         """Show page selection buttons."""
         self._hide_page_buttons()
 
         if self._current_page < self._pages:
-            self._frame.canvas.itemconfig(self._buttons["next"], state="normal")
-    
+            self._frame.canvas.itemconfig(
+                self._buttons["next"], state="normal")
+
         if self._current_page >= self._pages:
-            self._frame.canvas.itemconfig(self._buttons["previous"], state="normal")
+            self._frame.canvas.itemconfig(
+                self._buttons["previous"], state="normal")
 
     def _show_sudoku_buttons(self):
         """Show sudoku buttons of current page."""
@@ -154,19 +157,19 @@ class SudokuListView:
             master=self._frame,
             text="next page",
             command=self._handle_next_page,
-            bg = "#f5b041",
+            bg="#f5b041",
             activebackground="#f39c12",
             width=9,
             height=2
         )
         next = self._frame.canvas.create_window(
             325, 475, anchor='s', window=next_page_button)
-        
+
         previous_page_button = tk.Button(
             master=self._frame,
             text="previous page",
             command=self._handle_previous_page,
-            bg = "#f5b041",
+            bg="#f5b041",
             activebackground="#f39c12",
             width=9,
             height=2
@@ -203,7 +206,7 @@ class SudokuListView:
         if self._current_page != self._pages:
             self._show_page_buttons()
 
-        sudoku_page=0
+        sudoku_page = 0
         for sudoku in self._sudokus:
             if self._counter >= 9:
                 self._counter = 0

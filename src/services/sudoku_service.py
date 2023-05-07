@@ -52,7 +52,7 @@ class SudokuService:
 
         sudokus = self._sudoku_repository.get_sudokus(level)
         return sudokus
-    
+
     def get_user_playtime(self, user):
         """Get a number of times sudokus have been played by user.
 

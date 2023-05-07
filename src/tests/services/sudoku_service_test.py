@@ -41,7 +41,7 @@ class FakeUserRepository:
         for user in self.users:
             if user[1] == username:
                 return user[0]
-            
+
         return None
 
     def delete_all(self):
@@ -97,9 +97,10 @@ class TestSudokuService(unittest.TestCase):
         self.sudoku_service.create_user(user.username, user.password)
 
     def test_get_sudoku_id_works(self):
-        sudoku_id = self.sudoku_service.get_sudoku_id(Sudoku("vaikea", 123456789, 3))
+        sudoku_id = self.sudoku_service.get_sudoku_id(
+            Sudoku("vaikea", 123456789, 3))
         toinen_id = self.sudoku_service.get_sudoku_id(Sudoku("hurja", 123, 3))
-        
+
         self.assertEqual(sudoku_id, 1)
         self.assertEqual(toinen_id, 2)
 

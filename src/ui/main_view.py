@@ -71,10 +71,13 @@ class MainView:
 
         self._frame.canvas.create_window(
             450, 20, anchor='n', window=logout_button)
-        
-        self._frame.canvas.create_text(100, 25, text=f"Logged in as {self._user.username}", fill="#1abc9c")
-        self._frame.canvas.create_text(100, 60, text=f"Sudokus solved: {self._playtime}", fill="black")
-        self._frame.canvas.create_text(250, 150, text="Select a level", fill="black", font=('bold', 13))
+
+        self._frame.canvas.create_text(
+            100, 25, text=f"Logged in as {self._user.username}", fill="#1abc9c")
+        self._frame.canvas.create_text(
+            100, 60, text=f"Sudokus solved: {self._playtime}", fill="black")
+        self._frame.canvas.create_text(
+            250, 150, text="Select a level", fill="black", font=('bold', 13))
 
         for i in range(1, 4):
             leveltxt = ""
@@ -82,18 +85,18 @@ class MainView:
             if i == 1:
                 leveltxt = "Easy"
                 bg = "#fad7a0"
-                abg="#f8c471"
-                afg="white"
+                abg = "#f8c471"
+                afg = "white"
             elif i == 2:
                 leveltxt = "Medium"
                 bg = "#f5b041"
-                abg="#f39c12"
-                afg="white"
+                abg = "#f39c12"
+                afg = "white"
             else:
                 leveltxt = "Hard"
                 bg = "#d68910",
-                abg="#b9770e",
-                afg="white"
+                abg = "#b9770e",
+                afg = "white"
 
             game_button = tk.Button(
                 master=self._frame,

@@ -26,20 +26,22 @@ class TestSudokuRepository(unittest.TestCase):
     def test_save_status_works(self):
         user_repo.create_user(self.user_kissa)
         sudoku_repo.create_sudoku(self.vaikea_sudoku)
+        sudoku_repo.create_sudoku(self.sudoku_testi)
 
         user_id = user_repo.get_user_id(self.user_kissa.username)
-        sudoku_id = sudoku_repo.get_sudoku_id(self.vaikea_sudoku.name)
+        vaikea_id = sudoku_repo.get_sudoku_id(self.vaikea_sudoku.name)
 
-        sudoku_repo.save_status(user_id, sudoku_id)
-        stats = sudoku_repo.get_user_sudokus(user_id)[0]
+        sudoku_repo.save_status(user_id, vaikea_id)
+        playtime = sudoku_repo.get_user_playtime(user_id)
 
-        self.assertEqual(stats[1], self.vaikea_sudoku.name)
-        self.assertEqual(stats[4], 1)
+        self.assertEqual(playtime, 1)
 
-        sudoku_repo.save_status(user_id, sudoku_id)
-        stats = sudoku_repo.get_user_sudokus(user_id)[0]
+        testi_id = sudoku_repo.get_sudoku_id(self.sudoku_testi.name)
 
-        self.assertEqual(stats[4], 2)
+        sudoku_repo.save_status(user_id, testi_id)
+        playtime = sudoku_repo.get_user_playtime(user_id)
+
+        self.assertEqual(playtime, 2)
 
     def test_get_sudoku_id_works(self):
         sudoku_repo.create_sudoku(self.sudoku_testi)

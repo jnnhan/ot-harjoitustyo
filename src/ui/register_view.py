@@ -122,9 +122,9 @@ class RegisterView:
 
         self._frame.canvas.create_window(
             250, 440, anchor='s', window=login_button)
-        
+
         self._username_entry.focus_set()
-        
+
         self._password_entry.bind("<Return>", self._register_handler)
 
         self._error = StringVar(self._frame)
