@@ -62,7 +62,7 @@ class SudokuService:
 
         sudokus = self._sudoku_repository.get_sudokus(level)
         return sudokus
-    
+
     def save_sudoku(self, name, level, puzzle):
         """Save a new sudoku to the database if user inputs are valid.
             Also writes the new sudoku to file.
@@ -79,14 +79,17 @@ class SudokuService:
         """
 
         if len(name) > 12 or len(name) < 1:
-            raise InvalidSudokuInputError("Name of sudoku must be 1-12 characters")
-        
+            raise InvalidSudokuInputError(
+                "Name of sudoku must be 1-12 characters")
+
         if not level.isnumeric() or int(level) < 1 or int(level) > 3:
-            raise InvalidSudokuInputError("Level of sudoku must be a number between 1-3")
-        
+            raise InvalidSudokuInputError(
+                "Level of sudoku must be a number between 1-3")
+
         if not puzzle.isnumeric() or len(puzzle) != 81:
-            raise InvalidSudokuInputError("Sudoku must contain exactly 81 numbers")
-        
+            raise InvalidSudokuInputError(
+                "Sudoku must contain exactly 81 numbers")
+
         try:
             file_path = ""
             sudoku = Sudoku(name, puzzle, int(level))

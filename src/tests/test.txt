@@ -8,3 +8,5 @@
 269005704
 000270000
 .testisudoku
+12345
+.huonosudoku

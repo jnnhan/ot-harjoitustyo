@@ -5,7 +5,8 @@ from entities.sudoku import Sudoku
 from services.sudoku_service import (
     SudokuService,
     InvalidCredentialsError,
-    UsernameExistsError
+    UsernameExistsError,
+    InvalidSudokuInputError
 )
 
 
@@ -52,6 +53,7 @@ class FakeSudokuRepository:
     def __init__(self):
         self.sudokus = []
         self.stats = []
+        self.file = []
         self.create_sudoku(Sudoku("vaikea", 123456789, 3))
         self.create_sudoku(Sudoku("hurja", 123, 3))
 
@@ -60,6 +62,9 @@ class FakeSudokuRepository:
             if sudoku[1] == name:
                 return sudoku[0]
         return None
+
+    def write_in_file(self, file_path, sudoku):
+        self.file.append((file_path, sudoku))
 
     def save_status(self, user_id, sudoku_id):
         self.stats.append((user_id, sudoku_id))
@@ -95,6 +100,30 @@ class TestSudokuService(unittest.TestCase):
 
     def login(self, user):
         self.sudoku_service.create_user(user.username, user.password)
+
+    def test_save_sudoku_works_valid_sudoku(self):
+        self.sudoku_service.save_sudoku(
+            self.sudoku_helppo.name, str(self.sudoku_helppo.level), self.sudoku_helppo.puzzle)
+
+        sudoku = self.sudoku_service.get_sudokus(self.sudoku_helppo.level)[0]
+
+        self.assertEqual(sudoku[1], self.sudoku_helppo.name)
+
+    def test_save_sudoku_works_invalid_sudoku(self):
+        self.assertRaises(
+            InvalidSudokuInputError,
+            lambda: self.sudoku_service.save_sudoku(
+                self.sudoku_helppo.name, str(self.sudoku_helppo.level), "23442"))
+
+        self.assertRaises(
+            InvalidSudokuInputError,
+            lambda: self.sudoku_service.save_sudoku(
+                self.sudoku_helppo.name, "5", self.sudoku_helppo.puzzle))
+
+        self.assertRaises(
+            InvalidSudokuInputError,
+            lambda: self.sudoku_service.save_sudoku(
+                "", str(self.sudoku_helppo.level), self.sudoku_helppo.puzzle))
 
     def test_get_sudoku_id_works(self):
         sudoku_id = self.sudoku_service.get_sudoku_id(

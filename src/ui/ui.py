@@ -8,7 +8,7 @@ from ui.add_sudoku_view import AddSudokuView
 
 class UI:
     """Class resposible for the user interface.
-    
+
         Attributes:
             root: Tkinter element in which all the views are shown.
             current_view: shows and keeps track of current view.

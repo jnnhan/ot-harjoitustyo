@@ -86,7 +86,7 @@ class MainView:
 
         self._frame.canvas.create_window(
             450, 20, anchor='n', window=logout_button)
-        
+
         self._frame.canvas.create_window(
             350, 20, anchor='n', window=add_sudoku_button)
 

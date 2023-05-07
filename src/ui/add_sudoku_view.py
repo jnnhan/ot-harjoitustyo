@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import Canvas, constants, Frame, StringVar, Text, END
 from services.sudoku_service import sudoku_service, InvalidSudokuInputError, SudokuExistsError
 
+
 class AddSudokuView:
     """UI class responsible of showing the view for adding new sudokus.
 
@@ -45,12 +46,13 @@ class AddSudokuView:
 
     def _hide_inputs(self):
         """Hide user inputs."""
-        self._name_entry.delete(0,END)
-        self._level_entry.delete(0,END)
-        self._puzzle_entry.delete("1.0",END)
+        self._name_entry.delete(0, END)
+        self._level_entry.delete(0, END)
+        self._puzzle_entry.delete("1.0", END)
         self._frame.canvas.delete("success")
         self._frame.canvas.itemconfig(self._submit_button, state="normal")
-        self._frame.canvas.itemconfig(self._submit_again_button, state="hidden")
+        self._frame.canvas.itemconfig(
+            self._submit_again_button, state="hidden")
 
     def _return_handler(self):
         """"Show the main view."""
@@ -64,23 +66,23 @@ class AddSudokuView:
 
         name = self._name_entry.get()
         level = self._level_entry.get()
-        puzzle = self._puzzle_entry.get("1.0","end-1c")
+        puzzle = self._puzzle_entry.get("1.0", "end-1c")
 
         try:
             sudoku_service.save_sudoku(name, level, puzzle)
             self._frame.canvas.create_text(
                 400, 380, tags="success",
-                text=f"Sudoku '{name}' was \n added succesfully!", 
+                text=f"Sudoku '{name}' was \n added succesfully!",
                 font=('bold', 10), fill="red"
             )
             self._frame.canvas.itemconfig(self._submit_button, state="hidden")
 
             submit_again = tk.Button(
-            master=self._frame,
-            text="Add another sudoku",
-            command=self._hide_inputs,
-            bg="#a3e4d7",
-            activebackground="#1abc9c"
+                master=self._frame,
+                text="Add another sudoku",
+                command=self._hide_inputs,
+                bg="#a3e4d7",
+                activebackground="#1abc9c"
             )
 
             self._submit_again_button = self._frame.canvas.create_window(
@@ -124,10 +126,10 @@ class AddSudokuView:
             width=9,
             height=9
         )
-        
+
         self._frame.canvas.create_window(250, 350, window=self._puzzle_entry)
         self._frame.canvas.create_window(260, 200, window=puzzle_label)
-   
+
     def _initialize_buttons(self):
         """Initialize submit and return buttons."""
         submit = tk.Button(
@@ -148,7 +150,7 @@ class AddSudokuView:
 
         self._frame.canvas.create_window(
             450, 20, anchor='n', window=return_button)
-        
+
         self._submit_button = self._frame.canvas.create_window(
             250, 490, anchor='n', tags="submit", window=submit)
 
@@ -175,7 +177,7 @@ class AddSudokuView:
         self._initialize_sudoku_level()
 
         self._initialize_buttons()
-        
+
         self._error = StringVar(self._frame)
 
         self._error_label = tk.Label(

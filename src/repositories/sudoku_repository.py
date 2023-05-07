@@ -7,6 +7,7 @@ from database_connection import get_database_connection
 class SudokuExistsError(Exception):
     pass
 
+
 class SudokuRepository:
     """A class connecting SudokuService class and database.
         Handles Sudoku objects and sudoku and stats tables in the database.
@@ -116,7 +117,7 @@ class SudokuRepository:
 
     def _file_exists(self, file_path):
         """Ensure that the given file exists by creating it if it doesn't exist already.
-        
+
             Args:
                 file_path: A path to the file.
         """
@@ -188,7 +189,8 @@ class SudokuRepository:
 
             self._connection.commit()
         except IntegrityError:
-            raise SudokuExistsError("Sudoku of given name or numbers already exists")
+            raise SudokuExistsError(
+                "Sudoku of given name or numbers already exists")
 
     def get_sudokus(self, level):
         """Get all the sudokus of the given level.
