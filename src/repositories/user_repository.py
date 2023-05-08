@@ -20,6 +20,71 @@ class UserRepository:
 
         self._connection = connection
 
+    def get_playtime(self, user_id, sudoku_id):
+        """Get number of times given sudoku has been solved by user.
+
+        Args:
+            user_id: id of currently logged in user.
+            sudoku_id: id of given sudoku.
+
+        Returns:
+            playtime: amount of times sudoku has been solved
+        """
+
+        cursor = self._connection.cursor()
+
+        cursor.execute("SELECT playtime FROM stats WHERE user_id=? AND sudoku_id=?",
+                       (user_id, sudoku_id))
+
+        playtime = cursor.fetchone()
+
+        return playtime[0] if playtime else None
+
+    def save_status(self, user_id, sudoku_id):
+        """Save or update the playtime of given sudoku.
+            If no prior playtime exists, new playtime is 1. Otherwise add 1 to prior playtime.
+
+        Args:
+            user_id: currently logged in user.
+            sudoku_id: id of recently solved sudoku.
+        """
+
+        cursor = self._connection.cursor()
+
+        playtime = self.get_playtime(user_id, sudoku_id)
+
+        if playtime is None:
+            cursor.execute(
+                "INSERT INTO stats (user_id, sudoku_id, playtime) values (?, ?, ?)",
+                (user_id, sudoku_id, 1)
+            )
+        else:
+            cursor.execute(
+                "UPDATE stats SET playtime=? WHERE user_id=? AND sudoku_id=?",
+                ((playtime+1), user_id, sudoku_id)
+            )
+        self._connection.commit()
+
+    def get_user_playtime(self, user_id):
+        """Get number of times sudokus have been solved by the user.
+
+        Args:
+            user_id: id of currently logged in user.
+
+        Returns:
+            sudokus: a number of times sudokus have been solved by the user.
+        """
+
+        cursor = self._connection.cursor()
+
+        cursor.execute(
+            "SELECT SUM(playtime) FROM stats WHERE user_id=?", (user_id,)
+        )
+
+        playtime = cursor.fetchone()
+
+        return playtime[0]
+
     def create_user(self, user):
         """Save a new user to database.
             Hash password using werkzeug password hashing.

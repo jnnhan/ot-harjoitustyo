@@ -1,6 +1,6 @@
 from tkinter import ttk, constants, Canvas
 import tkinter as tk
-from services.sudoku_service import sudoku_service
+from services.user_service import user_service
 
 
 class MainView:
@@ -32,8 +32,8 @@ class MainView:
         self._handle_logout = handle_logout
         self._handle_select_game = handle_select_game
         self._handle_add_sudoku = handle_add_sudoku
-        self._user = sudoku_service.get_current_user()
-        self._playtime = sudoku_service.get_user_playtime(self._user)
+        self._user = user_service.get_current_user()
+        self._playtime = user_service.get_user_playtime(self._user)
 
         self._initialize()
 
@@ -48,7 +48,7 @@ class MainView:
 
     def _logout_handler(self):
         """Handle the user's logging out."""
-        sudoku_service.logout()
+        user_service.logout()
         self._handle_logout()
 
     def _add_sudoku_handler(self):

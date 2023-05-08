@@ -2,6 +2,7 @@ from tkinter import constants, Canvas
 import tkinter as tk
 from collections import defaultdict
 from services.sudoku_service import sudoku_service
+from services.user_service import user_service
 
 
 class SudokuListView:
@@ -29,7 +30,7 @@ class SudokuListView:
         """
         self._sudokus = sudokus
         self._frame = root
-        self._user = sudoku_service.get_current_user()
+        self._user = user_service.get_current_user()
         self._counter = 0
         self._pages = (
             len(self._sudokus)//9 if len(self._sudokus) % 9 != 0 else len(self._sudokus)//9 - 1)
@@ -83,10 +84,10 @@ class SudokuListView:
             ((400/3)*((counter % 3)+1)-25), (y * 100 + 75), anchor='s', window=start_sudoku_button
         )
 
-        user_id = sudoku_service.get_user_id(self._user)
+        user_id = user_service.get_user_id(self._user)
         sudoku_id = sudoku_service.get_sudoku_id(sudoku)
 
-        playtime = sudoku_service.get_playtime(user_id, sudoku_id)
+        playtime = user_service.get_playtime(user_id, sudoku_id)
 
         playtime_label = tk.Label(
             master=self._frame,

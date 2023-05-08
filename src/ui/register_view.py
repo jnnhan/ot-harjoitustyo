@@ -1,6 +1,6 @@
 from tkinter import ttk, constants, Canvas, StringVar
 import tkinter as tk
-from services.sudoku_service import SudokuService, InvalidCredentialsError, UsernameExistsError
+from services.user_service import user_service, InvalidCredentialsError, UsernameExistsError
 
 
 class RegisterView:
@@ -53,8 +53,7 @@ class RegisterView:
         password = self._password_entry.get()
 
         try:
-            service = SudokuService()
-            service.create_user(username, password)
+            user_service.create_user(username, password)
 
             self._handle_register_user()
         except InvalidCredentialsError as error:

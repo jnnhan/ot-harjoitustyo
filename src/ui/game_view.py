@@ -1,4 +1,4 @@
-from tkinter import ttk, Canvas, Frame, TOP, BOTH, constants
+from tkinter import Canvas, Frame, TOP, BOTH, constants
 import tkinter as tk
 import copy
 from services.sudoku_service import sudoku_service
