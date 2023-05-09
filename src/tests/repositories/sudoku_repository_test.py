@@ -1,19 +1,15 @@
 import unittest
 import os
 from entities.sudoku import Sudoku
-from entities.user import User
 from repositories.sudoku_repository import sudoku_repo, SudokuExistsError
-from repositories.user_repository import user_repo
 
 
 class TestSudokuRepository(unittest.TestCase):
     def setUp(self):
         self.dirname = os.path.dirname(__file__)
         sudoku_repo.delete_all_sudokus()
-        user_repo.delete_all_users()
         self.sudoku_testi = Sudoku("testinen", "123456789", 1)
         self.vaikea_sudoku = Sudoku("kinkkinen", "000000", 3)
-        self.user_kissa = User("kissa", "kisu123")
         self.kopio_sudoku = Sudoku("kopio", "000000", 3)
         self.oikea_sudoku = Sudoku("oikea",
                                    "123456789123456789123456789123456789123456789123456789123456789123456789123456789", 1)
@@ -34,24 +30,6 @@ class TestSudokuRepository(unittest.TestCase):
 
         self.assertEqual(len(sudokus), 1)
 
-    def test_save_status_works(self):
-        user_repo.create_user(self.user_kissa)
-        sudoku_repo.create_sudoku(self.vaikea_sudoku)
-        sudoku_repo.create_sudoku(self.sudoku_testi)
-
-        user_id = user_repo.get_user_id(self.user_kissa.username)
-        vaikea_id = sudoku_repo.get_sudoku_id(self.vaikea_sudoku.name)
-
-        sudoku_repo.save_status(user_id, vaikea_id)
-        playtime = sudoku_repo.get_user_playtime(user_id)
-
-        self.assertEqual(playtime, 1)
-
-        sudoku_repo.save_status(user_id, vaikea_id)
-        playtime = sudoku_repo.get_user_playtime(user_id)
-
-        self.assertEqual(playtime, 2)
-
     def test_get_sudoku_id_works(self):
         sudoku_repo.create_sudoku(self.sudoku_testi)
         sudoku_repo.create_sudoku(self.vaikea_sudoku)
@@ -71,7 +49,7 @@ class TestSudokuRepository(unittest.TestCase):
         self.assertEqual(sudoku.puzzle, self.sudoku_testi.puzzle)
         self.assertEqual(sudoku.level, self.sudoku_testi.level)
 
-    def test_read_sudoku_works_invalid_sudoku(self):
+    def test_read_sudoku_works_invalid_sudokus(self):
         file_path = os.path.join(self.dirname, "..", "test.txt")
 
         sudoku_repo.read_sudokus(file_path, 1)

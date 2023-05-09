@@ -1,6 +1,8 @@
 import unittest
 from entities.user import User
+from entities.sudoku import Sudoku
 from repositories.user_repository import user_repo
+from repositories.sudoku_repository import sudoku_repo
 
 
 class TestUserRepository(unittest.TestCase):
@@ -9,6 +11,24 @@ class TestUserRepository(unittest.TestCase):
         self.user_avokado = User("avokado", "luumu666")
         self.user_kananmuna = User("kananmuna", "monni123")
         self.user_toinen_avokado = User("avokado", "kala765")
+        self.testi_sudoku = Sudoku("testailua", "123456", 1)
+
+    def test_save_status_works(self):
+        user_repo.create_user(self.user_avokado)
+        sudoku_repo.create_sudoku(self.testi_sudoku)
+
+        user_id = user_repo.get_user_id(self.user_avokado.username)
+        sudoku_id = sudoku_repo.get_sudoku_id(self.testi_sudoku.name)
+
+        user_repo.save_status(user_id, sudoku_id)
+        playtime = user_repo.get_user_playtime(user_id)
+
+        self.assertEqual(playtime, 1)
+
+        user_repo.save_status(user_id, sudoku_id)
+        playtime = user_repo.get_user_playtime(user_id)
+
+        self.assertEqual(playtime, 2)
 
     def test_create_user(self):
         user_repo.create_user(self.user_avokado)

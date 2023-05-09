@@ -17,11 +17,12 @@ class UsernameExistsError(Exception):
 class UserService:
     """A class for application logic that connects the user via UI
         to user repository.
-        
+
         Attributes:
             user: currently logged in user
             user_repository: UserRepository object for accessing the db
     """
+
     def __init__(
         self,
         user_repository=default_user_repository
@@ -48,7 +49,7 @@ class UserService:
         playtime = self._user_repository.get_user_playtime(user_id)
 
         return 0 if playtime is None else playtime
-    
+
     def get_user_id(self, user):
         """Returns an id for a specific user.
 
@@ -62,7 +63,7 @@ class UserService:
         user_id = self._user_repository.get_user_id(user.username)
 
         return user_id
-    
+
     def logout(self):
         """Log user out and empty the variable of current user.
         """
@@ -97,7 +98,7 @@ class UserService:
             raise InvalidCredentialsError("Wrong password")
 
         return user
-    
+
     def get_playtime(self, user_id, sudoku_id):
         """Get number of times a specific sudoku has been solved by the user.
 
@@ -121,7 +122,7 @@ class UserService:
         sudoku_id = sudoku_service.get_sudoku_id(sudoku)
 
         self._user_repository.save_status(user_id, sudoku_id)
-    
+
     def get_current_user(self):
         """Get currently logged in user.
 
@@ -129,8 +130,8 @@ class UserService:
             user: User object
         """
 
-        return self._user
-    
+        return self._user if self._user else None
+
     def create_user(self, username, password):
         """Create a new user by adding a username and its password to the database.
         Check if username already exists.
@@ -162,5 +163,6 @@ class UserService:
         user = self._user_repository.create_user(User(username, password))
 
         return user
-    
+
+
 user_service = UserService()

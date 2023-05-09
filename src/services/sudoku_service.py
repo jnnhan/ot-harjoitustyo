@@ -132,7 +132,7 @@ class SudokuService:
             sudoku: A sudoku object
         """
 
-        return self._sudoku
+        return self._sudoku if self._sudoku else None
 
     def remove_current_sudoku(self):
         """Remove current sudoku. This is done after sudoku is solved and it's status saved.
@@ -187,5 +187,6 @@ class SudokuService:
                 if not self._check_square(numbers):
                     return False
         return True
+
 
 sudoku_service = SudokuService()
