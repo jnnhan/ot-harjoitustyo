@@ -8,6 +8,7 @@ from repositories.sudoku_repository import sudoku_repo
 class TestUserRepository(unittest.TestCase):
     def setUp(self):
         user_repo.delete_all_users()
+        sudoku_repo.delete_all_sudokus()
         self.user_avokado = User("avokado", "luumu666")
         self.user_kananmuna = User("kananmuna", "monni123")
         self.user_toinen_avokado = User("avokado", "kala765")
