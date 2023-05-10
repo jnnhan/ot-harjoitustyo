@@ -5,7 +5,6 @@ Sovellus on yksinpelattava sudoku, jossa on valittavissa eri vaikeustasoja. Käy
 
 ## Toiminnallisuudet
 
-### Tehty:
 #### Ennen kirjautumista
 - Käyttäjä voi luoda käyttäjätunnuksen
   - Käyttäjätunnuksen on oltava uniikki ja vähintään 3 merkin mittainen
@@ -17,7 +16,8 @@ Sovellus on yksinpelattava sudoku, jossa on valittavissa eri vaikeustasoja. Käy
 #### Kirjautumisen jälkeen
 - Käyttäjä voi aloittaa uuden sudokun valitsemallaan vaikeustasolla
 - Käyttäjä voi kirjautua ulos sovelluksesta
-- Käyttäjä voi lisätä omia sudokuja sovellukseen muokkaamalla tekstitiedostoa
+- Käyttäjä voi lisätä omia sudokuja sovellukseen käyttöliittymän kautta
+- Käyttäjä voi poistaa sudokuja käyttöliittymän kautta
 - Käyttäjä näkee tilastoja omista sudokuista
   - ratkaistujen sudokujen lukumäärä
 
@@ -28,12 +28,7 @@ Sovellus on yksinpelattava sudoku, jossa on valittavissa eri vaikeustasoja. Käy
   - Jos ruudukossa on vain yksi numero, se näkyy suurempana keskellä ruudukkoa
 - Käyttäjä voi pyyhkiä merkkaamiaan numeroita ruudukoista tai tyhjentää koko pelin
 - Jos kaikki ruudukot ovat täynnä ja virheitä ei havaita, peli päättyy
-      
-### Tekeillä:
-### Kirjautumisen jälkeen 
-- Jos tietyntasoisia sudokuja on useampi kuin neljä, näytä loput sudokut seuraavalla sivulla
-    
-    
+          
 ## Jatkokehitysideat
 - Käyttäjä voi pyytää vihjeitä keskeneräiseen sudokuun
-- Uusia sudokuja voi lisätä suoraan sovelluksen kautta, jolloin tämän toiminnallisuuden käyttöliittymä on parempi
+- Sovellus kertoo reaaliajassa onko sudoku mahdollista ratkaista käyttäjän syöttämillä luvuilla
