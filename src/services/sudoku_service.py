@@ -34,6 +34,16 @@ class SudokuService:
         self._sudoku = None
         self._sudoku_repository = sudoku_repository
 
+    def get_file_path(self, level):
+        file_path = None
+        if level == 1:
+            file_path = EASY_FILE_PATH
+        if level == 2:
+            file_path = MEDIUM_FILE_PATH
+        if level == 3:
+            file_path = HARD_FILE_PATH
+        return file_path
+
     def get_sudokus(self, level):
         """Get all the sudokus by given level.
 
@@ -78,12 +88,8 @@ class SudokuService:
             file_path = ""
             sudoku = Sudoku(name, puzzle, int(level))
             self._sudoku_repository.create_sudoku(sudoku)
-            if int(level) == 1:
-                file_path = EASY_FILE_PATH
-            elif int(level) == 2:
-                file_path = MEDIUM_FILE_PATH
-            elif int(level) == 3:
-                file_path = HARD_FILE_PATH
+            file_path = self.get_file_path(int(level))
+
             self._sudoku_repository.write_in_file(file_path, sudoku)
         except SudokuExistsError as error:
             raise SudokuExistsError(error)
@@ -133,6 +139,12 @@ class SudokuService:
         """
 
         return self._sudoku if self._sudoku else None
+
+    def delete_sudokus(self, sudoku_names, level):
+        file_path = self.get_file_path(level)
+        self._sudoku_repository.delete_sudokus_from_file(
+            file_path, sudoku_names)
+        self._sudoku_repository.delete_sudokus_from_db(sudoku_names)
 
     def remove_current_sudoku(self):
         """Remove current sudoku. This is done after sudoku is solved and it's status saved.

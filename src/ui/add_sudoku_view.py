@@ -64,6 +64,7 @@ class AddSudokuView:
             Catch and handle errors if inputs were incorrect.
         """
 
+        self._hide_error()
         name = self._name_entry.get()
         level = self._level_entry.get()
         puzzle = self._puzzle_entry.get("1.0", "end-1c")

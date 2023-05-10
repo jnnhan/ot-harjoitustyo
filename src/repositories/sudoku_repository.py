@@ -5,6 +5,9 @@ from database_connection import get_database_connection
 
 
 class SudokuExistsError(Exception):
+    """A class for error raised when creating a new sudoku
+        with existing name or puzzle numbers.
+    """
     pass
 
 
@@ -53,6 +56,30 @@ class SudokuRepository:
     def _file_exists(self, file_path):
         Path(file_path).touch()
 
+    def delete_sudokus_from_db(self, sudoku_names):
+        cursor = self._connection.cursor()
+        for name in sudoku_names:
+            cursor.execute("DELETE FROM sudokus WHERE name=?", (name,))
+        self._connection.commit()
+
+    def delete_sudokus_from_file(self, file_path, sudoku_names):
+        self._file_exists(file_path)
+        pointer = 0
+
+        with open(file_path, "r", encoding="utf-8") as file:
+            data = file.readlines()
+
+        with open(file_path, "w", encoding="utf-8") as file:
+            for row in data:
+                if row.strip("\n.") in sudoku_names:
+                    pointer += 1
+                elif pointer > 0 and pointer < 9:
+                    pointer += 1
+                elif pointer == 9:
+                    pointer = 0
+                else:
+                    file.write(row)
+
     def read_sudokus(self, file_path, level):
         """Read sudokus from given file. 
             Add sudokus to the database if amount of numbers is 81 and sudoku contains only numbers.
@@ -63,6 +90,7 @@ class SudokuRepository:
         """
 
         content = ""
+        name = ""
 
         self._file_exists(file_path)
 
@@ -71,14 +99,14 @@ class SudokuRepository:
                 row = row.replace("\n", "")
                 parts = row.split("\n")
 
-                if parts[0].startswith("."):
-                    if len(content) == 81 and len(parts[0]) <= 12:
+                if parts[0].isnumeric():
+                    content += parts[0]
+                    if len(content) == 81 and len(name) <= 12:
                         self.create_sudoku(
-                            Sudoku(parts[0][1:], content, level))
+                            Sudoku(name, content, level))
                         content = ""
-                else:
-                    if content == "" or content.isnumeric():
-                        content += parts[0]
+                elif parts[0].startswith("."):
+                    name = parts[0][1:]
 
     def write_in_file(self, file_path, sudoku):
         """Write a sudoku in given file.
@@ -92,14 +120,14 @@ class SudokuRepository:
         pointer = 0
 
         with open(file_path, "a", encoding="utf-8") as file:
+            row = "." + sudoku.name
+            file.write(row+"\n")
+
             for x in range(0, 9):
                 row = sudoku.puzzle[pointer:(pointer+9)]
 
                 file.write(row+"\n")
                 pointer += 9
-
-            row = "." + sudoku.name
-            file.write(row+"\n")
 
     def create_sudoku(self, sudoku):
         """Save sudoku to the database.
