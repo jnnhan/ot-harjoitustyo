@@ -1,11 +1,11 @@
-from werkzeug.security import generate_password_hash
 from database_connection import get_database_connection
 from entities.user import User
 
 
 class UserRepository:
-    """A class that connects the database and SudokuService class.
-        Handles User objects and the user table in the database.
+    """A class that connects the database and UserService class.
+        Handles User objects and the user and stats tables in the database.
+        Handles user information and the sudoku statistics of the user.
 
         Attributes:
             connection: the database connection.
@@ -72,7 +72,7 @@ class UserRepository:
             user_id: id of currently logged in user.
 
         Returns:
-            sudokus: a number of times sudokus have been solved by the user.
+            playtime: a number of times sudokus have been solved by the user.
         """
 
         cursor = self._connection.cursor()
@@ -85,9 +85,9 @@ class UserRepository:
 
         return playtime[0]
 
-    def create_user(self, user):
+    def create_user(self, user, hashpassword):
         """Save a new user to database.
-            Hash password using werkzeug password hashing.
+            Password is a hash-value for the user password.
 
             Args:
                 user: User object
@@ -96,11 +96,10 @@ class UserRepository:
                 user: User object
         """
 
-        hash_value = generate_password_hash(user.password)
         cursor = self._connection.cursor()
         cursor.execute(
             "INSERT INTO users (username, password) values (?, ?)", (
-                user.username, hash_value)
+                user.username, hashpassword)
         )
 
         self._connection.commit()
@@ -152,7 +151,7 @@ class UserRepository:
 
     def get_user_id(self, username):
         """Get user id matching given username.
-            It's assumed that the user ecists.
+            It's assumed that the user exists.
 
             Args:
                 username: currently logged in user.

@@ -1,4 +1,3 @@
-from pathlib import Path
 from sqlite3 import IntegrityError
 from entities.sudoku import Sudoku
 from database_connection import get_database_connection
@@ -37,97 +36,17 @@ class SudokuRepository:
 
         self._connection.commit()
 
-    def get_sudoku_id(self, name):
-        """Get id of given sudoku.
+    def delete_sudokus_from_db(self, sudoku_ids):
+        """Delete certain sudokus from database.
 
         Args:
-            name: name of the sudoku.
-
-        Returns:
-            id of the sudoku.
+            sudoku_ids: A list of one or more sudoku id's to delete.
         """
 
         cursor = self._connection.cursor()
-
-        cursor.execute("SELECT * FROM sudokus WHERE name=?", (name,))
-
-        return cursor.fetchone()[0]
-
-    def _file_exists(self, file_path):
-        Path(file_path).touch()
-
-    def delete_sudokus_from_db(self, sudoku_names):
-        cursor = self._connection.cursor()
-        for name in sudoku_names:
-            cursor.execute("DELETE FROM sudokus WHERE name=?", (name,))
+        for id in sudoku_ids:
+            cursor.execute("DELETE FROM sudokus WHERE id=?", (id,))
         self._connection.commit()
-
-    def delete_sudokus_from_file(self, file_path, sudoku_names):
-        self._file_exists(file_path)
-        pointer = 0
-
-        with open(file_path, "r", encoding="utf-8") as file:
-            data = file.readlines()
-
-        with open(file_path, "w", encoding="utf-8") as file:
-            for row in data:
-                if row.strip("\n.") in sudoku_names:
-                    pointer += 1
-                elif pointer > 0 and pointer < 9:
-                    pointer += 1
-                elif pointer == 9:
-                    pointer = 0
-                else:
-                    file.write(row)
-
-    def read_sudokus(self, file_path, level):
-        """Read sudokus from given file. 
-            Add sudokus to the database if amount of numbers is 81 and sudoku contains only numbers.
-
-            Args:
-                file_path: path to the sudoku file.
-                level: a level of the read sudokus.
-        """
-
-        content = ""
-        name = ""
-
-        self._file_exists(file_path)
-
-        with open(file_path, "r", encoding="utf-8") as file:
-            for row in file:
-                row = row.replace("\n", "")
-                parts = row.split("\n")
-
-                if parts[0].isnumeric():
-                    content += parts[0]
-                    if len(content) == 81 and len(name) <= 12:
-                        self.create_sudoku(
-                            Sudoku(name, content, level))
-                        content = ""
-                elif parts[0].startswith("."):
-                    name = parts[0][1:]
-
-    def write_in_file(self, file_path, sudoku):
-        """Write a sudoku in given file.
-
-        Args:
-            file_path: Path to the file.
-            sudoku: A sudoku object.
-        """
-
-        self._file_exists(file_path)
-        pointer = 0
-
-        with open(file_path, "a", encoding="utf-8") as file:
-            row = "." + sudoku.name
-            file.write(row+"\n")
-
-            for x in range(0, 9):
-                row = sudoku.puzzle[pointer:(pointer+9)]
-
-                file.write(row+"\n")
-                pointer += 9
 
     def create_sudoku(self, sudoku):
         """Save sudoku to the database.
@@ -166,6 +85,21 @@ class SudokuRepository:
         sudokus = cursor.fetchall()
 
         return [Sudoku(sudoku["name"], sudoku["puzzle"], sudoku["level"]) for sudoku in sudokus]
+    
+    def get_sudoku_id(self, name):
+        """Get id of given sudoku.
 
+        Args:
+            name: name of the sudoku.
+
+        Returns:
+            id of the sudoku.
+        """
+
+        cursor = self._connection.cursor()
+
+        cursor.execute("SELECT id FROM sudokus WHERE name=?", (name,))
+        
+        return cursor.fetchone()[0]
 
 sudoku_repo = SudokuRepository(get_database_connection())

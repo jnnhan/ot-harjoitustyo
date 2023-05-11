@@ -72,7 +72,7 @@ class SudokuListView:
         self._show_page_buttons()
 
         if len(self._delete) > 0:
-            sudoku_service.delete_sudokus(self._delete, self._level)
+            sudoku_service.delete_sudokus(self._delete)
             self._delete = []
             self._initialize_list_view()
 

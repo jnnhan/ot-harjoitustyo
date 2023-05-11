@@ -1,10 +1,5 @@
 from entities.sudoku import Sudoku
 from repositories.sudoku_repository import sudoku_repo as default_sudoku_repository, SudokuExistsError
-from config import (
-    EASY_FILE_PATH,
-    MEDIUM_FILE_PATH,
-    HARD_FILE_PATH
-)
 
 
 class InvalidSudokuInputError(Exception):
@@ -34,16 +29,6 @@ class SudokuService:
         self._sudoku = None
         self._sudoku_repository = sudoku_repository
 
-    def get_file_path(self, level):
-        file_path = None
-        if level == 1:
-            file_path = EASY_FILE_PATH
-        if level == 2:
-            file_path = MEDIUM_FILE_PATH
-        if level == 3:
-            file_path = HARD_FILE_PATH
-        return file_path
-
     def get_sudokus(self, level):
         """Get all the sudokus by given level.
 
@@ -59,7 +44,6 @@ class SudokuService:
 
     def save_sudoku(self, name, level, puzzle):
         """Save a new sudoku to the database if user inputs are valid.
-            Also writes the new sudoku to file.
 
         Args:
             name: a name for the new sudoku.
@@ -85,12 +69,8 @@ class SudokuService:
                 "Sudoku must contain exactly 81 numbers")
 
         try:
-            file_path = ""
             sudoku = Sudoku(name, puzzle, int(level))
             self._sudoku_repository.create_sudoku(sudoku)
-            file_path = self.get_file_path(int(level))
-
-            self._sudoku_repository.write_in_file(file_path, sudoku)
         except SudokuExistsError as error:
             raise SudokuExistsError(error)
 
@@ -140,11 +120,18 @@ class SudokuService:
 
         return self._sudoku if self._sudoku else None
 
-    def delete_sudokus(self, sudoku_names, level):
-        file_path = self.get_file_path(level)
-        self._sudoku_repository.delete_sudokus_from_file(
-            file_path, sudoku_names)
-        self._sudoku_repository.delete_sudokus_from_db(sudoku_names)
+    def delete_sudokus(self, sudoku_names):
+        """Delete suokus by name.
+            Gets id's of given sudokus and deletes corresponding sudokus from the database.
+
+        Args:
+            sudoku_names: Names of sudokus to be deleted.
+        """
+        sudoku_ids = []
+
+        for name in sudoku_names:
+            sudoku_ids.append(self._sudoku_repository.get_sudoku_id(name))
+        self._sudoku_repository.delete_sudokus_from_db(sudoku_ids)
 
     def remove_current_sudoku(self):
         """Remove current sudoku. This is done after sudoku is solved and it's status saved.
