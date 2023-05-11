@@ -43,7 +43,7 @@ Luokka/pakkauskaavio:
 
 ## Tietojen tallennus
 
-Sovelluksen luokat `UserRepository` ja `SudokuRepository` vastaavat tietojen tallennuksesta SQLite-tietokantaan. SudokuRepository lukee pelattavat sudokutiedostot txt-tiedostosta.
+Sovelluksen luokat `UserRepository` ja `SudokuRepository` vastaavat tietojen tallennuksesta SQLite-tietokantaan. SudokuRepository lukee pelattavat sudokutiedostot txt-tiedostosta tai suoraan käyttäjältä. 
 
 ### Tiedostot
 
@@ -52,6 +52,7 @@ Sovellus tallettaa tietokantojen sisällön .sqlite-tiedostoon, jonka nimi on m�
 Sudokut ovat tekstitiedostoissa seuraavanlaisessa formaatissa:
 
 ```
+.easy3
 759620004
 016040000
 000005900
@@ -61,10 +62,9 @@ Sudokut ovat tekstitiedostoissa seuraavanlaisessa formaatissa:
 000208009
 300000650
 198056070
-.easy3
 ```
 
-Ensin on syötetty järjestyksessä ja allekkain sudokun 9 riviä. Luvut 0 merkitsevät tyhjiä ruutuja. Kymmenes rivi aloitetaan pisteellä, jonka jälkeen on kirjoitettu sudokun nimi. Sudokujen nimiet ovat uniikkeja.
+Ensimmäinen rivi aloitetaan aina pisteellä, jonka jälkeen tulee sudokun nimi. Sudokujen nimet ovat uniikkeja. Sitten syötetään järjestyksessä ja allekkain kaikki sudokun 9 riviä. Luvut 0 merkitsevät tyhjiä ruutuja.
 
 Käyttäjät tallennetaan SQLite-tietokannan tauluun  `users`, sudokut tauluun `sudokus` ja pelitiedot tauluun `stats`. Nämä taulut alustetaan tiedostossa [init_database.py](https://github.com/jnnhan/ot-sudoku/blob/main/src/init_database.py).
 

@@ -207,8 +207,8 @@ class SudokuListView:
             master=self._frame,
             text="next page",
             command=self._handle_next_page,
-            bg="#f5b041",
-            activebackground="#f39c12",
+            bg="#ffab91",
+            activebackground="#ff8a65",
             width=9,
             height=2
         )
@@ -219,8 +219,8 @@ class SudokuListView:
             master=self._frame,
             text="previous page",
             command=self._handle_previous_page,
-            bg="#f5b041",
-            activebackground="#f39c12",
+            bg="#ffab91",
+            activebackground="#ff8a65",
             width=9,
             height=2
         )
