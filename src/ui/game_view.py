@@ -2,6 +2,7 @@ from tkinter import Canvas, Frame, TOP, BOTH, constants
 import tkinter as tk
 import copy
 from services.sudoku_service import sudoku_service
+from services.user_service import user_service
 
 MARGIN = 25
 CELL = 50
@@ -121,41 +122,6 @@ class GameView:
             self._frame.canvas.create_window(
                 250, (HEIGHT+25), tags="start", anchor='s', window=clear_cell_button)
 
-    def _initialize(self):
-        """Initialize the game view."""
-        self._frame = Frame(master=self._root)
-        self._frame.pack(fill=BOTH, expand=1)
-
-        self._frame.canvas = Canvas(
-            master=self._frame,
-            bg="white",
-            width=WIDTH,
-            height=(HEIGHT + 50)
-        )
-        self._frame.canvas.pack(fill=constants.X, side=TOP)
-        self._frame.canvas.create_rectangle(
-            25, 25, (WIDTH-25), (HEIGHT-25), fill="#fdebd0")
-
-        self._draw_grid()
-        self._draw_numbers()
-
-        self._frame.canvas.bind("<1>", self._mouse_click)
-        self._frame.canvas.bind("<Key>", self._key_press)
-
-        return_button = tk.Button(
-            master=self._frame.canvas,
-            text="Return",
-            command=self._return_handler,
-            bg="#f5b041",
-            activebackground="#f39c12"
-        )
-
-        self._frame.canvas.create_window(
-            400, (HEIGHT+25), anchor='s', window=return_button
-        )
-
-        self._display_buttons()
-
     def _draw_square(self):
         """Draw a square which highlights the cell user has clicked. 
             A new click of the same cell removes the square.
@@ -241,11 +207,11 @@ class GameView:
             self._draw_numbers()
             self._draw_square()
 
-            if sudoku_service.check_sudoku_win(self._puzzle):
+            if sudoku_service.check_sudoku(self._puzzle):
                 self._game_over = True
                 self._draw_win()
                 self._display_buttons()
-                sudoku_service.save_status()
+                user_service.save_status()
 
     def _draw_numbers(self):
         """Draw numbers to the grid."""
@@ -310,6 +276,41 @@ class GameView:
             h2 = WIDTH - MARGIN
             h3 = MARGIN + i * CELL
             self._frame.canvas.create_line(h0, h1, h2, h3, fill=color)
+
+    def _initialize(self):
+        """Initialize the game view."""
+        self._frame = Frame(master=self._root)
+        self._frame.pack(fill=BOTH, expand=1)
+
+        self._frame.canvas = Canvas(
+            master=self._frame,
+            bg="white",
+            width=WIDTH,
+            height=(HEIGHT + 50)
+        )
+        self._frame.canvas.pack(fill=constants.X, side=TOP)
+        self._frame.canvas.create_rectangle(
+            25, 25, (WIDTH-25), (HEIGHT-25), fill="#fdebd0")
+
+        self._draw_grid()
+        self._draw_numbers()
+
+        self._frame.canvas.bind("<1>", self._mouse_click)
+        self._frame.canvas.bind("<Key>", self._key_press)
+
+        return_button = tk.Button(
+            master=self._frame.canvas,
+            text="Return",
+            command=self._return_handler,
+            bg="#f5b041",
+            activebackground="#f39c12"
+        )
+
+        self._frame.canvas.create_window(
+            400, (HEIGHT+25), anchor='s', window=return_button
+        )
+
+        self._display_buttons()
 
     def destroy(self):
         """Hide view."""

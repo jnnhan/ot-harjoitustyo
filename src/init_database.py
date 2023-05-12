@@ -30,6 +30,7 @@ def create_tables(connection):
 
     connection.commit()
 
+
 def create_easy_sudokus(connection):
     """Create easy starting sudokus."""
     cursor = connection.cursor()
@@ -81,6 +82,7 @@ def create_easy_sudokus(connection):
 
     connection.commit()
 
+
 def create_medium_sudokus(connection):
     """Create medium level sudokus."""
 
@@ -121,6 +123,7 @@ def create_medium_sudokus(connection):
     )
 
     connection.commit()
+
 
 def create_hard_sudokus(connection):
     """Create hard level sudokus."""
@@ -183,6 +186,7 @@ def create_hard_sudokus(connection):
 
     connection.commit()
 
+
 def init_db():
     """Initialize the database and it's content."""
     connection = get_database_connection()
@@ -192,6 +196,7 @@ def init_db():
     create_easy_sudokus(connection)
     create_medium_sudokus(connection)
     create_hard_sudokus(connection)
+
 
 if __name__ == "__main__":
     init_db()

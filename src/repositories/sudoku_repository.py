@@ -7,7 +7,6 @@ class SudokuExistsError(Exception):
     """A class for error raised when creating a new sudoku
         with existing name or puzzle numbers.
     """
-    pass
 
 
 class SudokuRepository:
@@ -44,8 +43,8 @@ class SudokuRepository:
         """
 
         cursor = self._connection.cursor()
-        for id in sudoku_ids:
-            cursor.execute("DELETE FROM sudokus WHERE id=?", (id,))
+        for sudoku_id in sudoku_ids:
+            cursor.execute("DELETE FROM sudokus WHERE id=?", (sudoku_id,))
         self._connection.commit()
 
     def create_sudoku(self, sudoku):
@@ -64,9 +63,24 @@ class SudokuRepository:
             )
 
             self._connection.commit()
-        except IntegrityError:
+        except IntegrityError as exc:
             raise SudokuExistsError(
-                "Sudoku of given name or numbers already exists")
+                "Sudoku of given name or numbers already exists") from exc
+
+    def get_all_sudokus(self):
+        """Get all the sudokus in the database.
+
+            Returns:
+                A list of all the sudoku objects.
+        """
+
+        cursor = self._connection.cursor()
+        cursor.execute(
+            "SELECT * FROM sudokus")
+
+        sudokus = cursor.fetchall()
+
+        return sudokus
 
     def get_sudokus(self, level):
         """Get all the sudokus of the given level.
@@ -85,7 +99,7 @@ class SudokuRepository:
         sudokus = cursor.fetchall()
 
         return [Sudoku(sudoku["name"], sudoku["puzzle"], sudoku["level"]) for sudoku in sudokus]
-    
+
     def get_sudoku_id(self, name):
         """Get id of given sudoku.
 
@@ -99,7 +113,10 @@ class SudokuRepository:
         cursor = self._connection.cursor()
 
         cursor.execute("SELECT id FROM sudokus WHERE name=?", (name,))
-        
-        return cursor.fetchone()[0]
+
+        sudoku_id = cursor.fetchone()
+
+        return sudoku_id[0] if sudoku_id else None
+
 
 sudoku_repo = SudokuRepository(get_database_connection())

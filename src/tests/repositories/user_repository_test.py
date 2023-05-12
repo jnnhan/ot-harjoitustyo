@@ -1,4 +1,5 @@
 import unittest
+from werkzeug.security import check_password_hash, generate_password_hash
 from entities.user import User
 from entities.sudoku import Sudoku
 from repositories.user_repository import user_repo
@@ -15,7 +16,8 @@ class TestUserRepository(unittest.TestCase):
         self.testi_sudoku = Sudoku("testailua", "123456", 1)
 
     def test_save_status_works(self):
-        user_repo.create_user(self.user_avokado)
+        hash_password = generate_password_hash(self.user_avokado.password)
+        user_repo.create_user(self.user_avokado, hash_password)
         sudoku_repo.create_sudoku(self.testi_sudoku)
 
         user_id = user_repo.get_user_id(self.user_avokado.username)
@@ -32,21 +34,25 @@ class TestUserRepository(unittest.TestCase):
         self.assertEqual(playtime, 2)
 
     def test_create_user(self):
-        user_repo.create_user(self.user_avokado)
+        hash_password = generate_password_hash(self.user_avokado.password)
+        user_repo.create_user(self.user_avokado, hash_password)
         users = user_repo.find_all()
 
         self.assertEqual(len(users), 1)
         self.assertEqual(users[0].username, self.user_avokado.username)
 
     def test_passwords_not_saved_as_strings(self):
-        user_repo.create_user(self.user_kananmuna)
+        hash_password = generate_password_hash(self.user_avokado.password)
+        user_repo.create_user(self.user_avokado, hash_password)
 
-        password = user_repo.get_password(self.user_kananmuna.username)
-        self.assertNotEqual(password, self.user_kananmuna.password)
+        password = user_repo.get_password(self.user_avokado.username)
+        self.assertEqual(password, hash_password)
 
     def test_find_all_finds_all_users(self):
-        user_repo.create_user(self.user_avokado)
-        user_repo.create_user(self.user_kananmuna)
+        hash_avokado = generate_password_hash(self.user_avokado.password)
+        hash_kananmuna = generate_password_hash(self.user_kananmuna.password)
+        user_repo.create_user(self.user_avokado, hash_avokado)
+        user_repo.create_user(self.user_kananmuna, hash_kananmuna)
         users = user_repo.find_all()
 
         self.assertEqual(len(users), 2)
@@ -54,13 +60,15 @@ class TestUserRepository(unittest.TestCase):
         self.assertEqual(users[1].username, self.user_kananmuna.username)
 
     def test_find_by_username_works(self):
-        user_repo.create_user(self.user_kananmuna)
+        hash_password = generate_password_hash(self.user_kananmuna.password)
+        user_repo.create_user(self.user_kananmuna, hash_password)
         user = user_repo.find_user(self.user_kananmuna.username)
 
         self.assertEqual(user.username, self.user_kananmuna.username)
 
     def test_get_user_id_works(self):
-        user_repo.create_user(self.user_avokado)
+        hash_password = generate_password_hash(self.user_avokado.password)
+        user_repo.create_user(self.user_avokado, hash_password)
 
         user_id = user_repo.get_user_id(self.user_avokado.username)
 

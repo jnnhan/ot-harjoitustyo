@@ -91,8 +91,6 @@ class AddSudokuView:
 
         except InvalidSudokuInputError as error:
             self._show_error(error)
-        except InterruptedError as error:
-            self._show_error(error)
         except SudokuExistsError as error:
             self._show_error(error)
 

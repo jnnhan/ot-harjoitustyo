@@ -30,8 +30,7 @@ class FakeUserRepository:
     def find_all(self):
         return self.users
 
-    def create_user(self, user):
-        hash_password = generate_password_hash(user.password)
+    def create_user(self, user, hash_password):
         id = len(self.users) + 1
 
         self.users.append((id, user.username, hash_password))

@@ -1,10 +1,10 @@
 from entities.sudoku import Sudoku
-from repositories.sudoku_repository import sudoku_repo as default_sudoku_repository, SudokuExistsError
+from repositories.sudoku_repository import (
+    sudoku_repo as default_sudoku_repository, SudokuExistsError)
 
 
 class InvalidSudokuInputError(Exception):
     """A class for error raised by incorrect inputs for new sudoku."""
-    pass
 
 
 class SudokuService:
@@ -68,11 +68,15 @@ class SudokuService:
             raise InvalidSudokuInputError(
                 "Sudoku must contain exactly 81 numbers")
 
+        sudoku = Sudoku(name, puzzle, int(level))
+        if not self.check_new_sudoku_input(sudoku):
+            raise InvalidSudokuInputError(
+                "This sudoku can not be solved")
+
         try:
-            sudoku = Sudoku(name, puzzle, int(level))
             self._sudoku_repository.create_sudoku(sudoku)
         except SudokuExistsError as error:
-            raise SudokuExistsError(error)
+            raise SudokuExistsError(error) from error
 
     def get_sudoku_id(self, sudoku):
         """Returns an id for a specific sudoku given by the user.
@@ -139,24 +143,66 @@ class SudokuService:
 
         self._sudoku = None
 
+    def check_new_sudoku_input(self, sudoku):
+        """Check if a new sudoku can be solved.
+            Other than zeros no same numbers can occur in a single
+            row, column or square.
+
+        Args:
+            sudoku: A Sudoku object.
+
+        Returns:
+            True, if sudoku can be solved, False otherwise.
+        """
+
+        sudoku_matrix = self.numbers_to_puzzle(sudoku)
+        return self.check_sudoku(sudoku_matrix)
+
     def _check_numbers(self, numbers):
+        """If the sudoku exists in the database, check if the list
+            contains all the numbers 1-9 once.
+            If sudoku doesn't exist, check if it contains duplicate
+            numbers other than zeros.
+
+        Args:
+            numbers: A list of numbers
+
+        Returns:
+            True, if the numbers are valid, otherwise False.
+        """
+
         if len(numbers) > 9:
             return False
+
+        if 0 in numbers and self.get_sudoku_id(self._sudoku) is None:
+            numbers = [i for i in numbers if i != 0]
+            return len(numbers) == len(set(numbers))
+
         return set(numbers) == set(range(1, 10))
 
     def _check_square(self, numbers):
+        """Construct a list of numbers from a list of lists.
+
+        Args:
+            numbers: A list of lists, example:
+            [[1],[4],[8],[3],[2],[6],[5],[7],[9]]
+
+        Returns:
+            True, if numbers are valid, otherwise False.
+        """
         square = []
         for i in range(9):
             for number in numbers[i]:
                 square.append(number)
         return self._check_numbers(square)
 
-    def check_sudoku_win(self, sudoku):
-        """Construct and check each row, column and square in the sudoku. Each of these
-            must have each of the numbers 1,2,...,9 only once.
+    def check_sudoku(self, sudoku):
+        """Construct and check each row, column and square in the sudoku.
+            If sudoku exists in the database, check if sudoku was solved correctly.
+            If it doesn't exist, check if sudoku can be solved.
 
             Args:
-                sudoku: a full sudoku matrix.
+                sudoku: a sudoku matrix.
 
             Returns:
                 True, if all the rows, columns and squares are correct, otherwise False.

@@ -6,12 +6,10 @@ from repositories.user_repository import user_repo as default_user_repository
 
 class InvalidCredentialsError(Exception):
     """A class for the error raised by invalid credentials."""
-    pass
 
 
 class UsernameExistsError(Exception):
     """Class for the error raised by existing username."""
-    pass
 
 
 class UserService:
@@ -30,7 +28,8 @@ class UserService:
         """Initialize the service class.
 
         Args:
-            user_repository: UserRepository object for accessing the db. Defaults to default_user_repository.
+            user_repository: UserRepository object for accessing the db. 
+            Defaults to default_user_repository.
         """
         self._user = None
         self._user_repository = user_repository
@@ -103,7 +102,7 @@ class UserService:
         """
 
         return self._user if self._user else None
-    
+
     def login(self, username, password):
         """Log user in if correct username and password have been given.
             User types the password and it has to match the corresponding hash password
@@ -160,10 +159,11 @@ class UserService:
         if len(password) < 4:
             raise InvalidCredentialsError(
                 "Password must be at least\n 4 characters long.")
-        
+
         hash_value = generate_password_hash(password)
 
-        user = self._user_repository.create_user(User(username, password), hash_value)
+        user = self._user_repository.create_user(
+            User(username, password), hash_value)
 
         return user
 
