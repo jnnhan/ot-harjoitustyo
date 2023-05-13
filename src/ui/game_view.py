@@ -194,24 +194,27 @@ class GameView:
             return
 
         key = event.char
-        if self.col >= 0 and self.row >= 0 and key in "123456789":
-            if len(self._puzzle[self.row][self.col]) == 0:
-                self._puzzle[self.row][self.col].append(0)
-            if self._puzzle[self.row][self.col][0] == 0:
-                self._puzzle[self.row][self.col].pop()
-                self._puzzle[self.row][self.col].append(int(key))
-            elif int(key) not in self._puzzle[self.row][self.col]:
-                self._puzzle[self.row][self.col].append(int(key))
-            else:
-                self._puzzle[self.row][self.col].remove(int(key))
-            self._draw_numbers()
-            self._draw_square()
+        try:
+            if self.col >= 0 and self.row >= 0 and key in "123456789":
+                if len(self._puzzle[self.row][self.col]) == 0:
+                    self._puzzle[self.row][self.col].append(0)
+                if self._puzzle[self.row][self.col][0] == 0:
+                    self._puzzle[self.row][self.col].pop()
+                    self._puzzle[self.row][self.col].append(int(key))
+                elif int(key) not in self._puzzle[self.row][self.col]:
+                    self._puzzle[self.row][self.col].append(int(key))
+                else:
+                    self._puzzle[self.row][self.col].remove(int(key))
+                self._draw_numbers()
+                self._draw_square()
 
-            if sudoku_service.check_sudoku(self._puzzle):
-                self._game_over = True
-                self._draw_win()
-                self._display_buttons()
-                user_service.save_status()
+                if sudoku_service.check_sudoku(self._puzzle):
+                    self._game_over = True
+                    self._draw_win()
+                    self._display_buttons()
+                    user_service.save_status()
+        except ValueError as error:
+            pass
 
     def _draw_numbers(self):
         """Draw numbers to the grid."""
