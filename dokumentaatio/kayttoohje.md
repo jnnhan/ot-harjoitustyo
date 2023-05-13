@@ -2,6 +2,10 @@
 
 Lataa sovelluksen viimeisimmän [releasen](https://github.com/jnnhan/ot-sudoku/releases) lähdekoodi (zip-tiedosto).
 
+## Pelaaminen
+
+Sudokussa tarkoituksena on täyttää neliönmuotoisen 9 x 9 -ruudukon jokainen ruutu numeroilla 1-9 siten, että jokaisella vaaka- ja pystyrivillä kukin numero esiintyy vain kerran. Myös jokaisessa yhdeksässä 3 x 3 -osaneliössä tulee näiden lukujen esiintyä tasan kerran.
+
 ## Sovelluksen käynnistäminen
 1. Projektin purkamisen jälkeen siirry juuri luotuun hakemistoon ja asenna riippuvuudet komennolla:
 ```bash

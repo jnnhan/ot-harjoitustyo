@@ -31,3 +31,16 @@
 - Lisätty virheentarkistuksia ja virheviestejä käyttäjutunnuksen rekisteröintiin ja uusien sudokujen lukuun
 - Siirretty sudokut sisältävät tekstitiedostot data-hakemistoon
 - Lisätty käyttöohje
+
+
+## Viikko 7
+
+- Lisätty loput docstring-kommentit
+- Sovelluksen luokkien testaus viety loppuun
+- Lisätty sudokunvalintasivulle mahdollisuus siirtyä eri sivujen välillä
+- Lisätty toiminnallisuus sudokujen lisäykseen käyttöliittymän kautta ja poistettu tekstitiedostojen kautta tapahtuva sudokujen lisäys ja luku
+- Lisätty toiminnallisuus sudokujen poistamiseksi käyttöliittymän kautta
+- Lisätty tarkistuksia käyttäjäsyötteisiin
+- Eriytetty raskas sovelluslogiikkaluokka kahteen erilliseen SudokuService- ja UserService-luokkaan
+- Lisätty dokumentaatio sovelluksen testauksesta
+- Lisätty käyttöjärjestelmätarkistus sovelluksen käynnistyksen yhteyteen, jotta sovellus toimii myös Windowsilla

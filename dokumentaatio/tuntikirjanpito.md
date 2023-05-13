@@ -24,4 +24,11 @@
 | 30.4. | 2        | docstring-kommentteja |
 | 1.5.  | 3        | docstring ja testejä |
 | 2.5.  | 5        | docstring, käyttöohjeen teko, virheenkorjausta ja GUI:n parannus |
-| yht   | 70       | |
+| 4.5.  | 4        | UI: next page, previous page - toiminnallisuus |
+| 7.5.  | 7        | Sudokujen lisäys käyttöliittymän kautta |
+| 8.5.  | 2        | UserService-luokan luonti |
+| 9.5.  | 6        | Sudokujen poisto käyttöliittymän kautta, testejä |
+| 10.5. | 3        | Sudokujen poisto, viimeistely |
+| 11.5. | 3        | Käyttäjäsyötteiden testausta |
+| 13.5. | 4        | Dokumentaation viimeistely, sovelluksen testaus |
+| yht   | 99       | |
