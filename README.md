@@ -4,12 +4,18 @@ Tämä repositorio sisältää sekä **laskarit** että *harjoitustyön* kurssia
 
 ## Harjoitustyö: sudoku
 ### Uusin release
+[loppupalautus](https://github.com/jnnhan/ot-sudoku/releases/tag/loppupalautus)
+
 [release viikko 6](https://github.com/jnnhan/ot-sudoku/releases/tag/viikko6)
+
+[release viikko 5](https://github.com/jnnhan/ot-sudoku/releases/tag/viikko5)
 
 ### Dokumentaatio
 [käyttöohje](https://github.com/jnnhan/ot-sudoku/blob/main/dokumentaatio/kayttoohje.md)
 
 [vaatimusmaarittely](https://github.com/jnnhan/ot-sudoku/blob/main/dokumentaatio/vaatimusmaarittely.md)
+
+[testausdokumentti](https://github.com/jnnhan/ot-sudoku/blob/main/dokumentaatio/testausdokumentti.md)
 
 [tuntikirjanpito](https://github.com/jnnhan/ot-sudoku/blob/main/dokumentaatio/tuntikirjanpito.md)
 
@@ -66,26 +72,3 @@ Koodin laadun voi tarkistaa komennolla:
 ```bash
 poetry run invoke lint
 ```
-
-
-
-## Sudokujen lisäys sovellukseen
-_src_-hakemistossa on kolme tekstitiedostoa eri tasoisille sudokuille: _easy.txt_, _medium.txt_ ja _hard.txt_. Uuden sudokun voi lisätä tiedostoon syöttämällä järjestyksessä ja allekkain kaikki sudokun yhdeksän riviä. Kymmenes rivi aloitetaan pisteellä, jonka jälkeen kirjoitetaan sudokun nimi. Seuraava sudoku syötetään suoraan edellisen perään.
-Esimerkki:
-
-```bash
-100020058
-960100007
-028640000
-000000000
-005002013
-007390006
-032800000
-700400862
-800000405
-.medium
-```
-
-Uudet sudokut luetaan ja tallennetaan tietokantaan komennolla
-```bash
-poetry run invoke read-sudokus
