@@ -2,7 +2,8 @@ import unittest
 from entities.sudoku import Sudoku
 from services.sudoku_service import (
     SudokuService,
-    InvalidSudokuInputError
+    InvalidSudokuInputError,
+    SudokuExistsError
 )
 
 
@@ -17,6 +18,12 @@ class FakeSudokuRepository:
             if sudoku[1] == name:
                 return sudoku[0]
         return None
+
+    def delete_sudokus_from_db(self, sudoku_ids):
+        for sudoku_id in sudoku_ids:
+            for sudoku in self.sudokus:
+                if sudoku[0] == sudoku_id:
+                    self.sudokus.remove(sudoku)
 
     def get_sudokus(self, level):
         sudokus = []
@@ -48,21 +55,33 @@ class TestSudokuService(unittest.TestCase):
             "319425768256837914478619532724986153631752849985143276547268391192374685863591427", 1
         )
 
+    def test_delete_sudokus_works(self):
+        self.sudoku_service.save_sudoku(
+            self.sudoku_oikea.name, str(self.sudoku_oikea.level), self.sudoku_oikea.puzzle)
+
+        sudokus = self.sudoku_service.get_sudokus(self.sudoku_oikea.level)
+        self.assertEqual(len(sudokus), 1)
+
+        self.sudoku_service.delete_sudokus([self.sudoku_oikea.name])
+
+        sudokus = self.sudoku_service.get_sudokus(self.sudoku_oikea.level)
+        self.assertEqual(sudokus, None)
+
     def test_check_sudoku_win_works(self):
-        puzzle = self.sudoku_service.numbers_to_puzzle(self.sudoku_ratkaistu)
+        puzzle = self.sudoku_service.numbers_to_matrix(self.sudoku_ratkaistu)
 
         check_win = self.sudoku_service.check_sudoku(puzzle)
 
         self.assertEqual(True, check_win)
 
-        puzzle2 = self.sudoku_service.numbers_to_puzzle(self.sudoku_huono)
+        puzzle2 = self.sudoku_service.numbers_to_matrix(self.sudoku_huono)
 
         check_win2 = self.sudoku_service.check_sudoku(puzzle2)
 
         self.assertEqual(False, check_win2)
 
     def test_get_current_sudoku_works(self):
-        self.sudoku_service.numbers_to_puzzle(self.sudoku_oikea)
+        self.sudoku_service.numbers_to_matrix(self.sudoku_oikea)
 
         current_sudoku = self.sudoku_service.get_current_sudoku()
 
@@ -86,7 +105,12 @@ class TestSudokuService(unittest.TestCase):
         self.assertRaises(
             InvalidSudokuInputError,
             lambda: self.sudoku_service.save_sudoku(
-                self.sudoku_oikea.name, str(self.sudoku_oikea.level), "23442"))
+                self.sudoku_oikea.name, str(self.sudoku_oikea.level), "123"))
+
+        self.assertRaises(
+            InvalidSudokuInputError,
+            lambda: self.sudoku_service.save_sudoku(
+                self.sudoku_oikea.name, str(self.sudoku_oikea.level), self.sudoku_huono.puzzle))
 
         self.assertRaises(
             InvalidSudokuInputError,
@@ -97,6 +121,15 @@ class TestSudokuService(unittest.TestCase):
             InvalidSudokuInputError,
             lambda: self.sudoku_service.save_sudoku(
                 "", str(self.sudoku_oikea.level), self.sudoku_oikea.puzzle))
+
+        self.sudoku_service.save_sudoku(
+            self.sudoku_oikea.name, str(self.sudoku_oikea.level), self.sudoku_oikea.puzzle)
+
+        self.assertRaises(
+            SudokuExistsError,
+            lambda: self.sudoku_service.save_sudoku(
+                self.sudoku_oikea.name, "2", self.sudoku_ratkaistu.puzzle)
+        )
 
     def test_get_sudoku_id_works(self):
         sudoku_id = self.sudoku_service.get_sudoku_id(
@@ -112,8 +145,8 @@ class TestSudokuService(unittest.TestCase):
         self.assertEqual(sudokus[0][1], "vaikea")
         self.assertEqual(sudokus[1][2], 123)
 
-    def test_numbers_to_puzzle_works(self):
-        puzzle = self.sudoku_service.numbers_to_puzzle(self.sudoku_oikea)
+    def test_numbers_to_matrix_works(self):
+        puzzle = self.sudoku_service.numbers_to_matrix(self.sudoku_oikea)
 
         self.assertEqual(len(puzzle), 9)
         self.assertEqual(puzzle[0][0][0], 0)
