@@ -41,7 +41,7 @@ class UI:
         self._current_view = GameView(
             self._root,
             puzzle,
-            self._show_game_select
+            self._show_select_view
         )
 
         self._current_view.pack()
@@ -70,13 +70,13 @@ class UI:
         self._current_view = MainView(
             self._root,
             self._show_login_view,
-            self._show_game_select,
+            self._show_select_view,
             self._show_add_sudoku
         )
 
         self._current_view.pack()
 
-    def _show_game_select(self, level=None):
+    def _show_select_view(self, level=None):
         """Show the view for selecting a sudoku of certain level.
             Returns to the main view.
 

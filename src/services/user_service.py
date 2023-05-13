@@ -1,6 +1,6 @@
 from werkzeug.security import check_password_hash, generate_password_hash
 from entities.user import User
-from services.sudoku_service import sudoku_service
+from services.sudoku_service import sudoku_service as default_sudoku_service
 from repositories.user_repository import user_repo as default_user_repository
 
 
@@ -19,20 +19,25 @@ class UserService:
         Attributes:
             user: currently logged in user
             user_repository: UserRepository object for accessing the db
+            sudoku_service: Application logic class for accessing sudoku information
     """
 
     def __init__(
         self,
-        user_repository=default_user_repository
+        user_repository=default_user_repository,
+        sudoku_service=default_sudoku_service
     ):
         """Initialize the service class.
 
         Args:
             user_repository: UserRepository object for accessing the db. 
             Defaults to default_user_repository.
+            sudoku_service: Application logic class for accessing sudoku information.
+            Defaults to default_sudoku_service.
         """
         self._user = None
         self._user_repository = user_repository
+        self._sudoku_service = sudoku_service
 
     def get_user_playtime(self, user):
         """Get a number of times sudokus have been played by user.
@@ -88,9 +93,9 @@ class UserService:
     def save_status(self):
         """Save playtime to the database after sudoku has been solved."""
         user_id = self._user_repository.get_user_id(self._user.username)
-        sudoku = sudoku_service.get_current_sudoku()
+        sudoku = self._sudoku_service.get_current_sudoku()
 
-        sudoku_id = sudoku_service.get_sudoku_id(sudoku)
+        sudoku_id = self._sudoku_service.get_sudoku_id(sudoku)
 
         self._user_repository.save_status(user_id, sudoku_id)
 

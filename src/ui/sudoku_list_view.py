@@ -49,7 +49,7 @@ class SudokuListView:
             sudoku: a Sudoku object.
         """
 
-        puzzle = sudoku_service.numbers_to_puzzle(sudoku)
+        puzzle = sudoku_service.numbers_to_matrix(sudoku)
 
         self._handle_start_game(puzzle)
 

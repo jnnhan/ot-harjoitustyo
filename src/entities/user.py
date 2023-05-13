@@ -1,6 +1,6 @@
 class User:
     """Class for a single user.
-    
+
         Attributes:
             username: Username for the user
             password: Password for the user

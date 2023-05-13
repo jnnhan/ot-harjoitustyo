@@ -69,14 +69,19 @@ class SudokuService:
                 "Sudoku must contain exactly 81 numbers")
 
         sudoku = Sudoku(name, puzzle, int(level))
-        if not self.check_new_sudoku_input(sudoku):
+
+        if self.get_sudoku_id(sudoku) is not None:
+            raise SudokuExistsError(
+                "Sudoku of given name or numbers already exists"
+            )
+
+        sudoku_matrix = self.numbers_to_matrix(sudoku)
+
+        if not self.check_sudoku(sudoku_matrix):
             raise InvalidSudokuInputError(
                 "This sudoku can not be solved")
 
-        try:
-            self._sudoku_repository.create_sudoku(sudoku)
-        except SudokuExistsError as error:
-            raise SudokuExistsError(error) from error
+        self._sudoku_repository.create_sudoku(sudoku)
 
     def get_sudoku_id(self, sudoku):
         """Returns an id for a specific sudoku given by the user.
@@ -92,7 +97,7 @@ class SudokuService:
 
         return sudoku_id
 
-    def numbers_to_puzzle(self, sudoku):
+    def numbers_to_matrix(self, sudoku):
         """Convert sudoku to matrix so it can be solved.
             Save the sudoku object as the current sudoku (self._sudoku).
         Args:
@@ -112,8 +117,16 @@ class SudokuService:
                 puzzle[i][j].append(numbers[k])
                 k += 1
 
-        self._sudoku = sudoku
+        self.set_current_sudoku(sudoku)
         return puzzle
+
+    def set_current_sudoku(self, sudoku):
+        """Set sudoku as current sudoku.
+
+        Args:
+            sudoku: A Sudoku object.
+        """
+        self._sudoku = sudoku
 
     def get_current_sudoku(self):
         """Get current sudoku.
@@ -142,21 +155,6 @@ class SudokuService:
         """
 
         self._sudoku = None
-
-    def check_new_sudoku_input(self, sudoku):
-        """Check if a new sudoku can be solved.
-            Other than zeros no same numbers can occur in a single
-            row, column or square.
-
-        Args:
-            sudoku: A Sudoku object.
-
-        Returns:
-            True, if sudoku can be solved, False otherwise.
-        """
-
-        sudoku_matrix = self.numbers_to_puzzle(sudoku)
-        return self.check_sudoku(sudoku_matrix)
 
     def _check_numbers(self, numbers):
         """If the sudoku exists in the database, check if the list
